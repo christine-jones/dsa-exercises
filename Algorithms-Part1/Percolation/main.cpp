@@ -1,8 +1,9 @@
+#include "Percolation.h"
 #include "UnionFind.h"
 
 int main() {
 
-    OpenUF<WeightedUF> uf{10};
+    Percolation<WeightedUF> percolator{10};
 
     return 0;
 }
