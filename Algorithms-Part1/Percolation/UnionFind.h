@@ -2,6 +2,7 @@
 #define UNION_FIND_H
 
 #include <cassert>
+#include <iostream>
 #include <numeric>
 #include <vector>
 
@@ -9,11 +10,13 @@ class UnionFind {
 
 public:
 
-    explicit UnionFind(int n):
+    explicit UnionFind(int n, bool initialize = true):
         m_object_ids{std::vector<int>(static_cast<std::size_t>(n))}
     {
         assert(n > 0);
-        std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
+
+        if (initialize)
+            std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
     }
 
     UnionFind(int n, int initial_value):
@@ -27,6 +30,13 @@ public:
 
     virtual bool connected(int p, int q) = 0;
     virtual void join(int p, int q) = 0;
+
+    virtual void print() const {
+
+        for (int id : m_object_ids)
+            std::cout << id << ' ';
+        std::cout << '\n';
+    }
 
 protected:
 
@@ -126,6 +136,17 @@ public:
         }
     }
 
+    void print() const override {
+
+        assert(m_object_ids.size() == m_tree_sizes.size());
+
+        for (std::size_t i{0}; i < m_object_ids.size(); ++i) {
+            std::cout << m_object_ids[i] << '('
+                      << m_tree_sizes[i] << ") ";
+        }
+        std::cout << '\n';
+    }
+
 private:
 
     int root(int i) {
@@ -178,13 +199,17 @@ public:
 
     bool connected(int p, int q) override {
 
-        assert(isOpen(p) && isOpen(q));
+        if (!isOpen(p) || !isOpen(q))
+            return false;
+
         return T::connected(p, q);
     }
 
     void join(int p, int q) override {
 
-        assert(isOpen(p) && isOpen(q));
+        if (!isOpen(p) || !isOpen(q))
+            return;
+
         return T::join(p, q);
     }
 
