@@ -12,9 +12,9 @@ public:
     explicit Percolation(int n):
         m_openUF{(n * n) + 2}, // 2 additional sites for virtual top and bottom
         m_grid_size{n},
-        m_num_open_sites{0},
         m_top_index{0},
-        m_bottom_index{(n * n) + 1}
+        m_bottom_index{(n * n) + 1},
+        m_num_open_sites{0}
     {
         assert(n > 0);
 
@@ -25,12 +25,18 @@ public:
 
     bool isOpen(int row, int col) const {
 
+        assert(isValidGridIndex(row) && isValidGridIndex(col));
+        
         return m_openUF.isOpen(indexIntoUF(row, col));
     }
 
     bool isFull(int row, int col) const {
 
-        assert(isOpen(row, col));
+        assert(isValidGridIndex(row) && isValidGridIndex(col));
+
+        if (!isOpen(row, col))
+            return false;
+
         return m_openUF.connected(m_top_index, indexIntoUF(row, col));
     }
 
@@ -38,21 +44,18 @@ public:
 
     void open(int row, int col) {
 
+        assert(isValidGridIndex(row) && isValidGridIndex(col));
+
         if (isOpen(row, col))
             return;
 
-        int index{indexIntoUF(row, col)};
-
-        m_openUF.open(index);
+        m_openUF.open(indexIntoUF(row, col));
         ++m_num_open_sites;
 
-        // if top row, connect to virtual top
-        if (row == 1)
-            m_openUF.connect(m_top_index, index);
-
-        // if bottom row, connect to virtural bottom
-        if (row == m_grid_size)
-            m_openUF.connect(m_bottom_index, index);
+        connectTopNeighbor(row, col);
+        connectBottomNeighbor(row, col);
+        connectRightNeighbor(row, col);
+        connectLeftNeighbor(row, col);
     }
 
     bool percolates() const {
@@ -62,25 +65,67 @@ public:
 
 private:
 
-    int indexIntoUF(int row, int col) const {
-
-        assert(isValidGridIndex(row) && isValidGridIndex(col));
-
-        return ((row - 1) * m_grid_size) + col;
-    }
-
     bool isValidGridIndex(int i) const {
         
         return (i > 0) && (i <= m_grid_size);
     }
 
+    int indexIntoUF(int row, int col) const {
+
+        return ((row - 1) * m_grid_size) + col;
+    }
+
+    void connectTopNeighbor(int row, int col) {
+
+        // if top row, connect to virtual top
+        if (row == 1) {
+            m_openUF.join(m_top_index, indexIntoUF(row, col));
+            return;
+        }
+
+        if (isOpen(row - 1, col))
+            m_openUF.join(indexIntoUF(row - 1, col), indexIntoUF(row, col));
+    }
+
+    void connectBottomNeighbor(int row, int col) {
+
+        // if bottom row, connect to virtural bottom
+        if (row == m_grid_size) {
+            m_openUF.connect(m_bottom_index, indexIntoUF(row, col));
+            return;
+        }
+
+        if (isOpen(row + 1, col))
+            m_openUF.join(indexIntoUF(row + 1, col), indexIntoUF(row, col));
+    }
+
+    void connectRightNeighbor(int row, int col) {
+
+        // there is no right neighbor
+        if (col == 1)
+            return;
+
+        if (isOpen(row, col - 1))
+            m_openUF.join(indexIntoUF(row, col - 1), indexIntoUF(row, col));
+    }
+
+    void connectLeftNeighbor(int row, int col) {
+
+        // there is no left neighbor
+        if (col == m_grid_size)
+            return;
+
+        if (isOpen(row, col + 1))
+            m_openUF.join(indexIntoUF(row, col + 1), indexIntoUF(row, col));
+    }
+
     OpenUF<UF>  m_openUF;
 
-    int m_grid_size{};
-    int m_num_open_sites{};
+    const int m_grid_size{};
+    const int m_top_index{};
+    const int m_bottom_index{};
 
-    int m_top_index{};
-    int m_bottom_index{};
+    int m_num_open_sites{};
 
 };
 
