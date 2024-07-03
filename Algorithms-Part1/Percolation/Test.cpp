@@ -1,7 +1,55 @@
 #include "Percolation.h"
-#include "UnionFind.H"
 #include "Test.h"
+#include "UnionFind.H"
 #include <iostream>
+
+void testPercolation() {
+
+    Percolation<WeightedUF> p{10};
+
+    std::cout << "***** Percolation *****" << '\n';
+    p.print();
+    std::cout << "Number of Open Sites: " << p.numberOfOpenSites() << '\n';
+    std::cout << "isOpen(5, 5)? "
+              << (p.isOpen(5, 5) ? "true" : "false") << '\n';
+    std::cout << "open(5, 5)" << '\n'; p.open(5, 5);
+    std::cout << "isOpen(5, 5)? "
+              << (p.isOpen(5, 5) ? "true" : "false") << '\n';
+    std::cout << "open(5, 5), repeat" << '\n'; p.open(5, 5);
+    std::cout << "open(1, 5)" << '\n'; p.open(1, 5);
+    std::cout << "open(10, 5)" << '\n'; p.open(10, 5);
+    std::cout << "open(5, 1)" << '\n'; p.open(5, 1);
+    std::cout << "open(5, 10)" << '\n'; p.open(5, 10);
+    std::cout << "isFull(1, 5)? "
+              << (p.isFull(1, 5) ? "true" : "false") << '\n';
+    std::cout << "isFull(5, 10)? "
+              << (p.isFull(5, 10) ? "true" : "false") << '\n';
+    std::cout << "Percolates? "
+              << (p.percolates() ? "true" : "false") << '\n';
+    std::cout << "open(4, 6)" << '\n'; p.open(4, 6);
+    std::cout << "open(5, 7)" << '\n'; p.open(5, 7);
+    std::cout << "open(6, 6)" << '\n'; p.open(6, 6);
+    std::cout << "open(5, 6)" << '\n'; p.open(5, 6);
+    std::cout << "open(5, 6), repeat" << '\n'; p.open(5, 6);
+    std::cout << "open(2, 5)" << '\n'; p.open(2, 5);
+    std::cout << "open(2, 6)" << '\n'; p.open(2, 6);
+    std::cout << "open(7, 6)" << '\n'; p.open(7, 6);
+    std::cout << "open(8, 6)" << '\n'; p.open(8, 6);
+    std::cout << "open(9, 6)" << '\n'; p.open(9, 6);
+    std::cout << "open(10, 6)" << '\n'; p.open(10, 6);
+    std::cout << "isFull(2, 6)? "
+          << (p.isFull(2, 6) ? "true" : "false") << '\n';
+    std::cout << "isFull(3, 6)? "
+              << (p.isFull(3, 6) ? "true" : "false") << '\n';
+    std::cout << "Percolates? "
+              << (p.percolates() ? "true" : "false") << '\n';
+    std::cout << "open(3, 6)" << '\n'; p.open(3, 6);
+    std::cout << "isFull(3, 6)? "
+              << (p.isFull(3, 6) ? "true" : "false") << '\n';
+    std::cout << "Percolates? "
+              << (p.percolates() ? "true" : "false") << '\n';
+    p.print();
+}
 
 void testQuickUF() {
 
