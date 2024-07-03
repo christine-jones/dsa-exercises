@@ -4,7 +4,5 @@
 
 int main() {
 
-    Percolation<WeightedUF> percolator{10};
-
     return 0;
 }
