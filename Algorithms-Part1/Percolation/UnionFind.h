@@ -31,6 +31,12 @@ public:
     virtual bool connected(int p, int q) = 0;
     virtual void join(int p, int q) = 0;
 
+    int getIndex(int p) const {
+
+        assert(isValidIndex(p));
+        return m_object_ids[static_cast<std::size_t>(p)];
+    }
+
     virtual void print() const {
 
         for (int id : m_object_ids)
