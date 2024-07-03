@@ -3,6 +3,8 @@
 
 #include "UnionFind.h"
 #include <cassert>
+#include <iomanip>
+#include <iostream>
 
 template <typename UF>
 class Percolation {
@@ -30,7 +32,7 @@ public:
         return m_openUF.isOpen(indexIntoUF(row, col));
     }
 
-    bool isFull(int row, int col) const {
+    bool isFull(int row, int col) {
 
         assert(isValidGridIndex(row) && isValidGridIndex(col));
 
@@ -58,9 +60,27 @@ public:
         connectLeftNeighbor(row, col);
     }
 
-    bool percolates() const {
+    bool percolates() {
 
         return m_openUF.connected(m_top_index, m_bottom_index);
+    }
+
+    void print() const {
+
+        std::cout << "   TOP: " << m_openUF.getIndex(0) << '\n'
+                  << "BOTTOM: "
+                  << m_openUF.getIndex((m_grid_size * m_grid_size) + 1) << '\n'
+                  << "Number of Open Sites: " << m_num_open_sites << '\n';
+
+        for (int i{1}; i <= m_grid_size; ++i) {
+            for (int j{1}; j <= m_grid_size; ++j) {
+
+                std::cout << std::setw(5)
+                          << m_openUF.getIndex(indexIntoUF(i, j));
+            }
+
+            std::cout << '\n';
+        }
     }
 
 private:
@@ -91,7 +111,7 @@ private:
 
         // if bottom row, connect to virtural bottom
         if (row == m_grid_size) {
-            m_openUF.connect(m_bottom_index, indexIntoUF(row, col));
+            m_openUF.join(m_bottom_index, indexIntoUF(row, col));
             return;
         }
 
