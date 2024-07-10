@@ -5,6 +5,7 @@
 #include <cassert>
 #include <iomanip>
 #include <iostream>
+#include <random>
 
 template <typename UF>
 class Percolation {
@@ -146,6 +147,49 @@ private:
     const int m_bottom_index{};
 
     int m_num_open_sites{};
+
+};
+
+class PercolationStats {
+
+public:
+
+    PercolationStats(int n, int trials):
+        m_grid_size{n},
+        m_num_trials{trials},
+        m_percolate_thresholds{
+            std::vector<double>(static_cast<std::size_t>(trials))},
+        m_mean{0},
+        m_stddev{0}
+    {
+        assert(m_grid_size > 0);
+        assert(m_num_trials > 0);
+
+        run_experiments();
+        calculate_stats();  
+    }
+
+    double mean() const           { return m_mean; }
+    double stddev() const         { return m_stddev; }
+    double confidenceLow() const  { return m_confidence_low; }
+    double confidenceHigh() const { return m_confidence_high; }
+
+private:
+
+    int  percolate();
+
+    void run_experiments();
+    void calculate_stats();
+
+    const int m_grid_size{};
+    const int m_num_trials{};
+
+    std::vector<double> m_percolate_thresholds{};
+
+    double m_mean{};
+    double m_stddev{};
+    double m_confidence_low{};
+    double m_confidence_high{};
 
 };
 
