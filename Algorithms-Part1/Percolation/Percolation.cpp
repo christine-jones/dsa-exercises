@@ -60,9 +60,10 @@ void PercolationStats::calculate_stats() {
     m_stddev =
       std::sqrt(accum / static_cast<double>(m_percolate_thresholds.size() - 1));
 
-    // calculate confidence intervals
-    double interval{(1.96 * m_stddev) /
-                    std::sqrt(m_percolate_thresholds.size())};
+    // calculate 95% confidence intervals
+    static constexpr double z{1.96};
+
+    double interval{(z * m_stddev) / std::sqrt(m_percolate_thresholds.size())};
     m_confidence_low  = m_mean - interval;
     m_confidence_high = m_mean + interval;
 }
