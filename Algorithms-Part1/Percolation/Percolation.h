@@ -159,8 +159,10 @@ public:
         m_num_trials{trials},
         m_percolate_thresholds{
             std::vector<double>(static_cast<std::size_t>(trials))},
-        m_mean{0},
-        m_stddev{0}
+        m_mean{0.0},
+        m_stddev{0.0},
+        m_confidence_low{0.0},
+        m_confidence_high{0.0}
     {
         assert(m_grid_size > 0);
         assert(m_num_trials > 0);

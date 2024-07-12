@@ -37,7 +37,7 @@ int PercolationStats::percolate() {
 void PercolationStats::run_experiments() {
 
     for (std::size_t i{0}; i < static_cast<std::size_t>(m_num_trials); ++i) {
-
+            
         m_percolate_thresholds[i] =
             percolate() / static_cast<double>(m_grid_size * m_grid_size);
     }
