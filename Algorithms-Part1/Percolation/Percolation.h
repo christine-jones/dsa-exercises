@@ -28,14 +28,14 @@ public:
 
     bool isOpen(int row, int col) const {
 
-        assert(isValidGridIndex(row) && isValidGridIndex(col));
+        assert(isValidGridIndex(row, col));
         
         return m_openUF.isOpen(indexIntoUF(row, col));
     }
 
     bool isFull(int row, int col) {
 
-        assert(isValidGridIndex(row) && isValidGridIndex(col));
+        // validity of (row, col) checked by isOpen() call
 
         if (!isOpen(row, col))
             return false;
@@ -47,7 +47,7 @@ public:
 
     void open(int row, int col) {
 
-        assert(isValidGridIndex(row) && isValidGridIndex(col));
+        // validity of (row, col) checked by isOpen() call
 
         if (isOpen(row, col))
             return;
@@ -55,10 +55,7 @@ public:
         m_openUF.open(indexIntoUF(row, col));
         ++m_num_open_sites;
 
-        connectTopNeighbor(row, col);
-        connectBottomNeighbor(row, col);
-        connectRightNeighbor(row, col);
-        connectLeftNeighbor(row, col);
+        connectNeighbors(row, col);
     }
 
     bool percolates() {
@@ -86,14 +83,23 @@ public:
 
 private:
 
-    bool isValidGridIndex(int i) const {
+    bool isValidGridIndex(int i, int j) const {
         
-        return (i > 0) && (i <= m_grid_size);
+        return (i > 0) && (i <= m_grid_size) &&
+               (j > 0) && (j <= m_grid_size);
     }
 
     int indexIntoUF(int row, int col) const {
 
         return ((row - 1) * m_grid_size) + col;
+    }
+
+    void connectNeighbors(int row, int col) {
+
+        connectTopNeighbor(row, col);
+        connectBottomNeighbor(row, col);
+        connectRightNeighbor(row, col);
+        connectLeftNeighbor(row, col);
     }
 
     void connectTopNeighbor(int row, int col) {
