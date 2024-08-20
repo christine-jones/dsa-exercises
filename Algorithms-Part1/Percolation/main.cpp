@@ -1,7 +1,7 @@
 #include "Percolation.h"
 #include "UnionFind.h"
+#include "StopWatch.h"
 #include "Test.h"
-#include <chrono>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -12,26 +12,6 @@ void printUsage() {
     std::cout << "\tn = grid size, n-by-n grid" << '\n';
     std::cout << "\tT = # independent computational experiments" << '\n';
 }
-
-class Timer {
-
-public:
-
-    void reset() { m_start_time = Clock::now(); }
-
-    double elapsed() const {
-        return std::chrono::duration_cast<Second>(
-                                        Clock::now() - m_start_time).count();
-    }
-
-private:
-
-    using Clock  = std::chrono::steady_clock;
-    using Second = std::chrono::duration<double, std::ratio<1>>;
-
-    std::chrono::time_point<Clock> m_start_time{Clock::now()};
-
-};
 
 int main(int argc, char* argv[]) {
 
@@ -54,7 +34,7 @@ int main(int argc, char* argv[]) {
     }
 
     // start timer
-    Timer timer{};
+    StopWatch timer{};
 
     // run experiments
     PercolationStats p{grid_size, num_trials};
