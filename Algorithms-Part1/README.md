@@ -4,7 +4,7 @@ C++ implementation of the data structures and algorithms taught in [Princeton Un
 
 ## Why C++?
 
-The [Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course uses the Java programming language to teach and analyze data structures and algorithms. All programming assignments are expected to be coded in Java as well. My exposre to the Java programming language, however, is not extenstive. I really wanted to focus on the DSA content and not my coding skills, or lack thereof. Thus my use of C++.
+The [Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course uses the Java programming language to teach and analyze data structures and algorithms. All programming assignments are expected to be coded in Java as well. My exposure to the Java programming language, however, is not extenstive. I really want to focus on the DSA content and not my coding skills, or lack thereof. Thus my use of C++.
 
 The bulk of my coding experience has centered around C/C++, and it is definitely my language of strength. Using C++ for the programming exercises allows me to fully focus on the performance, intracacies, and analysis of the data structures and algorithms specifically, rather than the learning and mastering of a particular coding language.
 
@@ -12,5 +12,18 @@ In the event that I decide to really learn and strengthen my Java coding skills,
 
 ## Focus and Intent
 
+The priority, for me, of these programming exercises is personal education and improvement with respect to the DSA content specifically. Therefore, this code lacks features and robustness that deployed software would certainly include.
+
+Errors are largely handled via assertion. At this time, I am the sole creator and user of this code, and in addition, the code is small in scale and not too complex. Assertions allow me to quickly identify and fix issues. More robust error and exception handling and some form of logging would be necessary if this code widens in scope and developers/users.
+
+There is no centralized automated build or test infrastructure. Again, this deficiency would need to be addressed if the scope of this code expands beyond my personal usage. 
+
 ## Content
 
+- HelloWorld/
+ 
+  Just making sure we got the basics covered!
+
+- Percolation/
+
+  Program that estimates the value of the *percolation threshold* via Monnte Carlo simulation.
