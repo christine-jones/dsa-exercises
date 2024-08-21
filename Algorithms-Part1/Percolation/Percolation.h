@@ -1,3 +1,12 @@
+/**
+ * \file    Percolation.h
+ * \author  Christine Jones 
+ * \brief
+ *
+ * \copyright 2024
+ * \license   GNU GENERAL PUBLIC LICENSE version 3 
+ */
+
 #ifndef PERCOLATION_H
 #define PERCOLATION_H
 

@@ -1,3 +1,12 @@
+/**
+ * \file    UnionFind.h
+ * \author  Christine Jones 
+ * \brief
+ *
+ * \copyright 2024
+ * \license   GNU GENERAL PUBLIC LICENSE version 3 
+ */
+
 #ifndef UNION_FIND_H
 #define UNION_FIND_H
 

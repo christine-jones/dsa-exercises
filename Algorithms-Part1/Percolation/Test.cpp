@@ -1,3 +1,12 @@
+/**
+ * \file    Test.cpp
+ * \author  Christine Jones 
+ * \brief   Implementation of test cases.
+ *
+ * \copyright 2024
+ * \license   GNU GENERAL PUBLIC LICENSE version 3 
+ */
+
 #include "Percolation.h"
 #include "Test.h"
 #include "UnionFind.H"

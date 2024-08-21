@@ -1,3 +1,12 @@
+/**
+ * \file    main.cpp
+ * \author  Christine Jones 
+ * \brief
+ *
+ * \copyright 2024
+ * \license   GNU GENERAL PUBLIC LICENSE version 3 
+ */
+
 #include "Percolation.h"
 #include "UnionFind.h"
 #include "StopWatch.h"
