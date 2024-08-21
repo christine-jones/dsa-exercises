@@ -26,17 +26,21 @@ The Union-Find algorithms presented in the [coursework](https://www.coursera.org
 
 ## Percolation System
 
+The `Percolation` class models a percolation system. Given a value $`n`$, a class object instantiates an $`n`$-by-$`n`$ grid with all sites blocked. Each site within the grid is uniquely identified by a row/column index pair, where an index is an integer between 1 and $`n`$. A method is provided to open a given site, and accessors are provided to determine if any given site is open or full. A method is provided to determine if the system percolates or not.
+
+The class constructor takes time proportional to $`n^2`$. However, all methods take constant time plus a constant number of calls to the underlying `UnionFind` algorithm.
+
 ## Monte Carlo Simulation
 
 The `PercolationStats` class performs the following Monte Carlo simulation to estimate the percolation threshold.
 
-- Initialize an *n* x *n* `Percolation` system with all sites blocked.
+- Initialize an $`n`$ x $`n`$ `Percolation` system with all sites blocked.
 - Repeat the following until the system percolates.
     - Choose a site uniformly at random among all the blocked sites.
     - Open the site.
 - Estimate the *percolation threshold* based on the fraction of sites that are opened when the system percolates.
 
-The above algorithm is repeated some given number of times to produce a final set of statistics (mean, standard deviation, and 95% confidence interval) for the *percolation threshold*.
+The above algorithm is repeated a given number of times to produce a final set of statistics (mean, standard deviation, and 95% confidence interval) for the *percolation threshold*.
 
 # Running the code
 
