@@ -19,13 +19,10 @@ class UnionFind {
 
 public:
 
-    explicit UnionFind(int n, bool initialize = true):
-        m_object_ids{std::vector<int>(static_cast<std::size_t>(n))}
+    explicit UnionFind(int n):
+        m_object_ids{std::vector<int>(static_cast<std::size_t>(n), 0)}
     {
         assert(n > 0);
-
-        if (initialize)
-            std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
     }
 
     UnionFind(int n, int initial_value):
