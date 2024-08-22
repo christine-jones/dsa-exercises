@@ -1,6 +1,6 @@
 # Percolation
 
-C++ implementation of the Percolation programming exercise in `Module 2, Union-Find` of the [Princeton University's Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course on [coursera](https://www.coursera.org/).
+C++ implementation of the percolation programming exercise in **Module 2, Union-Find** of the [Princeton University's Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course on [coursera](https://www.coursera.org/).
 
 # Problem Statement
 
@@ -8,7 +8,7 @@ This [specification](https://coursera.cs.princeton.edu/algs4/assignments/percola
 
 ## Percolation
 
-> Given a composite systems comprised of randomly distributed insulating and metallic materials: what fraction of the materials need to be metallic so that the composite system is an electrical conductor? Given a porous landscape with water on the surface (or oil below), under what conditions will the water be able to drain through to the bottom (or the oil to gush through to the surface)? Scientists have defined an abstract process known as percolation to model such situations.
+> Given a composite system comprised of randomly distributed insulating and metallic materials: what fraction of the materials need to be metallic so that the composite system is an electrical conductor? Given a porous landscape with water on the surface (or oil below), under what conditions will the water be able to drain through to the bottom (or the oil to gush through to the surface)? Scientists have defined an abstract process known as percolation to model such situations.
 
 ## The model
 
@@ -26,9 +26,11 @@ The Union-Find algorithms presented in the [coursework](https://www.coursera.org
 
 ## Percolation System
 
-The `Percolation` class models a percolation system. Given a value $`n`$, a class object instantiates an $`n`$-by-$`n`$ grid with all sites blocked. Each site within the grid is uniquely identified by a row/column index pair, where an index is an integer between 1 and $`n`$. A method is provided to open a given site, and accessors are provided to determine if any given site is open or full. A method is provided to determine if the system percolates or not.
+The `UnionFind` base class is the foundation of multiple variants of the algorithm: `QuickUF`, `OpenUF<QuickUF>`, `WeightedUF`, `OpenUF<WeightedUF>`. Suporting the implementation of multiple variants allows for greater comparison and analysis of the Union-Find algorithms. The `OpenUF` variants form the underlying mechanism of the percolation system.
 
-The class constructor takes time proportional to $`n^2`$. However, all methods take constant time plus a constant number of calls to the underlying `UnionFind` algorithm.
+The `Percolation` class models a percolation system. Given a value $`n`$, a class object instantiates an $`n`$-by-$`n`$ grid, implemented as an `OpenUF` variant, with all sites initially blocked. Each site within the grid is uniquely identified by a row/column index pair, where an index is an integer between 1 and $`n`$. A method is provided to open a given site, and accessors are provided to determine if any given site is open or full. A method is provided to determine if the system percolates or not.
+
+The `Percolation` class constructor takes time proportional to $`n^2`$. However, all methods take constant time plus a constant number of calls to the underlying `UnionFind` algorithm.
 
 ## Monte Carlo Simulation
 
