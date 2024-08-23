@@ -1,7 +1,7 @@
 /**
  * \file    UnionFind.h
  * \author  Christine Jones 
- * \brief
+ * \brief   Definition of classes that implement various UnionFind algorithms.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -15,34 +15,70 @@
 #include <numeric>
 #include <vector>
 
+/**
+ * Virtual base class to implement Union-Find algorithm variants.
+ */
 class UnionFind {
 
 public:
 
-    explicit UnionFind(int n):
-        m_object_ids{std::vector<int>(static_cast<std::size_t>(n), 0)}
-    {
-        assert(n > 0);
-    }
-
-    UnionFind(int n, int initial_value):
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
+     * \param int Value used to initialize object IDs; defaults to zero. 
+     */
+    explicit UnionFind(int n, int initial_value = 0):
         m_object_ids{
             std::vector<int>(static_cast<std::size_t>(n), initial_value)}
     {
         assert(n > 0);
     }
 
+    /**
+     *  Destructor.
+     */
     virtual ~UnionFind() {}
 
+    /**
+     * Determines if two given objects are connected; pure virtual function.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return bool True if given objects are connected; False otherwise.
+     */
     virtual bool connected(int p, int q) = 0;
+
+    /**
+     * Join two given objects (i.e., union); pure virtual function.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Ojbect index; must be greater or equal to zero and less than
+     *            total number of objects.
+     */
     virtual void join(int p, int q) = 0;
 
-    int getIndex(int p) const {
+    /**
+     * Retrieve object identifier.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return int Object identifier.
+     */
+    int getID(int p) const {
 
         assert(isValidIndex(p));
         return m_object_ids[static_cast<std::size_t>(p)];
     }
 
+    /**
+     * Print object identifier vector to stdout for testing purposes.
+     */
     virtual void print() const {
 
         for (int id : m_object_ids)
@@ -52,28 +88,55 @@ public:
 
 protected:
 
+    /**
+     * Determines if given object index is valid, i.e., greater than zero and
+     * les than total number of objects.
+     * 
+     * \param int Object index.
+     * 
+     * \return bool True if valid object index; False otherwise.
+     */
     bool isValidIndex(int i) const {
         return i >= 0 && static_cast<std::size_t>(i) < m_object_ids.size();
     }
 
+    // object identifiers used in determining connection relationships
     std::vector<int> m_object_ids{};
 
 };
 
+/**
+ * Implementation of the QuickUnionFind algorithm
+ */
 class QuickUF : public UnionFind {
 
 public:
 
-    explicit QuickUF(int n):
-        UnionFind(n)
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
+     * \param int Value used to initialize object IDs; defaults to zero. 
+     */
+    explicit QuickUF(int n, int initial_value = 0):
+        UnionFind(n, initial_value)
     {}
 
-    QuickUF(int n, int initial_value):
-        UnionFind{n, initial_value}
-    {}
-
+    /**
+     * Destructor.
+     */
     virtual ~QuickUF() {}
 
+    /**
+     * Determines if two given objects are connected.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return bool True if given objects are connected; False otherwise.
+     */
     bool connected(int p, int q) override {
 
         assert(isValidIndex(p) && isValidIndex(q));
@@ -82,6 +145,14 @@ public:
                m_object_ids[static_cast<std::size_t>(q)];
     }
 
+    /**
+     * Join two given objects (i.e., union).
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Ojbect index; must be greater or equal to zero and less than
+     *            total number of objects.
+     */
     void join(int p, int q) override {
 
         assert(isValidIndex(p) && isValidIndex(q));
@@ -97,24 +168,40 @@ public:
 
 };
 
+/**
+ * Implemenation of the WeightedUnionFind algorithm with path compression.
+ */
 class WeightedUF : public UnionFind {
 
 public:
 
-    explicit WeightedUF(int n):
-        UnionFind{n},
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
+     * \param int Value used to initialize object IDs; defaults to zero. 
+     */
+    explicit WeightedUF(int n, int initial_value = 0):
+        UnionFind{n, initial_value},
         m_tree_sizes{
             std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
     {}
 
-    WeightedUF(int n, int initial_value):
-        UnionFind(n, initial_value),
-        m_tree_sizes{
-            std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
-    {}
-
+    /**
+     * Destructor.
+     */
     virtual ~WeightedUF() {}
 
+    /**
+     * Determines if two given objects are connected.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return bool True if given objects are connected; False otherwise.
+     */
     bool connected(int p, int q) override {
 
         assert(isValidIndex(p) && isValidIndex(q));
@@ -122,16 +209,26 @@ public:
         return root(p) == root(q);
     }
 
+    /**
+     * Join two given objects (i.e., union).
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Ojbect index; must be greater or equal to zero and less than
+     *            total number of objects.
+     */
     void join(int p, int q) override {
 
         assert(isValidIndex(p) && isValidIndex(q));
 
+        // retrieve object roots
         int i{(root(p))};
         int j{(root(q))};
 
         std::size_t index_i{static_cast<std::size_t>(i)};
         std::size_t index_j(static_cast<std::size_t>(j));
 
+        // same root, objects already connected
         if (i == j)
             return;
 
@@ -148,6 +245,10 @@ public:
         }
     }
 
+    /**
+     * Print object identifier vector and other class internals to stdout for
+     * testing purposes.
+     */
     void print() const override {
 
         assert(m_object_ids.size() == m_tree_sizes.size());
@@ -161,6 +262,9 @@ public:
 
 private:
 
+    /**
+     * Find and return root of given object's tree.
+     */
     int root(int i) {
 
         while(i != m_object_ids[static_cast<std::size_t>(i)]) {
@@ -177,22 +281,44 @@ private:
         return i;
     }
 
-    // initial tree includes initial object only, so size of 1
+    // initial tree includes object self only, so size of 1
     static constexpr int initial_tree_size{1};
 
+    // tree size corresponding to each object
     std::vector<int> m_tree_sizes{};
 
 };
 
+/**
+ * Implementation of "open" UnionFind algorithms. Requires a base UnionFind
+ * algorithm, e.g., QuickUF and WeightedUF, as template parameter.
+ * 
+ * The "open" variation initially blocks, i.e., disables, all connection
+ * objects. Objects must be opened via the provided class method to be enabled
+ * for joins.
+ */
 template <class T>
 class OpenUF : public T {
 
 public:
 
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero. 
+     */
     explicit OpenUF(int n):
         T{n, blocked}
     {}
 
+    /**
+     * Determines if given object is open for join.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return bool True if given object open for join; False otherwise.
+     */
     bool isOpen(int p) const {
 
         assert(T::isValidIndex(p));
@@ -200,15 +326,31 @@ public:
         return T::m_object_ids[static_cast<std::size_t>(p)] >= 0;
     }
 
+    /**
+     * Opens given object for join.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     */
     void open(int p) {
 
         if (isOpen(p))
             return;
 
-        // open for connections by setting object ID to itself
+        // open for join by setting object ID to itself
         T::m_object_ids[static_cast<std::size_t>(p)] = p;
     }
 
+    /**
+     * Determines if two given objects are connected.
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * 
+     * \return bool True if given objects are connected; false otherwise.
+     */
     bool connected(int p, int q) override {
 
         if (!isOpen(p) || !isOpen(q))
@@ -217,6 +359,14 @@ public:
         return T::connected(p, q);
     }
 
+    /**
+     * Join two given objects (i.e., union).
+     * 
+     * \param int Object index; must be greater or equal to zero and less than
+     *            total number of objects.
+     * \param int Ojbect index; must be greater or equal to zero and less than
+     *            total number of objects.
+     */
     void join(int p, int q) override {
 
         if (!isOpen(p) || !isOpen(q))
@@ -227,7 +377,7 @@ public:
 
 private:
 
-    // value assigned to objects not openly availabe for connections
+    // value assigned to objects not open for join
     static constexpr int blocked{-1};
 
 };

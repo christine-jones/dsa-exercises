@@ -74,16 +74,16 @@ public:
 
     void print() const {
 
-        std::cout << "   TOP: " << m_openUF.getIndex(0) << '\n'
+        std::cout << "   TOP: " << m_openUF.getID(0) << '\n'
                   << "BOTTOM: "
-                  << m_openUF.getIndex((m_grid_size * m_grid_size) + 1) << '\n'
+                  << m_openUF.getID((m_grid_size * m_grid_size) + 1) << '\n'
                   << "Number of Open Sites: " << m_num_open_sites << '\n';
 
         for (int i{1}; i <= m_grid_size; ++i) {
             for (int j{1}; j <= m_grid_size; ++j) {
 
                 std::cout << std::setw(5)
-                          << m_openUF.getIndex(indexIntoUF(i, j));
+                          << m_openUF.getID(indexIntoUF(i, j));
             }
 
             std::cout << '\n';
