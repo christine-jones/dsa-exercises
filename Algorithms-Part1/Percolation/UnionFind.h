@@ -11,8 +11,6 @@
 #define UNION_FIND_H
 
 #include <cassert>
-#include <iostream>
-#include <numeric>
 #include <vector>
 
 /**
@@ -70,21 +68,12 @@ public:
      * 
      * \return int Object identifier.
      */
-    int getID(int p) const {
-
-        assert(isValidIndex(p));
-        return m_object_ids[static_cast<std::size_t>(p)];
-    }
+    int getID(int p) const;
 
     /**
      * Print object identifier vector to stdout for testing purposes.
      */
-    virtual void print() const {
-
-        for (int id : m_object_ids)
-            std::cout << id << ' ';
-        std::cout << '\n';
-    }
+    virtual void print() const;
 
 protected:
 
@@ -96,9 +85,7 @@ protected:
      * 
      * \return bool True if valid object index; False otherwise.
      */
-    bool isValidIndex(int i) const {
-        return i >= 0 && static_cast<std::size_t>(i) < m_object_ids.size();
-    }
+    bool isValidIndex(int i) const;
 
     // object identifiers used in determining connection relationships
     std::vector<int> m_object_ids{};
@@ -106,7 +93,7 @@ protected:
 };
 
 /**
- * Implementation of the QuickUnionFind algorithm
+ * Implementation of the Quick UnionFind algorithm.
  */
 class QuickUF : public UnionFind {
 
@@ -137,13 +124,7 @@ public:
      * 
      * \return bool True if given objects are connected; False otherwise.
      */
-    bool connected(int p, int q) override {
-
-        assert(isValidIndex(p) && isValidIndex(q));
-
-        return m_object_ids[static_cast<std::size_t>(p)] == 
-               m_object_ids[static_cast<std::size_t>(q)];
-    }
+    bool connected(int p, int q) override;
 
     /**
      * Join two given objects (i.e., union).
@@ -153,23 +134,12 @@ public:
      * \param int Ojbect index; must be greater or equal to zero and less than
      *            total number of objects.
      */
-    void join(int p, int q) override {
-
-        assert(isValidIndex(p) && isValidIndex(q));
-
-        int pid = m_object_ids[static_cast<std::size_t>(p)];
-        int qid = m_object_ids[static_cast<std::size_t>(q)];
-
-        for (std::size_t i{0}; i < m_object_ids.size(); ++i) {
-            if (m_object_ids[i] == pid)
-                m_object_ids[i] = qid;
-        }
-    }
+    void join(int p, int q) override;
 
 };
 
 /**
- * Implemenation of the WeightedUnionFind algorithm with path compression.
+ * Implemenation of the Weighted UnionFind algorithm with path compression.
  */
 class WeightedUF : public UnionFind {
 
@@ -202,12 +172,7 @@ public:
      * 
      * \return bool True if given objects are connected; False otherwise.
      */
-    bool connected(int p, int q) override {
-
-        assert(isValidIndex(p) && isValidIndex(q));
-
-        return root(p) == root(q);
-    }
+    bool connected(int p, int q) override;
 
     /**
      * Join two given objects (i.e., union).
@@ -217,69 +182,20 @@ public:
      * \param int Ojbect index; must be greater or equal to zero and less than
      *            total number of objects.
      */
-    void join(int p, int q) override {
-
-        assert(isValidIndex(p) && isValidIndex(q));
-
-        // retrieve object roots
-        int i{(root(p))};
-        int j{(root(q))};
-
-        std::size_t index_i{static_cast<std::size_t>(i)};
-        std::size_t index_j(static_cast<std::size_t>(j));
-
-        // same root, objects already connected
-        if (i == j)
-            return;
-
-        // root smaller tree to larger tree
-        if (m_tree_sizes[index_i] < m_tree_sizes[index_j]) {
-
-            m_object_ids[index_i] = j;
-            m_tree_sizes[index_j] += m_tree_sizes[index_i];
-
-        } else {
-
-            m_object_ids[index_j] = i;
-            m_tree_sizes[index_i] += m_tree_sizes[index_j];
-        }
-    }
+    void join(int p, int q) override;
 
     /**
      * Print object identifier vector and other class internals to stdout for
      * testing purposes.
      */
-    void print() const override {
-
-        assert(m_object_ids.size() == m_tree_sizes.size());
-
-        for (std::size_t i{0}; i < m_object_ids.size(); ++i) {
-            std::cout << m_object_ids[i] << '('
-                      << m_tree_sizes[i] << ") ";
-        }
-        std::cout << '\n';
-    }
+    void print() const override;
 
 private:
 
     /**
      * Find and return root of given object's tree.
      */
-    int root(int i) {
-
-        while(i != m_object_ids[static_cast<std::size_t>(i)]) {
-
-            // path compression
-            m_object_ids[static_cast<std::size_t>(i)] = 
-                m_object_ids[static_cast<std::size_t>(
-                                    m_object_ids[static_cast<std::size_t>(i)])];
-
-            // follow path to root
-            i = m_object_ids[static_cast<std::size_t>(i)];
-        }
-
-        return i;
-    }
+    int root(int i);
 
     // initial tree includes object self only, so size of 1
     static constexpr int initial_tree_size{1};
@@ -323,7 +239,8 @@ public:
 
         assert(T::isValidIndex(p));
 
-        return T::m_object_ids[static_cast<std::size_t>(p)] >= 0;
+        // object is open for join if not blocked
+        return T::m_object_ids[static_cast<std::size_t>(p)] != blocked;
     }
 
     /**
@@ -352,7 +269,7 @@ public:
      * \return bool True if given objects are connected; false otherwise.
      */
     bool connected(int p, int q) override {
-
+    
         if (!isOpen(p) || !isOpen(q))
             return false;
 
@@ -368,13 +285,13 @@ public:
      *            total number of objects.
      */
     void join(int p, int q) override {
-
+    
         if (!isOpen(p) || !isOpen(q))
             return;
 
         return T::join(p, q);
     }
-
+    
 private:
 
     // value assigned to objects not open for join
