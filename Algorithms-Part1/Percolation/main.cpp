@@ -1,16 +1,17 @@
 /**
  * \file    main.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Main program that runs experiments to estimate the percolation
+ *          threshold.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
  */
 
 #include "Percolation.h"
-#include "UnionFind.h"
 #include "StopWatch.h"
 #include "Test.h"
+#include "UnionFind.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -22,6 +23,15 @@ void printUsage() {
     std::cout << "\tT = # independent computational experiments" << '\n';
 }
 
+/**
+ * Main program. Runs the given number of experiments using the given size
+ * percolation system, and reports the resulting percolation threshold.
+ * 
+ * Usage: <program name> <n> <T>
+ *      n = grid size, n-by-n grid
+ *      T = # independent computational experiments
+ * 
+ */
 int main(int argc, char* argv[]) {
 
     if (argc != 3) {
