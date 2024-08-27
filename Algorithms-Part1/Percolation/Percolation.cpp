@@ -1,7 +1,8 @@
 /**
  * \file    Percolation.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Implementation of the PercolationStats class that runs monte-carlo
+ *          simulation to estimate the percolation threshold.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -9,22 +10,38 @@
 
 #include "Percolation.h"
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 
+/**
+ * Namespace that contains random number generator.
+ */
 namespace Random {
 
 std::random_device rd{};
 std::mt19937 genMT{rd()};
 
+/**
+ * Retruns a random number between the given min and max, inclusive, using a
+ * uniform distribution.
+ * 
+ * \param int Minimum number.
+ * \param int Maximum number; must be greater than minimum number.
+ * 
+ * \return int Number between given min and max, inclusive.
+ */
 int getRandomNumber(int min, int max) {
 
+    assert(min < max);
     return std::uniform_int_distribution{min, max}(genMT);
 }
 
-}
+} // namespace Random
+
 
 int PercolationStats::percolate() {
 
+    // TBD: configuration of the Union Find algorithm variant
     Percolation<WeightedUF> p{m_grid_size};
 
     while (!p.percolates()) {
@@ -39,8 +56,6 @@ int PercolationStats::percolate() {
     }
 
     return p.numberOfOpenSites();
-
-    return 0;
 }
 
 void PercolationStats::run_experiments() {

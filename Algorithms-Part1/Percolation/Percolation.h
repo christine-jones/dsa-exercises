@@ -1,7 +1,9 @@
 /**
  * \file    Percolation.h
  * \author  Christine Jones 
- * \brief   
+ * \brief   Definition of the Percolation class that models a percolation
+ *          system and the PercolationStats class that runs monte-carlo
+ *          simulation to estimate the percolation threshold.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -36,7 +38,7 @@ public:
     /**
      * Constructor. Initializes a completely blocked n-by-n grid
      * 
-     * \param int Grid size; must be greater than zero.
+     * \param int n-by-n grid size; must be greater than zero.
      */
     explicit Percolation(int n):
         m_openUF{(n * n) + 2}, // 2 additional sites for virtual top and bottom
@@ -88,12 +90,7 @@ public:
     /**
      * Return the total number of open sites within the grid.
      * 
-     * \param int Row index; must be greater than zero and less than or equal
-     *            to grid size.
-     * \param int Column index; must be greater than zero and less than or
-     *            equal to grid size.
-     * 
-     * \return int Total number of open sites within the grid.
+     * \return int Number of open sites within the grid.
      */
     int numberOfOpenSites() const { return m_num_open_sites; }
 
@@ -231,9 +228,10 @@ private:
     // "top" and "bottom" included. Therefore, the size of the UnionFind vector
     // is ((n*n) + 2).
     //
-    // The top row of the grid connects the "top" and bottom row of the grid to
-    // the "bottom". The system percolates when the virtual "top" and "bottom"
-    // sites are connected via a path of open grid sites.
+    // Sites in the top row of the grid connect to the "top", and sites in the
+    // bottom row of the grid connect to the "bottom". The system percolates
+    // when the virtual "top" and "bottom" are connected via a path of open
+    // grid sites.
     OpenUF<UF>  m_openUF;
 
     const int m_grid_size{};
@@ -246,10 +244,36 @@ private:
 
 };
 
+/**
+ * Class that performs Monte-Carlo style experiments using the model
+ * percolation system imlemented by the Percolation class to compute an
+ * estimate of the percolation threshold.
+ * 
+ * A given number of independent trails is run. For each trial, a fully  
+ * blocked percolation system of the given grid size is created. Sites are
+ * opened uniformily at random until the system percolates. At which point,
+ * the fraction of opened vs blocked sites is used to determine the
+ * percolation threshold for that trial run.
+ * 
+ * A more accurate estimate of the percolation threshold is calculated by
+ * averaging the results over all the trials. 
+ * 
+ * The Weighted Union Find algorithm implements the underlying connection
+ * process of the percolation system. Future work should allow the Union Find
+ * algorithm variant to be a configurable option. This would allow greater
+ * flexibilty in running experiments and comparisons.
+ */
 class PercolationStats {
 
 public:
 
+    /**
+     * Constructor. The given number of independent trials is run, and
+     * statistics calculated.
+     * 
+     * \param int n-by-n grid size; must be greater than zero.
+     * \param int Number of independent trials; must be greater than zero.
+     */
     PercolationStats(int n, int trials):
         m_grid_size{n},
         m_num_trials{trials},
@@ -267,6 +291,10 @@ public:
         calculate_stats();  
     }
 
+    /**
+     * Methods for accessing percolation threshold statistics: mean, standard
+     * deviation, 95% confidence interval.
+     */
     double mean() const           { return m_mean; }
     double stddev() const         { return m_stddev; }
     double confidenceLow() const  { return m_confidence_low; }
@@ -274,14 +302,28 @@ public:
 
 private:
 
+    /**
+     * Run single trial. Instantiates a percolation system and opens sites
+     * uniformily at random until system percolates. Returns the number of
+     * sites opened.
+     */
     int  percolate();
 
+    /**
+     * Run all trials; record the percolation threshold for each trial.
+     */
     void run_experiments();
+
+    /**
+     * Given recorded percolation thresholds for all trials, calculate
+     * statistics: mean, standard deviation, 95% confidence interval.
+     */
     void calculate_stats();
 
     const int m_grid_size{};
     const int m_num_trials{};
 
+    // single percolation threshold recorded for each trial run
     std::vector<double> m_percolate_thresholds{};
 
     double m_mean{};
