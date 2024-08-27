@@ -1,7 +1,7 @@
 /**
  * \file    Test.cpp
  * \author  Christine Jones 
- * \brief   Implementation of test cases.
+ * \brief   Implementation of test cases for Percolation and UnionFind classes.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 

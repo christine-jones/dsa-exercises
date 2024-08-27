@@ -12,28 +12,29 @@
 
 #include <chrono>
 
+/**
+ * Class that tracks and reports elapsed time in seconds.
+ */
 class StopWatch {
 
 public:
 
     /**
-     * \brief Constructor that starts the stopwatch at the current time.
+     * Constructor. Starts the stopwatch at the current time.
      */
     StopWatch():
         m_start_time{Clock::now()}
     {}
 
     /**
-     * \brief Restarts the stopwatch at the current time.
-     * 
-     * \return None.
+     * Restarts the stopwatch at the current time.
      */
     void reset() { m_start_time = Clock::now(); }
 
     /**
-     * \brief Returns the elapsed time in seconds since the start time.
+     * Returns the elapsed time, in seconds, since the recorded start time.
      * 
-     * \return double Elapsed time in seconds.
+     * \return double Elapsed time, in seconds.
      */
     double elapsed() const {
         return std::chrono::duration_cast<Second>(
