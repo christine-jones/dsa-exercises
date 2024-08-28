@@ -46,3 +46,7 @@ The above algorithm is repeated a given number of times to produce a final set o
 
 # Running the code
 
+# TBD: Future Work
+
+- Update `PercolationStats` class to enable the variant of the underlying UnionFind algorithm to be configurable. Currently, the variant is hardcoded to `WeightedUF`. Allowing the specific algorithm variant to be configurable would provide greater flexibility in running experiments and comparison of Union Find algorithms.
+
