@@ -93,7 +93,7 @@ protected:
 };
 
 /**
- * Implementation of the Quick UnionFind algorithm.
+ * Class that implements the Quick UnionFind algorithm.
  */
 class QuickUF : public UnionFind {
 
@@ -139,7 +139,8 @@ public:
 };
 
 /**
- * Implemenation of the Weighted UnionFind algorithm with path compression.
+ * Class that implements the Weighted UnionFind algorithm with path
+ * compression.
  */
 class WeightedUF : public UnionFind {
 
@@ -206,10 +207,10 @@ private:
 };
 
 /**
- * Implementation of "open" UnionFind algorithms. Requires a base UnionFind
- * algorithm, e.g., QuickUF and WeightedUF, as template parameter.
+ * Implementation of open-enabled UnionFind algorithms. Requires a base
+ * UnionFind algorithm, e.g., QuickUF and WeightedUF, as template parameter.
  * 
- * The "open" variation initially blocks, i.e., disables, all connection
+ * The open-enabled variant initially blocks, i.e., disables, all connection
  * objects. Objects must be opened via the provided class method to be enabled
  * for joins.
  */

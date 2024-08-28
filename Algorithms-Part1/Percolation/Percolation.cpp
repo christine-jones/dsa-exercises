@@ -1,7 +1,7 @@
 /**
  * \file    Percolation.cpp
  * \author  Christine Jones 
- * \brief   Implementation of the PercolationStats class that runs monte-carlo
+ * \brief   Implementation of the PercolationStats class that runs Monte-Carlo
  *          simulation to estimate the percolation threshold.
  *
  * \copyright 2024
@@ -14,7 +14,7 @@
 #include <cmath>
 
 /**
- * Namespace that contains random number generator.
+ * Random number generator.
  */
 namespace Random {
 
@@ -22,17 +22,17 @@ std::random_device rd{};
 std::mt19937 genMT{rd()};
 
 /**
- * Retruns a random number between the given min and max, inclusive, using a
+ * Returns a random number between the given min and max, inclusive, using a
  * uniform distribution.
  * 
  * \param int Minimum number.
- * \param int Maximum number; must be greater than minimum number.
+ * \param int Maximum number; must be greater or equal to minimum number.
  * 
  * \return int Number between given min and max, inclusive.
  */
 int getRandomNumber(int min, int max) {
 
-    assert(min < max);
+    assert(min <= max);
     return std::uniform_int_distribution{min, max}(genMT);
 }
 

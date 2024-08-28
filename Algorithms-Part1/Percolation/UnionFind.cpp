@@ -45,7 +45,7 @@ void QuickUF::join(int p, int q) {
     int pid = m_object_ids[static_cast<std::size_t>(p)];
     int qid = m_object_ids[static_cast<std::size_t>(q)];
 
-    // joining object p, and all other objects joined to it, to object q
+    // joining object p, and all other connected objects, to object q
     for (std::size_t i{0}; i < m_object_ids.size(); ++i) {
         if (m_object_ids[i] == pid)
             m_object_ids[i] = qid;

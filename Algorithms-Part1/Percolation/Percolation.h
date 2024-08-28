@@ -2,7 +2,7 @@
  * \file    Percolation.h
  * \author  Christine Jones 
  * \brief   Definition of the Percolation class that models a percolation
- *          system and the PercolationStats class that runs monte-carlo
+ *          system and the PercolationStats class that runs Monte-Carlo
  *          simulation to estimate the percolation threshold.
  *
  * \copyright 2024
@@ -68,6 +68,7 @@ public:
         
         return m_openUF.isOpen(indexIntoUF(row, col));
     }
+
     /**
      * Determine if the given grid site is full, i.e., connected to top row of
      * grid via a chain of open neighboring grid sites.
@@ -261,7 +262,7 @@ private:
  * The Weighted Union Find algorithm implements the underlying connection
  * process of the percolation system. Future work should allow the Union Find
  * algorithm variant to be a configurable option. This would allow greater
- * flexibilty in running experiments and comparisons.
+ * flexibilty in running experiments and comparison of Union Find algorithms.
  */
 class PercolationStats {
 
