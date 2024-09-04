@@ -27,3 +27,7 @@ There is no centralized automated build or test infrastructure. Again, this defi
 - Percolation/
 
   Program that estimates the value of the *percolation threshold* via Monnte Carlo simulation.
+
+- Queues/
+
+  Generic data types for deque and randomized queue using linked list and array, respecitively.
