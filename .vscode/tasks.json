@@ -15,6 +15,7 @@
                 "-Wconversion",
                 "-Wsign-conversion",
                 "-std=c++23",
+                "-I${fileDirname}\\..\\include",
                 "${fileDirname}\\**.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
