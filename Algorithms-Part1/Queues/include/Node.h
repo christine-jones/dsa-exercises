@@ -21,7 +21,7 @@ public:
         m_prev{nullptr}
     {}
 
-    Node(const T& item, const Node<T>* next, const Node<T>* prev):
+    Node(const T& item, Node<T>* next, Node<T>* prev):
         m_item{item},
         m_next{next},
         m_prev{prev}
@@ -38,8 +38,8 @@ public:
     const Node<T>* next() const { return m_next; }
     const Node<T>* prev() const { return m_prev; }
 
-    void setNext(const Node<T>* next) { m_next = next; }
-    void setPrev(const Node<T>* prev) { m_prev = prev; }
+    void setNext(Node<T>* next) { m_next = next; }
+    void setPrev(Node<T>* prev) { m_prev = prev; }
 
 private:
 
