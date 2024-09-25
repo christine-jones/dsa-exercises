@@ -21,19 +21,25 @@ public:
         m_prev{nullptr}
     {}
 
-    Node(const T& item, const Node* next, const Node* prev):
+    Node(const T& item, const Node<T>* next, const Node<T>* prev):
         m_item{item},
         m_next{next},
         m_prev{prev}
     {}
 
-    T item() const { return m_item; } 
+    T&       item()       { return m_item; }
+    const T& item() const { return m_item; }
 
-    Node* next() const { return m_next; }
-    Node* prev() const { return m_prev; }
+    T*       itemPtr()       { return &m_item; }
+    const T* itemPtr() const { return &m_item; }
 
-    void setNext(const Node* next) { m_next = next; }
-    void setPrev(const Node* prev) { m_prev = prev; }
+    Node<T>* next() { return m_next; }
+    Node<T>* prev() { return m_prev; }
+    const Node<T>* next() const { return m_next; }
+    const Node<T>* prev() const { return m_prev; }
+
+    void setNext(const Node<T>* next) { m_next = next; }
+    void setPrev(const Node<T>* prev) { m_prev = prev; }
 
 private:
 

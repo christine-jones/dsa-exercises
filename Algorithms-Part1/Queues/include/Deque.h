@@ -12,13 +12,50 @@
 
 #include "Node.h"
 #include <cassert>
+#include <cstddef>      // for std::ptrdiff_t
 #include <exception>
 #include <iostream>
+#include <iterator>
 
 template <typename T>
 class Deque {
 
 public:
+
+    template <typename U>
+    class iter {
+
+    public:
+
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type   = std::ptrdiff_t;
+        using value_type        = U;
+        using pointer           = U*;
+        using reference         = U&;
+
+        iter(): m_ptr(nullptr) {}
+        iter(Node<T>* ptr): m_ptr(ptr) {}
+
+        reference operator*() const { return m_ptr->item(); }
+        pointer operator->() const  { return m_ptr->itemPtr(); }
+
+        iter& operator++() { m_ptr = m_ptr->next(); return *this; }
+        iter operator++(int) { iter tmp = *this; ++(*this); return tmp;}
+
+        friend bool operator==(const iter& a, const iter& b) {
+            return a.m_ptr == b.m_ptr;
+        }
+        friend bool operator!=(const iter& a, const iter& b) {
+            return a.m_ptr != b.m_ptr;
+        }
+
+    private:
+
+        Node<T>* m_ptr{nullptr};
+        
+    };
+    typedef iter<T>       iterator;
+    typedef iter<const T> const_iterator;
 
     Deque():
         m_first{nullptr},
@@ -40,7 +77,11 @@ public:
     T removeFirst();
     T removeLast();
 
-    // implement iterators
+    iterator begin() { return iterator(m_first); }
+    iterator end()   { return iterator(nullptr); }
+
+    const_iterator cbegin() { return const_iterator{m_first}; }
+    const_iterator cend()   { return const_iterator{nullptr}; }
 
     // copying, assigning, moving a deque is not currently supported
     Deque(const Deque& deque) = delete;
