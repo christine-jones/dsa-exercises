@@ -8,6 +8,7 @@
  */
 
 #include "Deque.h"
+#include "Test.h"
 #include <iostream>
 
 /**
@@ -18,17 +19,7 @@
  */
 int main() {
 
-    Deque<int> myDeque{};
-
-    myDeque.addFirst(5);
-    myDeque.addFirst(4);
-    myDeque.addFirst(3);
-    myDeque.addFirst(2);
-    myDeque.addFirst(1);
-
-    for (auto i : myDeque)
-        std::cout << i << " ";
-    std::cout << '\n';
+    Test::runTests();
 
     return 0;
 }
