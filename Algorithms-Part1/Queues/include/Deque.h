@@ -63,7 +63,7 @@ public:
 
     ~Deque() {
 
-        clearDeque();
+        clear();
     }
 
     bool isEmpty() const { return m_size == 0; }
@@ -75,7 +75,7 @@ public:
     T removeFirst();
     T removeLast();
 
-    void clearDeque();
+    void clear();
 
     iterator begin() { return iterator(m_first); }
     iterator end()   { return iterator(nullptr); }
@@ -226,7 +226,7 @@ T Deque<T>::removeLast() {
 }
 
 template <typename T>
-void Deque<T>::clearDeque() {
+void Deque<T>::clear() {
 
     while (m_first != nullptr) {
 
