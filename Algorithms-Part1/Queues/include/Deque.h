@@ -24,7 +24,6 @@ public:
 
     template <typename U>
     class iter {
-
     public:
 
         using iterator_category = std::forward_iterator_tag;
@@ -52,7 +51,6 @@ public:
     private:
 
         Node<T>* m_ptr{nullptr};
-        
     };
     typedef iter<T>       iterator;
     typedef iter<const T> const_iterator;
@@ -77,11 +75,15 @@ public:
     T removeFirst();
     T removeLast();
 
+    void clearDeque();
+
     iterator begin() { return iterator(m_first); }
     iterator end()   { return iterator(nullptr); }
 
-    const_iterator cbegin() { return const_iterator{m_first}; }
-    const_iterator cend()   { return const_iterator{nullptr}; }
+    const_iterator begin() const  { return const_iterator{m_first}; }
+    const_iterator cbegin() const { return const_iterator{m_first}; }
+    const_iterator end() const    { return const_iterator{nullptr}; }
+    const_iterator cend() const   { return const_iterator{nullptr}; }
 
     // copying, assigning, moving a deque is not currently supported
     Deque(const Deque& deque) = delete;
@@ -90,8 +92,6 @@ public:
     Deque& operator= (Deque& deque) = delete;
 
 private:
-
-    void clearDeque();
 
     Node<T>* m_first{nullptr};
     Node<T>* m_last{nullptr};
@@ -195,7 +195,6 @@ T Deque<T>::removeFirst() {
 template <typename T>
 T Deque<T>::removeLast() {
 
-    // TBD: throw an exception
     if (m_size == 0) {
 
         std::cerr << "Deque::removeLast: deque is empty" << '\n';
