@@ -11,6 +11,8 @@
 #include "Test.h"
 #include <exception>
 #include <iostream>
+#include <string>
+#include <string_view>
 
 namespace Test {
 
@@ -19,11 +21,16 @@ void runTests() {
     std::cout << "running tests..." << '\n';
 
     testDeque();
-    testExceptions();
-    testIterators();
 }
 
 void testDeque() {
+
+    testDequeBasicOperation();
+    testDequeExceptions();
+    testDequeIterators();
+}
+
+void testDequeBasicOperation() {
 
     Deque<int> d{};
 
@@ -112,7 +119,7 @@ void testDeque() {
 
 }
 
-void testExceptions() {
+void testDequeExceptions() {
 
     Deque<int> d{};
     
@@ -153,7 +160,7 @@ void testExceptions() {
     }
 }
 
-void testIterators() {
+void testDequeIterators() {
 
     Deque<int> d{};
     d.addFirst(5);
@@ -163,13 +170,13 @@ void testIterators() {
     d.addFirst(1);
 
     std::cout << "non-const iterator: ";
-    Deque<int>::iterator iter;
+    Deque<int>::iterator iter{};
     for (iter = d.begin(); iter != d.end(); ++iter)
         std::cout << *iter << ' ';
     std::cout << '\n';
 
     std::cout << "const iterator: ";
-    Deque<int>::const_iterator citer;
+    Deque<int>::const_iterator citer{};
     for (citer = d.cbegin(); citer != d.cend(); ++citer)
         std::cout << *citer << ' ';
     std::cout << '\n';
@@ -183,11 +190,53 @@ void testIterators() {
     for (const auto& i : d)
         std::cout << i << ' ';
     std::cout << '\n';
-}
 
-void testWithStrings() {
+    Deque<int>::iterator a_iter{d.begin()};
+    Deque<int>::iterator b_iter{d.begin()};
 
+    std::cout << "iterators equal? "
+              << (a_iter == b_iter ? "true" : "false") << '\n';
+    std::cout << "iterators not equal? "
+              << (a_iter != b_iter ? "true" : "false") << '\n';
+    ++a_iter;
+    ++b_iter;
+    std::cout << "iterators equal? "
+              << (a_iter == b_iter ? "true" : "false") << '\n';
+    std::cout << "iterators not equal? "
+              << (a_iter != b_iter ? "true" : "false") << '\n';
+    a_iter++;
+    b_iter++;
+    std::cout << "iterators equal? "
+              << (a_iter == b_iter ? "true" : "false") << '\n';
+    std::cout << "iterators not equal? "
+              << (a_iter != b_iter ? "true" : "false") << '\n';
+    a_iter++;
+    std::cout << "iterators equal? "
+              << (a_iter == b_iter ? "true" : "false") << '\n';
+    std::cout << "iterators not equal? "
+              << (a_iter != b_iter ? "true" : "false") << '\n';
 
+    std::cout << "reference: " << *a_iter << ' ' << *b_iter << '\n';
+
+    Deque<std::string_view> s_deque{};
+    s_deque.addLast("This");
+    s_deque.addLast("is");
+    s_deque.addLast("a");
+    s_deque.addLast("deque");
+    s_deque.addLast("of");
+    s_deque.addLast("strings.");
+    printDeque(s_deque);
+
+    Deque<std::string_view>::iterator s_iter{s_deque.begin()};
+    Deque<std::string_view>::const_iterator s_citer{s_deque.cbegin()};
+    ++s_iter; ++s_citer;
+    ++s_iter; ++s_citer;
+    ++s_iter; ++s_citer;
+    std::cout << "reference: " << *s_iter << '\n';
+    std::cout << "const reference: " << *s_citer << '\n';
+    std::cout << "size of string via pointer: " << s_iter->size() << '\n';
+    std::cout << "size of string via const pointer: "
+              << s_citer->size() << '\n';
 }
 
 void printDeque(const Deque<int>& d) {
@@ -200,6 +249,19 @@ void printDeque(const Deque<int>& d) {
 
     for (const auto& i : d)
         std::cout << i << ' ';
+    std::cout << '\n';
+}
+
+void printDeque(const Deque<std::string_view>& d) {
+
+    if (d.isEmpty()) {
+
+        std::cout << "empty" << '\n';
+        return;
+    }
+
+    for (const auto& s : d)
+        std::cout << s << ' ';
     std::cout << '\n';
 }
 

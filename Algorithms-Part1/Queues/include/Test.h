@@ -20,12 +20,11 @@ namespace Test {
 void runTests();
 
 void testDeque();
-void testExceptions();
-void testIterators();
-
-void testWithStrings();
-
+void testDequeBasicOperation();
+void testDequeExceptions();
+void testDequeIterators();
 void printDeque(const Deque<int>& d);
+void printDeque(const Deque<std::string_view>& d);
 
 } // namespace Test
 
