@@ -55,16 +55,8 @@ public:
     typedef iter<T>       iterator;
     typedef iter<const T> const_iterator;
 
-    Deque():
-        m_first{nullptr},
-        m_last{nullptr},
-        m_size{0}
-    {}
-
-    ~Deque() {
-
-        clear();
-    }
+    Deque();
+    ~Deque();
 
     bool isEmpty() const { return m_size == 0; }
     int  size() const    { return m_size; }
@@ -98,6 +90,19 @@ private:
     int      m_size{0};
 
 };
+
+template <typename T>
+Deque<T>::Deque():
+    m_first{nullptr},
+    m_last{nullptr},
+    m_size{0}
+{}
+
+template <typename T>
+Deque<T>::~Deque() {
+
+    clear();
+}
 
 template <typename T>
 void Deque<T>::addFirst(const T& item) {
