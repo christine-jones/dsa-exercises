@@ -8,6 +8,7 @@
  */
 
 #include "Deque.h"
+#include "RandomQueue.h"
 #include "Test.h"
 #include <iostream>
 
@@ -19,7 +20,9 @@
  */
 int main() {
 
-    Test::runTests();
+    RandomQueue<int> rqueue{};
 
+    std::cout << "Empty? " << (rqueue.isEmpty() ? "true" : "false") << '\n';
+    
     return 0;
 }
