@@ -11,20 +11,90 @@
 // XXX 2. Enqueue, increase capacity
 // XXX 3. Dequeue, decrease capacity
 // XXX 4. Sample
-// 5. Iterators
+// XXX 5. Iterators
 
 #ifndef RANDOM_QUEUE_H
 #define RANDOM_QUEUE_H
 
 #include "Random.h"
+#include <algorithm>    // for std::swap
 #include <cassert>
+#include <cstddef>      // for std::ptrdiff_t
 #include <exception>
 #include <iostream>
+#include <iterator>
+#include <numeric>
+#include <vector>
 
 template <typename T>
 class RandomQueue {
 
 public:
+
+    class iter {
+    public:
+
+        using iterator_category = std::input_iterator_tag;
+        using difference_type   = std::ptrdiff_t;
+        using value_type        = const T;
+        using pointer           = const T*;
+        using reference         = const T&;
+
+        iter():
+            m_array{nullptr},
+            m_index{-1}
+        {}
+
+        iter(const T* array, int size):
+            m_array{array},
+            m_index{size - 1},
+            m_indices{std::vector<int>(static_cast<std::size_t>(size))}
+        {
+            std::iota(m_indices.begin(), m_indices.end(), 0);
+            randomize();
+        }
+
+        static iter end() { return iter{}; }
+
+        reference operator*() const { 
+            return m_array[m_indices[static_cast<std::size_t>(m_index)]]; 
+        }
+        pointer operator->() const  { 
+            return &m_array[m_indices[static_cast<std::size_t>(m_index)]]; 
+        }
+
+        iter& operator++() { --m_index; return *this; }
+
+        friend bool operator==(const iter& a, const iter& b) {
+            return a.m_index == b.m_index;
+        }
+        friend bool operator!=(const iter& a, const iter& b) {
+            return a.m_index != b.m_index;
+        }
+
+        ~iter() = default;
+        iter(const iter& iter) = default;
+        iter& operator= (const iter& iter) = default;
+
+    private:
+
+        void randomize() {
+
+            for (int i{0};
+                 static_cast<std::size_t>(i) < m_indices.size();
+                 ++i) {
+
+                int r{Random::getRandomNumber(0, i)};
+                std::swap(m_indices[static_cast<std::size_t>(r)],
+                          m_indices[static_cast<std::size_t>(i)]);
+            }
+        }
+
+        const T*  m_array{nullptr};
+        int m_index{-1};
+        std::vector<int> m_indices{};
+    };
+    typedef iter const_iterator;
 
     RandomQueue();
     ~RandomQueue();
@@ -39,7 +109,10 @@ public:
 
     void clear();
 
-    // iterators
+    const_iterator begin() const  { return const_iterator{m_queue, m_size}; }
+    const_iterator cbegin() const { return const_iterator{m_queue, m_size}; }
+    const_iterator end() const    { return const_iterator::end(); }
+    const_iterator cend() const   { return const_iterator::end(); }
 
     // copying, assigning, moving a random queue is not currently supported
     RandomQueue(const RandomQueue& queue) = delete;
