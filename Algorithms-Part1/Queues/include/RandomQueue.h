@@ -45,13 +45,14 @@ public:
             m_index{-1}
         {}
 
-        iter(const T* array, int size):
+        iter(const T* array, int size, bool random = true):
             m_array{array},
             m_index{size - 1},
             m_indices{std::vector<int>(static_cast<std::size_t>(size))}
         {
             std::iota(m_indices.begin(), m_indices.end(), 0);
-            randomize();
+            if (random)
+                randomize();
         }
 
         static iter end() { return iter{}; }
@@ -114,6 +115,11 @@ public:
     const_iterator cbegin() const { return const_iterator{m_queue, m_size}; }
     const_iterator end() const    { return const_iterator::end(); }
     const_iterator cend() const   { return const_iterator::end(); }
+
+    // for testing, iterators that print queue as is rather than random order
+    const_iterator tbegin() const
+        { return const_iterator(m_queue, m_size, false); }
+    const_iterator tend() const { return const_iterator::end(); }
 
     // copying, assigning, moving a random queue is not currently supported
     RandomQueue(const RandomQueue& queue) = delete;
