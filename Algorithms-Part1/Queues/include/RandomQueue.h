@@ -99,8 +99,9 @@ public:
     RandomQueue();
     ~RandomQueue();
 
-    bool isEmpty() const { return m_size == 0; }
-    int  size() const    { return m_size; }
+    bool isEmpty() const  { return m_size == 0; }
+    int  size() const     { return m_size; }
+    int  capacity() const { return m_capacity; }
 
     void enqueue(const T& item);
     T    dequeue();
