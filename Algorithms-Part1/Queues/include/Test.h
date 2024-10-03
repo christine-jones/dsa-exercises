@@ -14,6 +14,7 @@
 #define TEST_H
 
 #include "Deque.h"
+#include "RandomQueue.h"
 
 namespace Test {
 
@@ -25,6 +26,13 @@ void testDequeExceptions();
 void testDequeIterators();
 void printDeque(const Deque<int>& d);
 void printDeque(const Deque<std::string_view>& d);
+
+void testRandomQueue();
+void testRQBasicOperation();
+void testRQExceptions();
+void testRQIterators();
+void printRQ(const RandomQueue<int>& q);
+void printRQ(const RandomQueue<std::string_view>& q);
 
 } // namespace Test
 
