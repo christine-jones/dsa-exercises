@@ -1,4 +1,4 @@
-TARGET_EXE := queues
+TARGET_EXE := permutation
 
 SRC_DIR   := ./src
 INC_DIRS  := ./include
