@@ -300,7 +300,7 @@ void RandomQueue<T>::resizeQueue(int new_capacity) {
     for (int i{0}; i < m_size; ++i)
         new_queue[i] = m_queue[i];
 
-    delete m_queue;
+    delete[] m_queue;
     m_queue = new_queue;
     m_capacity = new_capacity;
 }
