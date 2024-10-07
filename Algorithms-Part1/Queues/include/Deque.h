@@ -17,11 +17,25 @@
 #include <iostream>
 #include <iterator>
 
+/**
+ * Class that implementa a deque data structure. A deque is a double-ended
+ * queue that supports the addition and removal of items from either the front
+ * or back of the queue.
+ * 
+ * This deque is implemented using a linked list and supports each deque
+ * operation (including construction) in constant worst-case time.
+ * 
+ * This deque holds objects of a templated type. The templated type must be
+ * CopyAssignable and CopyConstructible.
+ */
 template <typename T>
 class Deque {
 
 public:
 
+    /**
+     * Custom iterator that allows for forward passes over the deque.
+     */ 
     template <typename U>
     class iter {
     public:
@@ -41,12 +55,10 @@ public:
         iter& operator++() { m_ptr = m_ptr->next(); return *this; }
         iter operator++(int) { iter tmp = *this; ++(*this); return tmp;}
 
-        friend bool operator==(const iter& a, const iter& b) {
-            return a.m_ptr == b.m_ptr;
-        }
-        friend bool operator!=(const iter& a, const iter& b) {
-            return a.m_ptr != b.m_ptr;
-        }
+        friend bool operator==(const iter& a, const iter& b)
+            { return a.m_ptr == b.m_ptr; }
+        friend bool operator!=(const iter& a, const iter& b)
+            { return a.m_ptr != b.m_ptr; }
 
     private:
 
@@ -55,20 +67,55 @@ public:
     typedef iter<T>       iterator;
     typedef iter<const T> const_iterator;
 
+    /**
+     * Constructor. Initializes an empty deque.
+     */
     Deque();
+
+    /**
+     * Destructor. Releases all memory allocted to the deque.
+     */
     ~Deque();
 
+    /**
+     * Determine if the deque is empty.
+     * 
+     * \return bool True if no objects in deque; False otherwise.
+     */
     bool isEmpty() const { return m_size == 0; }
-    int  size() const    { return m_size; }
 
+    /**
+     * Returns the number of objects contained in the deque.
+     * 
+     * \return int Number of objects in deque.
+     */
+    int size() const { return m_size; }
+
+    /**
+     * Methods to add object to beginning/end of deque. An exception of type
+     * std::bad_alloc is thrown in the case that memory fails to be allocated.
+     *
+     * \param T Object of templated type to be added to the deque.
+     */
     void addFirst(const T& item);
     void addLast(const T& item);
 
+    /**
+     * Methods to remove object from beginning/end of deque. An exception of
+     * type std::out_of_range is thrown in the case that the deque is empty.
+     * 
+     * \return T Object of templated type removed from deque.
+     */
     T removeFirst();
     T removeLast();
 
+    /**
+     * Clears all items from the deque, releasing allocated memory.
+     * Reinitializes to an empty deque.
+     */
     void clear();
 
+    // iterators that allow forward passes over the deque
     iterator begin() { return iterator(m_first); }
     iterator end()   { return iterator(nullptr); }
 
@@ -85,9 +132,9 @@ public:
 
 private:
 
-    Node<T>* m_first{nullptr};
-    Node<T>* m_last{nullptr};
-    int      m_size{0};
+    Node<T>* m_first{nullptr};  // beginning of linked list
+    Node<T>* m_last{nullptr};   // end of linked list
+    int      m_size{0};         // size of linked list, i.e., deque
 
 };
 

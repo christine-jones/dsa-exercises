@@ -1,17 +1,11 @@
 /**
- * \file    Deque.h
+ * \file    RandomQueue.h
  * \author  Christine Jones 
  * \brief   Definition of class that implements a randomized queue.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
  */
-
-// XXX 1. Basic queue structure
-// XXX 2. Enqueue, increase capacity
-// XXX 3. Dequeue, decrease capacity
-// XXX 4. Sample
-// XXX 5. Iterators
 
 #ifndef RANDOM_QUEUE_H
 #define RANDOM_QUEUE_H
@@ -26,11 +20,34 @@
 #include <numeric>
 #include <vector>
 
+/**
+ * Class that implements a randomized queue data structure. A randomized queue
+ * is similar to a standard queue except that objects removed are chosen
+ * uniformly at random among all the objects in the queue.
+ * 
+ * This randomized queue is implemented as a resizable array. The array doubles
+ * in capacity when filled. Its capacity is havled when the array reduces to a 
+ * quarter full. Each randomized queue operation (besides creating an iterator)
+ * is performed in constant amortized time.
+ * 
+ * Objects are added and stored to the array in a uniformly random order.
+ * Therefore, removing an object at random is simply met by returning the
+ * last object on the queue.
+ * 
+ * This randomized queue holds objects of a templated type. The templated type
+ * must be CopyAssignable and CopyConstructible.
+ */
 template <typename T>
 class RandomQueue {
 
 public:
 
+    /**
+     * Custom iterator that allows for a single pass over the queue. Each
+     * iterator instance returns the elements of the queue in uniformly random
+     * order. The order of two or more iterators to the same randomized queue
+     * are mutually independent; each iterator maintains its own random order.
+     */
     class iter {
     public:
 
@@ -57,21 +74,17 @@ public:
 
         static iter end() { return iter{}; }
 
-        reference operator*() const { 
-            return m_array[m_indices[static_cast<std::size_t>(m_index)]]; 
-        }
-        pointer operator->() const  { 
-            return &m_array[m_indices[static_cast<std::size_t>(m_index)]]; 
-        }
+        reference operator*() const
+            { return m_array[m_indices[static_cast<std::size_t>(m_index)]]; }
+        pointer operator->() const
+            { return &m_array[m_indices[static_cast<std::size_t>(m_index)]]; }
 
         iter& operator++() { --m_index; return *this; }
 
-        friend bool operator==(const iter& a, const iter& b) {
-            return a.m_index == b.m_index;
-        }
-        friend bool operator!=(const iter& a, const iter& b) {
-            return a.m_index != b.m_index;
-        }
+        friend bool operator==(const iter& a, const iter& b) 
+            { return a.m_index == b.m_index; }
+        friend bool operator!=(const iter& a, const iter& b)
+            { return a.m_index != b.m_index;    }
 
         ~iter() = default;
         iter(const iter& iter) = default;
@@ -91,32 +104,87 @@ public:
             }
         }
 
-        const T*  m_array{nullptr};
-        int m_index{-1};
+        const T*         m_array{nullptr};
+        int              m_index{-1};
         std::vector<int> m_indices{};
     };
     typedef iter const_iterator;
 
+    /**
+     * Constructor. Initializes an empty queue. An exception of type
+     * std::bad_alloc is thrown in the case that memory fails to be allocated.
+     */
     RandomQueue();
+
+    /**
+     * Destructor. Releases all memory allocted to the queue.
+     */
     ~RandomQueue();
 
-    bool isEmpty() const  { return m_size == 0; }
-    int  size() const     { return m_size; }
-    int  capacity() const { return m_capacity; }
+    /**
+     * Determine if the queue is empty.
+     * 
+     * \return bool True if no objects in deque; False otherwise.
+     */
+    bool isEmpty() const { return m_size == 0; }
 
+    /**
+     * Returns the number of objects contained in the queue.
+     * 
+     * \return int Number of objects in queue.
+     */
+    int size() const { return m_size; }
+
+    /**
+     * Returns the current capacity of the queue. The capacity does grow and
+     * shrink with the use of the queue. This accessor is made availble for
+     * testing purposes.
+     * 
+     * \return int Total number of objects that are able to currently be stored
+     *             in the queue.
+     */
+    int capacity() const { return m_capacity; }
+
+    /**
+     * Adds an object to the queue. An exception of type std::bad_alloc is
+     * thrown in the case that memory fails to be allocated.
+     *
+     * \param T Object of templated type to be added to the queue.
+     */
     void enqueue(const T& item);
+
+    /**
+     * Removes a random object from the queue. An exception of type
+     * std::out_of_range is thrown in the case that the queue is empty.
+     * 
+     * \return T Object of templated type removed from queue.
+     */
     T    dequeue();
 
+    /**
+     * Methods that return, but do not remove, a random object from the queue.
+     * An exception of type std::out_of_range is thrown in the case that the
+     * queue is empty.
+     * 
+     * \return T Random object of templated type from the queue.
+     */
+    T& sample();
     const T& sample() const;
 
+    /**
+     * Clears all items from the queue, releasing allocated memory.
+     * Reinitializes to an empty queue. An exception of type
+     * std::bad_alloc is thrown in the case that memory fails to be allocated.
+     */
     void clear();
 
+    // constant iterators that allow forward passes over the queue
     const_iterator begin() const  { return const_iterator{m_queue, m_size}; }
     const_iterator cbegin() const { return const_iterator{m_queue, m_size}; }
     const_iterator end() const    { return const_iterator::end(); }
     const_iterator cend() const   { return const_iterator::end(); }
 
-    // for testing, iterators that print queue as is rather than random order
+    // for testing, iterators that pass queue as is rather than random order
     const_iterator tbegin() const
         { return const_iterator(m_queue, m_size, false); }
     const_iterator tend() const { return const_iterator::end(); }
@@ -130,25 +198,32 @@ public:
 private:
 
     static constexpr int s_initial_capacity{2};
-    static constexpr int s_resize_rate{2}; // double/halve capacity
+    static constexpr int s_resize_rate{2};  // double/halve capacity
     static constexpr int s_shrink_ratio{4}; // shrink at 1/4 capacity
 
+    // queue needs to grow when capacity is full
     bool needToGrow() const
         { return m_size == m_capacity; }
+
+    // queue needs to shrink when reduced to quarter capacity
     bool needToShrink() const
         { return (m_capacity > s_initial_capacity) && 
                  (m_size == (m_capacity / s_shrink_ratio)); }
 
-    void initQueue();
-    void deleteQueue();
-
+    // manage the queue capacity
     void growQueue();
     void shrinkQueue();
     void resizeQueue(int new_capacity);
 
-    T*  m_queue{nullptr};
-    int m_size{0};
-    int m_capacity{0};
+    // initialize queue; allocate memory to initial capacity
+    void initQueue();
+
+    // release all memory allocated to queue
+    void deleteQueue();
+
+    T*  m_queue{nullptr};   // pointer to array that contains the queue
+    int m_size{0};          // number of objects currently in the queue
+    int m_capacity{0};      // number of objects allowed in the queue
 
 };
 
@@ -173,12 +248,15 @@ RandomQueue<T>::~RandomQueue() {
 template <typename T>
 void RandomQueue<T>::enqueue(const T& item) {
 
-    if (needToGrow())
+    if (needToGrow()) {
         try { 
             growQueue();
 
         } catch (const std::bad_alloc& e) { throw; }
+    }
 
+    // maintain uniform randomness within queue by adding new object to random
+    // location within the queue
     int random_index = Random::getRandomNumber(0, m_size);
 
     m_queue[m_size] = m_queue[random_index];
@@ -195,18 +273,33 @@ T RandomQueue<T>::dequeue() {
         throw std::out_of_range("queue empty, no such element");
     }
 
+    // queue maintained in uniform random order so removing object from end of
+    // queue results in random object being returned
     T item{m_queue[m_size - 1]};
 
     m_queue[m_size - 1] = T{};
     --m_size;
 
-    if (needToShrink())
+    if (needToShrink()) {
         try {
             shrinkQueue();
 
         } catch (const std::bad_alloc& e) { throw; }
+    }
 
     return item;
+}
+
+template <typename T>
+T& RandomQueue<T>::sample() {
+
+    if (m_size == 0) {
+    
+        std::cerr << "RandomQueue::sample: queue is empty" << '\n';
+        throw std::out_of_range("queue empty, no such element");
+    }
+
+    return m_queue[Random::getRandomNumber(0, m_size - 1)];
 }
 
 template <typename T>
@@ -297,9 +390,11 @@ void RandomQueue<T>::resizeQueue(int new_capacity) {
         throw;
     }
 
+    // copy old queue into newly allocated queue
     for (int i{0}; i < m_size; ++i)
         new_queue[i] = m_queue[i];
 
+    // release all memory allocated to old queue
     delete[] m_queue;
     m_queue = new_queue;
     m_capacity = new_capacity;
