@@ -44,14 +44,13 @@ public:
     {}
 
     /**
-     * Methods for accessing item of templated type contained within the node. 
+     * Methods for accessing item contained within the node. 
      */
     T&       item()       { return m_item; }
     const T& item() const { return m_item; }
 
     /**
-     * Methods for accessing pointer to item of templated type contained
-     * within the node.
+     * Methods for accessing pointer to item contained within the node.
      */
     T*       itemPtr()       { return &m_item; }
     const T* itemPtr() const { return &m_item; }

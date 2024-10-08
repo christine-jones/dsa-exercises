@@ -1,7 +1,8 @@
 /**
  * \file    Test.cpp
  * \author  Christine Jones 
- * \brief   Implementation of test cases for Deque container class.
+ * \brief   Implementation of test cases for Deque and RandomQueue container
+ *          classes.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 

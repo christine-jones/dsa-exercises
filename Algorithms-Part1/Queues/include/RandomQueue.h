@@ -26,7 +26,7 @@
  * uniformly at random among all the objects in the queue.
  * 
  * This randomized queue is implemented as a resizable array. The array doubles
- * in capacity when filled. Its capacity is havled when the array reduces to a 
+ * in capacity when filled. Its capacity is halved when the array reduces to a 
  * quarter full. Each randomized queue operation (besides creating an iterator)
  * is performed in constant amortized time.
  * 
@@ -46,7 +46,7 @@ public:
      * Custom iterator that allows for a single pass over the queue. Each
      * iterator instance returns the elements of the queue in uniformly random
      * order. The order of two or more iterators to the same randomized queue
-     * are mutually independent; each iterator maintains its own random order.
+     * is mutually independent; each iterator maintains its own random order.
      */
     class iter {
     public:
@@ -124,14 +124,14 @@ public:
     /**
      * Determine if the queue is empty.
      * 
-     * \return bool True if no objects in deque; False otherwise.
+     * \return True if no objects in deque; False otherwise.
      */
     bool isEmpty() const { return m_size == 0; }
 
     /**
      * Returns the number of objects contained in the queue.
      * 
-     * \return int Number of objects in queue.
+     * \return Number of objects in queue.
      */
     int size() const { return m_size; }
 
@@ -140,8 +140,8 @@ public:
      * shrink with the use of the queue. This accessor is made availble for
      * testing purposes.
      * 
-     * \return int Total number of objects that are able to currently be stored
-     *             in the queue.
+     * \return Total number of objects that are able to currently be stored
+     *         in the queue.
      */
     int capacity() const { return m_capacity; }
 
@@ -149,7 +149,7 @@ public:
      * Adds an object to the queue. An exception of type std::bad_alloc is
      * thrown in the case that memory fails to be allocated.
      *
-     * \param T Object of templated type to be added to the queue.
+     * \param T Object to be added to the queue.
      */
     void enqueue(const T& item);
 
@@ -157,22 +157,22 @@ public:
      * Removes a random object from the queue. An exception of type
      * std::out_of_range is thrown in the case that the queue is empty.
      * 
-     * \return T Object of templated type removed from queue.
+     * \return Object removed from queue.
      */
-    T    dequeue();
+    T dequeue();
 
     /**
      * Methods that return, but do not remove, a random object from the queue.
      * An exception of type std::out_of_range is thrown in the case that the
      * queue is empty.
      * 
-     * \return T Random object of templated type from the queue.
+     * \return Random object from the queue.
      */
     T& sample();
     const T& sample() const;
 
     /**
-     * Clears all items from the queue, releasing allocated memory.
+     * Clears all objects from the queue, releasing allocated memory.
      * Reinitializes to an empty queue. An exception of type
      * std::bad_alloc is thrown in the case that memory fails to be allocated.
      */

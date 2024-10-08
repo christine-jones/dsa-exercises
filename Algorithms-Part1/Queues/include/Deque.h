@@ -19,8 +19,8 @@
 
 /**
  * Class that implementa a deque data structure. A deque is a double-ended
- * queue that supports the addition and removal of items from either the front
- * or back of the queue.
+ * queue that supports the addition and removal of objects from either the
+ * front or back of the queue.
  * 
  * This deque is implemented using a linked list and supports each deque
  * operation (including construction) in constant worst-case time.
@@ -80,14 +80,14 @@ public:
     /**
      * Determine if the deque is empty.
      * 
-     * \return bool True if no objects in deque; False otherwise.
+     * \return True if no objects in deque; False otherwise.
      */
     bool isEmpty() const { return m_size == 0; }
 
     /**
      * Returns the number of objects contained in the deque.
      * 
-     * \return int Number of objects in deque.
+     * \return Number of objects in deque.
      */
     int size() const { return m_size; }
 
@@ -95,7 +95,7 @@ public:
      * Methods to add object to beginning/end of deque. An exception of type
      * std::bad_alloc is thrown in the case that memory fails to be allocated.
      *
-     * \param T Object of templated type to be added to the deque.
+     * \param T Object to be added to the deque.
      */
     void addFirst(const T& item);
     void addLast(const T& item);
@@ -104,13 +104,13 @@ public:
      * Methods to remove object from beginning/end of deque. An exception of
      * type std::out_of_range is thrown in the case that the deque is empty.
      * 
-     * \return T Object of templated type removed from deque.
+     * \return Object removed from deque.
      */
     T removeFirst();
     T removeLast();
 
     /**
-     * Clears all items from the deque, releasing allocated memory.
+     * Clears all objects from the deque, releasing allocated memory.
      * Reinitializes to an empty deque.
      */
     void clear();
