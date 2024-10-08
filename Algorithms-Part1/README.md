@@ -16,7 +16,7 @@ The priority, for me, of these programming exercises is personal education and i
 
 Errors are largely handled via assertion. At this time, I am the sole creator and user of this code, and in addition, the code is small in scale and not too complex. Assertions allow me to quickly identify and fix issues. More robust error and exception handling and some form of logging would be necessary if this code widens in scope and developers/users.
 
-There is no centralized automated build or test infrastructure. Again, this deficiency would need to be addressed if the scope of this code expands beyond my personal usage. 
+There is no automated test infrastructure. Again, this deficiency would need to be addressed if the scope of this code expands beyond my personal usage. 
 
 ## Content
 
