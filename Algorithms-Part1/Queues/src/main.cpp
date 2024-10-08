@@ -1,7 +1,7 @@
 /**
  * \file    main.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Client program that uses RandomQueue implementation.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -9,6 +9,7 @@
 
 #include "Random.h"
 #include "RandomQueue.h"
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -22,12 +23,19 @@ void printUsage() {
 }
 
 /**
- * Main program.
+ * Client program.
+ * 
+ * Reads a sequence of strings from standard input and prints to standard
+ * output exactly k, where 0 <= k <= # of strings, of those strings uniformly
+ * at random. Each string from the given sequence is printed at most once.
+ * 
+ * The number of strings, n, to be input is unknown ahead of time. For an
+ * extra challenge a RandomQueue of k objects, rather than n objects, is used
+ * to store the random output strings.
  * 
  * Usage: <program name> <k>
  *      k = number of strings to print to standard output, where 0 <= k <= n,
  *          and n is the number of strings read from standard input
- * 
  */
 int main(int argc, char* argv[]) {
 
@@ -39,7 +47,6 @@ int main(int argc, char* argv[]) {
 
     int k{};
     std::stringstream ssarg1{argv[1]};
-
     if (!(ssarg1 >> k)) {
 
         printUsage();
@@ -56,7 +63,7 @@ int main(int argc, char* argv[]) {
 
     RandomQueue<std::string> random_words{};
 
-    // number of words read thus far
+    // number of words processed thus far
     int num_words{0};
 
     // read entire line of words
@@ -68,14 +75,18 @@ int main(int argc, char* argv[]) {
     std::string word{};
     while (iss >> word) {
 
+        // first k words simply add to random queue
         if (num_words < k)
 
             random_words.enqueue(word);
         
+
+        // for all words greater than k, generate a uniformly random number
+        // between 0 and k, if the number is less than k the word is added
+        // to the queue, randomly replacing another word
         else if (Random::getRandomNumber(0, num_words) < k) {
 
             random_words.sample() = word;
-
         }
 
         ++num_words;        
@@ -85,15 +96,13 @@ int main(int argc, char* argv[]) {
 
         std::cout << "The given value of k is invalid, must be <= than the "
                   << "number of given words: " << k << '\n';
-        return 0;
+        return 1;
     }
     
     assert(random_words.size() == k);
 
-    RandomQueue<std::string>::const_iterator iter{random_words.cbegin()};
-    for (int i{0}; i < k; ++i, ++iter) {
-        std::cout << *iter << '\n';
-    }
+    for (const auto& i : random_words)
+        std::cout << i << '\n';
 
     return 0;
 }
