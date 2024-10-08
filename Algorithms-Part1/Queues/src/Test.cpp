@@ -340,6 +340,9 @@ void testRQBasicOperation() {
     std::cout << "sample: " << q.sample() << '\n';
     std::cout << "sample: " << q.sample() << '\n';
     std::cout << "sample: " << q.sample() << '\n';
+    q.sample() = 100;
+    q.sample() = 200;
+    q.sample() = 300;
 
     printRQ(q);
     std::cout << "isEmpty? " << (q.isEmpty() ? "true" : "false") << ' '
