@@ -115,6 +115,15 @@ The `permutation` client program reads a sequence of $n$ strings from the standa
 
 The number of strings, $n$, to be input is unkown ahead of time. However, a `RandomQueue` of only size $k$, rather than size $n$, is required to store the strings eventually printed to standard output. The first $k$ strings are simply added to the `RandomQueue`. For all subsequent strings, a uniformly random number between $0$ and the number of strings input thus far is generated. If that random number is less than $k$, the string is added to the `RandomQueue`, randomly replacing another string already in the `RandomQueue`. If the generated random number is greater or equal to $k$, then no actions are taken to store that string. This results in a uniformly random size $k$ subset of the $n$ input strings being output.
 
-# Running the Code
+# Building/Running the Code
 
-# TBD: Future Work
+- Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
+- Move to the directory ```dsa-exercises/Algorithms-Part1/Queues``` and issue the command ```make```. If you wish to use a different compiler, then edit the given ```Makefile``` or import the source files into your favorite IDE.
+- Issue the command ```make clean``` to remove all generated build files and the client executable.
+- To run the client program: ```./permutation k```
+  ```
+  Usage: ./permutation <k>
+       k = number of strings to print to standard output, where 0 <= k <= n,
+           and n is the number of strings read from standard input
+  ```
+  
