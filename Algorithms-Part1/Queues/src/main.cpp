@@ -25,9 +25,9 @@ void printUsage() {
 /**
  * Client program.
  * 
- * Reads a sequence of strings from standard input and prints to standard
- * output exactly k, where 0 <= k <= # of strings, of those strings uniformly
- * at random. Each string from the given sequence is printed at most once.
+ * Reads a sequence of n strings from standard input and prints to standard
+ * output exactly k, where 0 <= k <= n, of those strings uniformly at random.
+ * Each string from the given sequence is printed at most once.
  * 
  * The number of strings, n, to be input is unknown ahead of time. For an
  * extra challenge a RandomQueue of k objects, rather than n objects, is used
@@ -82,8 +82,9 @@ int main(int argc, char* argv[]) {
         
 
         // for all words greater than k, generate a uniformly random number
-        // between 0 and k, if the number is less than k the word is added
-        // to the queue, randomly replacing another word
+        // between 0 and the number of words read thus far, if the number is
+        // less than k the word is added to the queue, randomly replacing
+        // another word
         else if (Random::getRandomNumber(0, num_words) < k) {
 
             random_words.sample() = word;
