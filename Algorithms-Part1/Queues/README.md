@@ -111,6 +111,10 @@ The `RandomQueue` class holds objects of templated type that must be CopyAssigna
 
 ## Client Program
 
+The `permutation` client program reads a sequence of $n$ strings from the standard input and prints to standard output exactly $k$, where $0 <= k <= n$, of those strings uniformly at random. Each string from the given sequence is printed at most once.
+
+The number of strings, $n$, to be input is unkown ahead of time. However, a `RandomQueue` of only size $k$, rather than size $n$, is required to store the strings eventually printed to standard output. The first $k$ strings are simply added to the `RandomQueue`. For all subsequent strings, a uniformly random number between $0$ and the number of strings input thus far is generated. If that random number is less than $k$, the string is added to the `RandomQueue`, randomly replacing another string already in the `RandomQueue`. If the generated random number is greater or equal to $k$, then no actions are taken to store that string. This results in a uniformly random size $k$ subset of the $n$ input strings being output.
+
 # Running the Code
 
 # TBD: Future Work
