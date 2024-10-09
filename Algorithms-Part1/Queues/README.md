@@ -83,11 +83,31 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 > Your randomized queue implementation must support each randomized queue operation (besides creating an iterator) in constant amortized time. That is, any intermixed sequence of m randomized queue operations (starting from an empty queue) must take at most cm steps in the worst case, for some constant c. A randomized queue containing n items must use at most 48n + 192 bytes of memory. Additionally, your iterator implementation must support operations next() and hasNext() in constant worst-case time; and construction in linear time; you may (and will need to) use a linear amount of extra memory per iterator.
 
+## Client
+
+> Write a client program Permutation.java that takes an integer k as a command-line argument; reads a sequence of strings from standard input using StdIn.readString(); and prints exactly k of them, uniformly at random. Print each item from the sequence at most once.
+
+> You may assume that 0 ≤ k ≤ n, where n is the number of string on standard input. Note that you are not given n.
+
+> The running time of Permutation must be linear in the size of the input. You may use only a constant amount of memory plus either one Deque or RandomizedQueue object of maximum size at most n. (For an extra challenge and a small amount of extra credit, use only one Deque or RandomizedQueue object of maximum size at most k.)
+
 # Solution
+
+The `Deque` and `RandomQueue` classes implement the class definitions specified above. The underlying implementation of these classes do not utilize the STL, such as `std::vector`, `std::list`, etc. This allows for more low-level control of the algorithm logic in order to fully maximize the educational understanding intended by these exercises.
 
 ## Deque
 
+The `Deque` class is implemented using a doubly linked list. It holds objects of templated type that must be CopyAssignable and CopyConstructible. A custom iterator is provided that allows for forward passes over a `Deque`.
+
 ## Randomized Queue
+
+The `RandomQueue` class is implemented as a resizable C-style array. The array doubles in capacity when filled. Its capacity is halved when the array reduces to a quarter full.  
+
+Objects are added and stored to the array in a uniformly random order. Thereofore, removing an object at random is simply met by returning the last object in the queue.
+
+A custom iterator is provided that allows for a single pass over a `RandomQueue`. Each iterator instance returns the objects of the queue in uniformly random order. The order of two or more iterators to the same `RandomQueue` is mutually independent; each iterator maintains its own random order.
+
+The `RandomQueue` class holds objects of templated type that must be CopyAssignable and CopyConstructible.
 
 ## Client Program
 
