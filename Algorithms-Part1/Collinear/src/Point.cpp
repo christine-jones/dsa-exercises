@@ -11,6 +11,16 @@
 #include <algorithm>    // for std::sort, std::adjacent
 #include <cassert>
 
+Point::Point():
+    m_x{0},
+    m_y{0}
+{}
+
+Point::Point(int x, int y):
+    m_x{x},
+    m_y{y}
+{}
+
 double Point::slope(const Point& p) const {
 
     assert(p != *this);
@@ -21,6 +31,21 @@ double Point::slope(const Point& p) const {
 
     return (static_cast<double>(p.m_y) - static_cast<double>(m_y)) /
            (static_cast<double>(p.m_x) - static_cast<double>(m_x));
+}
+
+bool Point::slopeOrder(const Point& p, const Point& q) const {
+
+    double p_slope{slope(p)};
+    double q_slope{slope(q)};
+
+    if (p_slope < q_slope)
+        return true;
+
+    if (q_slope < p_slope)
+        return false;
+
+    // slopes are equal, order on base point comparison
+    return p < q;
 }
 
 bool operator==(const Point& p1, const Point& p2) {

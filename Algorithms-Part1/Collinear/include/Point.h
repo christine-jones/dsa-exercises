@@ -17,12 +17,11 @@ class Point {
 
 public:
 
-    Point(int x, int y):
-        m_x{x},
-        m_y{y}
-    {}
+    Point();
+    Point(int x, int y);
 
     double slope(const Point& p) const;
+    bool   slopeOrder(const Point& p, const Point& q) const;
 
     static void sortPoints(std::vector<Point>& points);
     static bool duplicatePoint(const std::vector<Point>& points);
@@ -39,8 +38,8 @@ public:
 
 private:
 
-    int m_x;
-    int m_y;
+    int m_x{0};
+    int m_y{0};
 
 };
 
