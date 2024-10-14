@@ -28,6 +28,8 @@ private:
 
     void findSegments();
 
+    void copySlopePoints(std::vector<Point>& s_points, std::size_t base_point);
+
     std::vector<Point>       m_points;
 
     int                      m_num_segments;
