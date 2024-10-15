@@ -25,14 +25,11 @@ int main() {
                           Point{14000, 15000},
                           Point{ 6000,  7000}};
 
-    for (const auto& i : p1)
-        std::cout << i << " ";
-    std::cout << '\n';
-
     BruteCollinearPoints brute{p1};
     std::cout << "Brute: # segments = " << brute.numberOfSegments() << '\n';
     for (const auto& segment : brute.segments())
-        std::cout << segment << '\n';
+        std::cout << segment << "\n";
+    std::cout << "\n\n";
 
     std::vector<Point> p2{Point{10000,     0},
                           Point{    0, 10000},
@@ -43,14 +40,11 @@ int main() {
                           Point{14000, 15000},
                           Point{ 6000,  7000}};
 
-    for (const auto& i : p2)
-        std::cout << i << " ";
-    std::cout << '\n';
-
     FastCollinearPoints fast1(p2);
     std::cout << "Fast: # segments = " << fast1.numberOfSegments() << '\n';
     for (const auto& segment : fast1.segments())
-        std::cout << segment << '\n';
+        std::cout << segment << "\n";
+    std::cout << "\n\n";
 
     std::vector<Point> p3{Point{19000, 10000},
                           Point{18000, 10000},
@@ -58,10 +52,6 @@ int main() {
                           Point{21000, 10000},
                           Point{ 1234,  5678},
                           Point{14000, 10000}};
-
-    for (const auto& i : p3)
-        std::cout << i << " ";
-    std::cout << '\n';
 
     FastCollinearPoints fast2(p3);
     std::cout << "Fast: # segments = " << fast2.numberOfSegments() << '\n';
