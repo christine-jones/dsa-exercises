@@ -8,8 +8,9 @@
  */
 
 #include "FastCollinearPoints.h"
-#include <algorithm>    // for std::sort
+#include <algorithm>    // for std::sort, std::equal_range
 #include <cassert>
+#include <iterator>     // for std::distance, std::prev
 
 FastCollinearPoints::FastCollinearPoints(const std::vector<Point>& points):
     m_points{points},
@@ -25,14 +26,14 @@ FastCollinearPoints::FastCollinearPoints(const std::vector<Point>& points):
         throw std::invalid_argument("duplicate points in vector");
     }
 
-    findSegments();
+    findCollinearPoints();
 }
 
-void FastCollinearPoints::findSegments() {
+void FastCollinearPoints::findCollinearPoints() {
 
     // vector of points already sorted with no duplicates
 
-    // holds points sorted by slope with respect to a given point
+    // holds points sorted by slope with respect to a given base point
     std::vector<Point> s_points(m_points.size() - 1);
 
     for (std::size_t i{0}; i < m_points.size(); ++i) {
@@ -43,6 +44,8 @@ void FastCollinearPoints::findSegments() {
                   [this, i](const auto& p, const auto& q) {
                         return this->m_points[i].slopeOrder(p, q); 
                   });
+
+        processSegments(s_points, i);        
     }
 }
 
@@ -59,5 +62,38 @@ void FastCollinearPoints::copySlopePoints(std::vector<Point>& s_points,
             }
 
             s_points[j++] = m_points[k++];
+    }
+}
+
+void FastCollinearPoints::processSegments(std::vector<Point>& s_points,
+                                          std::size_t base_point) {
+
+    struct SlopeComp {
+
+        bool operator()(const Point& p, double slope)
+            { return m_base_point.slope(p) < slope; }
+        bool operator()(double slope, const Point& p)
+            { return slope < m_base_point.slope(p); }
+
+        Point m_base_point{};
+    };
+
+    auto it = s_points.begin();
+    while (it != s_points.end()) {
+
+        auto segment{std::equal_range(it, s_points.end(),
+                                      m_points[base_point].slope(*it),
+                                      SlopeComp{m_points[base_point]})};
+
+        if (std::distance(segment.first,
+                          segment.second) >= (min_segment_length - 1) &&
+            m_points[base_point] < *it) {
+                            
+            m_segments.emplace_back(m_points[base_point],
+                                    *std::prev(segment.second));
+            ++m_num_segments;
+        }
+
+        it = segment.second;
     }
 }

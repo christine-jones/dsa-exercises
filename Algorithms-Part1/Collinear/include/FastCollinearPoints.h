@@ -26,9 +26,12 @@ public:
 
 private:
 
-    void findSegments();
+    void findCollinearPoints();
 
     void copySlopePoints(std::vector<Point>& s_points, std::size_t base_point);
+    void processSegments(std::vector<Point>& s_points, std::size_t base_point);
+
+    static constexpr int min_segment_length{4};
 
     std::vector<Point>       m_points;
 
