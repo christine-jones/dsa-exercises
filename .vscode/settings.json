@@ -61,6 +61,7 @@
         "variant": "cpp",
         "cstring": "cpp",
         "cassert": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "fstream": "cpp"
     }
 }
