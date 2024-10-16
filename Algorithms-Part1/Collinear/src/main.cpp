@@ -1,7 +1,8 @@
 /**
  * \file    main.cpp
  * \author  Christine Jones 
- * \brief   
+ * \brief   Client program that compares the performance of two algorithms that
+ *          identify line segments within a given set of points.         
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -11,7 +12,6 @@
 #include "FastCollinearPoints.h"
 #include "Point.h"
 #include "StopWatch.h"
-#include <exception>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -23,10 +23,43 @@ void printUsage() {
     std::cout << "\tinput_file = file that contains input data" << '\n';
 }
 
+/**
+ * Client program.
+ * 
+ * Reads a set of points from a given input file. The points are processed by
+ * two different algorithms, BruteCollinearPoints and FastCollinearPoints, both
+ * of which find every line segment that connects a subset of 4 or more of the
+ * points.
+ * 
+ * The results are printed to standard output, including the elapsed time of
+ * each algorithm for performance comparison.
+ * 
+ * The input file is expected to be in the following format:
+ * 
+ *  1> # number of points
+ *  2> x y
+ *  3> x y
+ *     .
+ *     .
+ *     .
+ *  #> x y
+ * 
+ * For example:
+ * 
+ *  1> 6
+ *  2> 19000 10000
+ *  3> 18000 10000
+ *  4> 32000 10000
+ *  5> 21000 10000
+ *  6> 1234  5678
+ *  7> 14000 10000
+ * 
+ * Usage: <program name> <input_file>
+ *      input_file = file that contains input data
+ */
 int main(int argc, char* argv[]) {
 
     if (argc != 2) {
-
         printUsage();
         return 1;        
     }
@@ -77,7 +110,7 @@ int main(int argc, char* argv[]) {
 
     input_file.close();
 
-    // clean copy for running points through the fast algorithm
+    // clean copy for each algorithm
     std::vector<Point> fast_points{brute_points};
 
     StopWatch timer{};
