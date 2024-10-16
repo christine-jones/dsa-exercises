@@ -10,53 +10,89 @@
 #include "BruteCollinearPoints.h"
 #include "FastCollinearPoints.h"
 #include "Point.h"
+#include "StopWatch.h"
 #include <exception>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
-int main() {
+void printUsage() {
 
-    std::vector<Point> p1{Point{10000,     0},
-                          Point{    0, 10000},
-                          Point{ 3000,  7000},
-                          Point{ 7000,  3000},
-                          Point{20000, 21000},
-                          Point{ 3000,  4000},
-                          Point{14000, 15000},
-                          Point{ 6000,  7000}};
+    std::cout << "Usage: <program name> <input-file>" << '\n';
+    std::cout << "\tinput_file = file that contains input data" << '\n';
+}
 
-    BruteCollinearPoints brute{p1};
-    std::cout << "Brute: # segments = " << brute.numberOfSegments() << '\n';
-    for (const auto& segment : brute.segments())
-        std::cout << segment << "\n";
-    std::cout << "\n\n";
+int main(int argc, char* argv[]) {
 
-    std::vector<Point> p2{Point{10000,     0},
-                          Point{    0, 10000},
-                          Point{ 3000,  7000},
-                          Point{ 7000,  3000},
-                          Point{20000, 21000},
-                          Point{ 3000,  4000},
-                          Point{14000, 15000},
-                          Point{ 6000,  7000}};
+    if (argc != 2) {
 
-    FastCollinearPoints fast1(p2);
-    std::cout << "Fast: # segments = " << fast1.numberOfSegments() << '\n';
-    for (const auto& segment : fast1.segments())
-        std::cout << segment << "\n";
-    std::cout << "\n\n";
+        printUsage();
+        return 1;        
+    }
 
-    std::vector<Point> p3{Point{19000, 10000},
-                          Point{18000, 10000},
-                          Point{32000, 10000},
-                          Point{21000, 10000},
-                          Point{ 1234,  5678},
-                          Point{14000, 10000}};
+    std::ifstream input_file{argv[1]};
+    if (!input_file) {
+        std::cerr << "Failed to open input file." << '\n';
+        return 1;
+    }
 
-    FastCollinearPoints fast2(p3);
-    std::cout << "Fast: # segments = " << fast2.numberOfSegments() << '\n';
-    for (const auto& segment : fast2.segments())
-        std::cout << segment << '\n';
+    std::string first_line{};
+    if (!std::getline(input_file, first_line)) {
+        std::cerr << "Failed to read first line from input file." << '\n';
+        return 1;
+    }
+
+    std::istringstream first_iss{first_line};
+    int num_points{};
+    if (!(first_iss >> num_points)) {
+        std::cerr << "Failed to read number of points from input file." << '\n';
+        return 1;
+    }
+
+    if (num_points <= 0) {
+        std::cerr << "Invalid number of points: " << num_points << '\n';
+        return 1;
+    }
+
+    std::vector<Point> brute_points(static_cast<std::size_t>(num_points));
+
+    for (std::size_t i{0}; i < static_cast<std::size_t>(num_points); ++i) {
+
+        std::string line{};
+        if (!std::getline(input_file, line)) {
+            std::cerr << "Failed to read line from input file." << '\n';
+            return 1;
+        }
+
+        std::istringstream iss{line};
+        int x{}, y{};
+        if (!(iss >> x >> y)) {
+            std::cerr << "Failed to read point data from input file." << '\n';
+            return 1;
+        }
+
+        brute_points[i] = Point(x, y);
+    }
+
+    input_file.close();
+
+    // clean copy for running points through the fast algorithm
+    std::vector<Point> fast_points{brute_points};
+
+    StopWatch timer{};
+    BruteCollinearPoints brute{brute_points};
+    double brute_elapsed{timer.elapsed()};
+
+    timer.reset();
+    FastCollinearPoints fast(fast_points);
+    double fast_elapsed{timer.elapsed()};
+
+    std::cout << "Brute: segments = " << brute.numberOfSegments() << '\t'
+              << "elapsed time =  " << brute_elapsed << '\n';
+
+    std::cout << " Fast: segments = " << fast.numberOfSegments() << '\t'
+              << "elapsed time =  " << fast_elapsed << '\n';
 
     return 0;
 }
