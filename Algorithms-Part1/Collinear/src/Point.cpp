@@ -10,6 +10,7 @@
 #include "Point.h"
 #include <algorithm>    // for std::sort, std::adjacent
 #include <cassert>
+#include <limits>       // for infinity()
 
 Point::Point():
     m_x{0},
@@ -23,11 +24,13 @@ Point::Point(int x, int y):
 
 double Point::slope(const Point& p) const {
 
-    assert(p != *this);
+    // return negative infinity for point and itself, i.e., degenerate line
+    if (p == *this)
+        return -std::numeric_limits<double>::infinity();
 
-    // TBD: handle vertically aligned points, for now return 0
+    // return postive infinity for vertical slope
     if (p.m_x == m_x)
-        return 0;
+        return std::numeric_limits<double>::infinity();
 
     return (static_cast<double>(p.m_y) - static_cast<double>(m_y)) /
            (static_cast<double>(p.m_x) - static_cast<double>(m_x));
