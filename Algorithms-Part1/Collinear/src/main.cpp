@@ -8,8 +8,7 @@
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
  */ 
 
-#include "BruteCollinearPoints.h"
-#include "FastCollinearPoints.h"
+#include "CollinearPoints.h"
 #include "Point.h"
 #include "StopWatch.h"
 #include <fstream>
