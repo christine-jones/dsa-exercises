@@ -21,13 +21,17 @@ There is no automated test infrastructure. Again, this deficiency would need to 
 ## Content
 
 - HelloWorld/
- 
+  
   Just making sure we got the basics covered!
 
 - Percolation/
-
+  
   Program that estimates the value of the *percolation threshold* via Monnte Carlo simulation.
 
 - Queues/
-
+  
   Generic data types for deque and randomized queue using linked list and array, respecitively.
+
+- Collinear
+  
+  Program that recognizes line patterns in a given set of points.
