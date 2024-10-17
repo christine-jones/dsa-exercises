@@ -9,7 +9,6 @@
 
 #include "Point.h"
 #include <algorithm>    // for std::sort, std::adjacent
-#include <cassert>
 #include <limits>       // for infinity()
 
 Point::Point():
@@ -24,7 +23,7 @@ Point::Point(int x, int y):
 
 double Point::slope(const Point& p) const {
 
-    // return negative infinity for point and itself, i.e., degenerate line
+    // return negative infinity for degenerate line, i.e., point and itself
     if (p == *this)
         return -std::numeric_limits<double>::infinity();
 
@@ -47,7 +46,7 @@ bool Point::slopeOrder(const Point& p, const Point& q) const {
     if (q_slope < p_slope)
         return false;
 
-    // slopes are equal, order on base point comparison
+    // slopes are equal, order on basic point comparison
     return p < q;
 }
 
@@ -95,7 +94,7 @@ void Point::sortPoints(std::vector<Point>& points) {
 
 bool Point::duplicatePoint(const std::vector<Point>& points) {
 
-    // check for duplicate, std::adjacent_find is O(N)
+    // std::adjacent_find is O(N)
     if (std::adjacent_find(points.begin(), points.end()) != points.end())
         return true;
 
