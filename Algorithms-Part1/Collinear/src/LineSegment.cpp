@@ -8,17 +8,13 @@
  */
 
 #include "LineSegment.h"
-#include <exception>
+#include <cassert>
 
 LineSegment::LineSegment(const Point& p1, const Point& p2):
         m_p1{p1},
         m_p2{p2}
 {
-    if (p1 == p2) {
-
-        std::cerr << "LineSegment::LineSegment: duplicate points" << '\n';
-        throw std::invalid_argument("duplicate points as arguments");
-    }
+    assert(p1 != p2);
 }
 
 std::ostream& operator<<(std::ostream& out, const LineSegment& ls) {
