@@ -1,7 +1,7 @@
 /**
  * \file    BruteCollinearPoints.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Classes that inspect points for line segments.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -26,6 +26,8 @@ CollinearPoints::CollinearPoints(const std::vector<Point>& points):
 }
 
 void CollinearPoints::addSegment(const Point& p, const Point& q) {
+
+    assert(p != q);
 
     m_segments.emplace_back(p, q);
     ++m_num_segments;
@@ -66,19 +68,21 @@ void FastCollinearPoints::findCollinearPoints() {
 
     // vector of points already sorted with no duplicates
 
-    // holds points sorted by slope with respect to a given base point
+    // points sorted by slope with respect to a given base point
     std::vector<Point> s_points(m_points.size() - 1);
 
-    for (std::size_t i{0}; i < m_points.size(); ++i) {
+    for (std::size_t bp{0}; bp < m_points.size(); ++bp) {
 
-        copySlopePoints(s_points, i);
+        // bp is the index to the base point
+
+        copySlopePoints(s_points, bp);
 
         std::sort(s_points.begin(), s_points.end(),
-                  [this, i](const auto& p, const auto& q) {
-                        return this->m_points[i].slopeOrder(p, q); 
+                  [this, bp](const auto& p, const auto& q) {
+                        return this->m_points[bp].slopeOrder(p, q); 
                   });
 
-        processSegments(s_points, i);        
+        processSegments(s_points, bp);        
     }
 }
 
@@ -89,6 +93,7 @@ void FastCollinearPoints::copySlopePoints(std::vector<Point>& s_points,
 
     for (std::size_t j{0}, k{0}; j < s_points.size(); ) {
 
+            // don't copy the base point
             if (k == base_point) {
                 ++k;
                 continue;
@@ -101,6 +106,7 @@ void FastCollinearPoints::copySlopePoints(std::vector<Point>& s_points,
 void FastCollinearPoints::processSegments(std::vector<Point>& s_points,
                                           std::size_t base_point) {
 
+    // comparator for heterogenous comparison of points by slope
     struct SlopeComp {
 
         bool operator()(const Point& p, double slope)
@@ -118,11 +124,18 @@ void FastCollinearPoints::processSegments(std::vector<Point>& s_points,
                                       m_points[base_point].slope(*it),
                                       SlopeComp{m_points[base_point]})};
 
+        // line segments must be >= in length to configured minimum segment
+        // length; use (min_segment_length - 1) because base point not included
+        // in the point range
         if (std::distance(segment.first,
-                          segment.second) >= (min_segment_length - 1) &&
-            m_points[base_point] < *it) {
+                          segment.second) >= (min_segment_length - 1)) {
 
-            addSegment(m_points[base_point], *std::prev(segment.second));
+            // to prevent duplicate line segments, only include line segments 
+            // in which the base point forms the lower endpoint
+            if (m_points[base_point] < *it) {
+
+                addSegment(m_points[base_point], *std::prev(segment.second));
+            }
         }
 
         it = segment.second;
