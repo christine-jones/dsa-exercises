@@ -67,6 +67,12 @@ public class FastCollinearPoints {
 
 # Solution
 
+The base class ```CollinearPoints``` defines the common interface used by both the ```BruteCollinearPoints``` and ```FastCollinearPoints``` algorithm class implementations.
+
+For simplicity, the ```BruteCollinearPoints``` algorithm does not consider line segments greater than four points in length. Depending on the input data, multiple overlapping line segments may be identified. The purpose of the ```BruteCollinearPoints``` algorithm is for performance comparison against the more sophisticated ```FastCollinearPoints``` algorithm. As such, time and effort were not taken to better optimize this algorithm.
+
+A challenge with the ```FastCollinearPoints``` algorithm implementation is to *not* report duplicate line segments. This is handled in the sorting and comparison mechanism. The method for comparing points by slope with respect to a base point first orders the points by calculated slope, but in the case of points with equal slope, then needs to compare by normal point comparison operators. As a result, the slope comparator satisfies the requirements for *total order*, and a sort using the comparator produces points grouped by slope in ascending order. To prevent duplicate line segments, a line segment should only be reported in the case that the base point is the least in the line segment.
+
 # Building/Running the Code
 
 - Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
