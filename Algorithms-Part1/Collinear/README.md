@@ -73,6 +73,8 @@ For simplicity, the ```BruteCollinearPoints``` algorithm does not consider line 
 
 A challenge with the ```FastCollinearPoints``` algorithm implementation is to *not* report duplicate line segments. This is handled in the sorting and comparison mechanism. The method for comparing points by slope with respect to a base point first orders the points by calculated slope, but in the case of points with equal slope, then needs to compare by normal point comparison operators. As a result, the slope comparator satisfies the requirements for *total order*, and a sort using the comparator produces points grouped by slope in ascending order. To prevent duplicate line segments, a line segment should only be reported in the case that the base point is the least in the line segment.
 
+The client program runs input data through both the ```BruteCollinearPoints``` and ```FastCollinearPoints``` algorithms. Elapsed time is reported for each algorithm for the purposes of performance comparison.
+
 # Building/Running the Code
 
 - Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
