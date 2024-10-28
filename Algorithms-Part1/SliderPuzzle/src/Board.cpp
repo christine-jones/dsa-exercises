@@ -1,7 +1,7 @@
 /**
  * \file    Board.cpp
  * \author  Christine Jones 
- * \brief   
+ * \brief   Class that models an n-by-n slider puzzle board.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -87,11 +87,10 @@ Board Board::twin() const {
     Board b{*this};
 
     Tile t1{0, 0};
-    Tile t2{1, 0};
-
     if (t1 == b.m_blank_tile)
         ++t1.col;
 
+    Tile t2{1, 0};
     if (t2 == b.m_blank_tile)
         ++t2.col;
 

@@ -50,8 +50,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    board binput{board(static_cast<std::size_t>(grid_size),
-                       std::vector<int>(static_cast<std::size_t>(grid_size)))};
+    Board::board binput{
+        Board::board(static_cast<std::size_t>(grid_size),
+                     std::vector<int>(static_cast<std::size_t>(grid_size)))};
 
     for (std::size_t i{0}; i < static_cast<std::size_t>(grid_size); ++i) {
 
