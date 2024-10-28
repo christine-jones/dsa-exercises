@@ -1,7 +1,8 @@
 /**
  * \file    BoardSolver.h
  * \author  Christine Jones 
- * \brief
+ * \brief   Class that implements an A* algorithm to solve an n-by-n slider
+ *          puzzle.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -14,19 +15,44 @@
 #include "GameTree.h"
 #include <queue>
 
+/**
+ * 
+ */
 class BoardSolver {
 
 public:
 
+    // available priority functions
     enum Priority {
         HAMMING,
         MANHATTAN,
     }; 
 
+    /**
+     * Constructor. Solves the given game board, if valid, using the specified
+     * priority function which defaults to HAMMING. 
+     */
     explicit BoardSolver(const Board& b, Priority priority = HAMMING);
 
+    /**
+     * Reports if the game board is solvable.
+     * 
+     * \return True if the board is solvable; False if not.
+     */
     bool isSolvable() const;
+
+    /**
+     * Reports the minimum number of moves to solve the game board.
+     * 
+     * \return Number of moves to solve board; -1 if board is not solvable.
+     */
     int  moves() const;
+
+    /**
+     * Returns the sequence of game boards for the shortest solution.
+     * 
+     * \return Vector of game boards; null if board is not solvable.
+     */
     std::vector<Board> solution() const;
 
     // copying, assigning, moving a BoardSolver is not supported
@@ -39,6 +65,7 @@ private:
 
     void solve();
 
+    // function to compare nodes within the priority queue
     struct CompareNodes {
 
         bool operator()(GameTree::Node* n1,

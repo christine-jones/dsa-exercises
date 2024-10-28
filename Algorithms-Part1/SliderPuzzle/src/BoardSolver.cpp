@@ -1,7 +1,8 @@
 /**
  * \file    BoardSolver.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Class that implements an A* algorithm to solve an n-by-n slider
+ *          puzzle.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -20,7 +21,7 @@ BoardSolver::BoardSolver(const Board& b, Priority priority):
 {
     assert(b.isValid());
 
-    if (!m_game_tree.root())
+    if (!m_game_tree.root() || !m_twin_tree.root())
         return;
 
     m_pq.push(m_game_tree.root());
@@ -45,7 +46,7 @@ std::vector<Board> BoardSolver::solution() const {
 
     std::size_t moves{static_cast<std::size_t>(m_solved_board->moves())};
 
-    std::vector<Board> sequence{moves + 1};
+    std::vector<Board> sequence(moves + 1);
     
     for (GameTree::Node* node{m_solved_board};
          node != nullptr;
