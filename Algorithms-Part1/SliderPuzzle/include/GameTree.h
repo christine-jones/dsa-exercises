@@ -1,7 +1,7 @@
 /**
  * \file    GameTree.h
  * \author  Christine Jones 
- * \brief
+ * \brief   Class that stores possible solutions to slider puzzle.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -13,25 +13,88 @@
 #include "Board.h"
 #include <vector>
 
+/**
+ * 
+ */
 class GameTree {
 
 public:
 
+    /**
+     * 
+     */
     class Node {
 
     public:
 
+        /**
+         * Constructor. Instantiates game node with given board.
+         * 
+         * \param Board Game board.
+         */
         explicit Node(const Board& b);
+
+        /**
+         * Constructor. Instantiates game node with given board and previous
+         * game node within the tree.
+         * 
+         * \param Board Game board to be stored in the node.
+         * \param Node* Previous node in the game tree.
+         */
         Node(const Board& b, Node* prev_node);
 
-        Board& board()       { return m_board; }
-        int    moves() const { return m_moves; }
-        Node*  prevNode()    { return m_prev_node; }
+        /**
+         * Return reference to game board stored in the node.
+         * 
+         * \return Reference to game board.
+         */
+        Board& board() { return m_board; }
 
-        void                addChild(Node* child);
+        /**
+         * Return the number of moves taken to get to this game node.
+         * 
+         * \return Number of moves.
+         */
+        int moves() const { return m_moves; }
+
+        /**
+         * Return a pointer to the previous node in the game tree.
+         * 
+         * \return Pointer to game node.
+         */
+        Node* prevNode() { return m_prev_node; }
+
+        /**
+         * Add child node to game node.
+         * 
+         * \param Node* Pointer to game node.
+         */
+        void addChild(Node* child);
+
+        /**
+         * Return child nodes.
+         * 
+         * \return Vector of game node pointers. 
+         */
         std::vector<Node*>& childNodes() { return m_children; }
 
-        int hamming() const   { return m_hamming; }
+        /**
+          * Reports the Hamming priority of the game node. The Hamming priority
+          * of a game node is the hamming distance of the node's game board
+          * plus the number of moves taken thus far to get to this game node.
+          * 
+          * \return Hamming priority.
+          */
+        int hamming() const { return m_hamming; }
+
+        /**
+         * Reports the Manhattan priority of the game node. The Manhattan
+         * priority of a game node is the manhattan distance of the node's game
+         * board plus the number of moves taken thus far to get to this game
+         * node.
+         * 
+         * \return Manhattan priority.
+         */
         int manhattan() const { return m_manhattan; }
 
         // copying, assigning, moving a node is not supported
@@ -51,13 +114,47 @@ public:
         int      m_manhattan{};
     };
 
+    /**
+     * Constructor. Instantiates empty game tree. 
+     */
     GameTree();
+
+    /**
+     * Constructor. Instantiates game tree with initial game board to be
+     * solved. The initial game board forms the root of the game tree.
+     * 
+     * \param Board Game board.
+     */
     explicit GameTree(const Board& b);
+
+    /**
+     * Destructor. Releases memory for all game tree nodes.
+     */
     ~GameTree();
 
+    /**
+     * Returns the root node of the game tree. The root node is the initial
+     * game board to be solved.
+     * 
+     * \return Game tree node.
+     */
     Node* root() { return m_root; }
-    int   numNodes() { return m_num_nodes; }
 
+    /**
+     * Returns the number of nodes in the game tree.
+     * 
+     * \return Number of nodes.
+     */
+    int numNodes() { return m_num_nodes; }
+
+    /**
+     * Insert a node into the game tree.
+     * 
+     * \param Board Game board to be stored in the new game tree node.
+     * \param Node* Previous node in the game tree.
+     * 
+     * \return Newly created game tree node.
+     */
     Node* addNode(const Board& b, Node* prev_node);
 
     // copying, assigning, moving a GameTree is not supported
@@ -68,6 +165,7 @@ public:
 
 private:
 
+    // release memory allocated to game tree
     void deleteTree(Node* node);
 
     Node*    m_root{};

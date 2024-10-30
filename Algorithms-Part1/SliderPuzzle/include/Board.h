@@ -61,14 +61,14 @@ public:
      * 
      * \return True if the game board is valid; False if not.
      */
-    bool isValid() const   { return m_valid; }
+    bool isValid() const { return m_valid; }
 
     /**
      * Reports if the game board is in a solved state.
      * 
      * \return True if the game board is solved; False if not.
      */
-    bool isSolved() const  { return m_solved; }
+    bool isSolved() const { return m_solved; }
 
     /**
      * Reports the Hamming Distance of the game board. The Hamming Distance
@@ -77,7 +77,7 @@ public:
      * 
      * \return Hamming distance.
      */
-    int hamming() const   { return m_hamming; }
+    int hamming() const { return m_hamming; }
 
     /**
      * Reports the Manhattan Distance of the game board. The Manhattan Distance

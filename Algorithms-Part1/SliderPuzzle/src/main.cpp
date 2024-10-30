@@ -1,7 +1,8 @@
 /**
  * \file    main.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Client program that solves a generalized n-by-n slider puzzle
+ *          using an A* search algorithm.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -16,9 +17,30 @@
 void printUsage() {
 
     std::cout << "Usage: <program name> <input-file>" << '\n';
-    std::cout << "\tinput_file = file that contains input data" << '\n';
+    std::cout << "\tinput_file = file that contains n-by-n slider puzzle"
+              << '\n';
 }
 
+/**
+ * Client program.
+ * 
+ * Reads an n-by-n slider puzzle game board from a given input file. The game
+ * board is solved using an A* search algorithm. The sequence of game board
+ * steps to reach the solved game board is printed to standard output.
+ * 
+ * The input file should contain the grid dimension, n, of the n-by-n game 
+ * board on the first line, followed by the game board on subsequent lines.
+ * The blank tile of a game board should be represented by a 0.
+ * For example:
+ * 
+ *  1> 3
+ *  2> 0 1 3
+ *  3> 4 2 5
+ *  4> 7 8 6
+ * 
+ * Usage: <program name> <input_file>
+ *      input_file = file that contains n-by-n slider puzzle
+ */
 int main(int argc, char* argv[]) {
 
     if (argc != 2) {
@@ -41,7 +63,7 @@ int main(int argc, char* argv[]) {
     std::istringstream first_iss{first_line};
     int grid_size{};
     if (!(first_iss >> grid_size)) {
-        std::cerr << "Failed to read number of points from input file." << '\n';
+        std::cerr << "Failed to read grid size from input file." << '\n';
         return 1;
     }
 

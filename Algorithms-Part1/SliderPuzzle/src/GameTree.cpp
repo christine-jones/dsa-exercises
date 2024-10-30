@@ -35,7 +35,8 @@ void GameTree::Node::addChild(Node* child) {
 }
 
 GameTree::GameTree():
-    m_root{nullptr}
+    m_root{nullptr},
+    m_num_nodes{0}
 {}
 
 GameTree::GameTree(const Board& b):
