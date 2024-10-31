@@ -141,10 +141,25 @@ Minimum number of moves = 4
 
 # Solution
 
-The ```Board``` class represents a generalized $`n`$-by-$`n`$ slider puzzle game board. It is an $`n`$-by-$`n`$ grid with $`n^2 - 1`$ tiles labeled $`1`$ through $`n^2 - 1`$, plus a blank tile. A blank tile is represented by $`0`$. A ```Board``` is solved if the tiles are arranged in row-major order with the blank tile in the borrom right corner.
+The ```Board``` class represents a generalized $`n`$-by-$`n`$ slider puzzle game board. It is an $`n`$-by-$`n`$ grid with $`n^2 - 1`$ tiles labeled $`1`$ through $`n^2 - 1`$, plus a blank tile. A blank tile is represented by zero ($`0`$). A ```Board``` is solved if the tiles are arranged in row-major order with the blank tile in the borrom right corner.
 
-The ```BoardSolver``` class implements an $`A*`$ search algorithm to solve a given $`n`$-by-$`n`$ slider game board.
+The ```BoardSolver``` class implements the search algorithm to solve a given $`n`$-by-$`n`$ slider game board. The initial game ```Board``` used to instantiate the ```BoardSolver``` forms the root node of a ```GameTree```. The ```GameTree``` class initializes its root node with a number of moves of 0. Neighboring boards (i.e., those that can be reached in one move, swapping the blank tile with an adjacent tile) become child nodes of the root node with number of moves set to 1. The game tree continues to be constructed in a similar manner with subsequent neighboring game boards becoming child nodes within the game tree and move count incremented by 1. Eventually, if the game board is solvable, one of the leaf nodes is the solved board, and walking back up the path of the tree from leaf to root provides the sequence of game boards that forms the solution.
 
+To determine the shortest solution to the given game board, the ```BoardSolver``` class utilizes a priority queue. The initial board (which forms the root of the game tree) is inserted into the priority queue. For each iteration of the algorithm, the game board with the minimum priority is removed from the priority queue (which is the initial game board in the first round of the algorithm). All neighobring game boards, except the one that matches the previous board, are then inserted into the priority queue. This process is repeated until the game board removed from the priority queue is the solved game board.
+
+The choice of priority function for determining the minimum priority game board within the priority queue is crucial for the effectiveness of the algorithm. Two priority functions are provided.
+
+- Hamming:
+
+  The Hamming Distance of the game board plus the number of moves made thus far to get to the game board. The Hamming Distance of a game board is the number of tiles in the wrong position with respect to the solved board.
+  
+- Manhattan:
+
+    The Manhattan Distance of the game board plus the number of moves made thus far to get to the game board. The Manhattan Distance of a game board is the sum of the vertical and horizontal distances of each tile to their solved position. 
+
+Not all game boards are solvable. However, boards are divided into two equivalence classes with respect to solvability. (1) Those that are solvable, and (2) those that can be solved if the board is modified by swapping any pair of tiles, not including the blank tile.
+
+This fact is used to prevent the algorithm from boundlessly running to determine a solution for an unsolvable game board. The A* algorithm described above is actually run on two game boards simultaneously, one with the initial game board and one with the initial game board modified by swapping a pair of tiles. The algorithm is run in lockstep with both boards. Exactly one of the two game boards leads to the solved board.
 
 # Building/Running the Code
 
@@ -156,3 +171,7 @@ The ```BoardSolver``` class implements an $`A*`$ search algorithm to solve a giv
   Usage: <program name> <input_file>
         input_file = file that contains n-by-n slider puzzle
   ```
+
+# TBD: Optimization
+
+This implementation struggles to solve lareger and/or complex game boards. Optimizations with regard to memory usage would be helpful.
