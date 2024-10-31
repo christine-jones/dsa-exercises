@@ -38,8 +38,13 @@ public:
      * of the game node are calculated and cached at node creation in addition
      * to the number of moves taken thus far to reach the node.
      * 
-     * A link to the previous node in the game tree is maintained.
+     * A link to a previous node is maintained to form the game tree. Following
+     * the path of previous nodes from a leaf node towards the root gives a
+     * sequence of game boards that make up a possible solution.
      * 
+     * A link to a next node is also maintained. This is used to build a simple
+     * linked list of game nodes for the purposes of resource deletion. The
+     * next node link is not used in forming the actual game tree.
      */
     class Node {
 
@@ -57,7 +62,7 @@ public:
          * game node within the tree.
          * 
          * \param Board Game board to be stored in the node.
-         * \param Node* Previous node in the game tree.
+         * \param Node* Previous node in the game tree. Must not be NULL.
          */
         Node(const Board& b, Node* prev_node);
 
@@ -76,25 +81,19 @@ public:
         int moves() const { return m_moves; }
 
         /**
-         * Return a pointer to the previous node in the game tree.
+         * Return a pointer to the previous/next node in the game tree.
          * 
          * \return Pointer to game node.
          */
         Node* prevNode() { return m_prev_node; }
+        Node* nextNode() { return m_next_node; }
 
         /**
-         * Add child node to game node.
+         * Set the next node member of the node.
          * 
-         * \param Node* Pointer to game node.
+         * \param Node* Pointer to game node. Must not be NULL.
          */
-        void addChild(Node* child);
-
-        /**
-         * Return child nodes.
-         * 
-         * \return Vector of game node pointers. 
-         */
-        std::vector<Node*>& childNodes() { return m_children; }
+        void setNextNode(Node* node);
 
         /**
           * Reports the Hamming priority of the game node. The Hamming priority
@@ -123,13 +122,13 @@ public:
 
     private:
 
-        Board              m_board;
-        int                m_moves{};
-        Node*              m_prev_node{};
-        std::vector<Node*> m_children{};
+        Board m_board;
+        int   m_moves{};
+        Node* m_prev_node{}; // used to form game tree
+        Node* m_next_node{}; // used to form linked list to enable deletion
 
-        int      m_hamming{};
-        int      m_manhattan{};
+        int m_hamming{};
+        int m_manhattan{};
     };
 
     /**
@@ -162,7 +161,7 @@ public:
      * Insert a node into the game tree.
      * 
      * \param Board Game board to be stored in the new game tree node.
-     * \param Node* Previous node in the game tree.
+     * \param Node* Previous node in the game tree. Must not be NULL.
      * 
      * \return Newly created game tree node.
      */
@@ -177,9 +176,10 @@ public:
 private:
 
     // release memory allocated to game tree
-    void deleteTree(Node* node);
+    void deleteTree();
 
-    Node*    m_root{};
+    Node* m_root{};
+    Node* m_last_node{}; // used to form linked list to enable deletion   
 
 };
 

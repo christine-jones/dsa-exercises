@@ -16,6 +16,7 @@ GameTree::Node::Node(const Board& b):
     m_board{b},
     m_moves{0},
     m_prev_node{nullptr},
+    m_next_node{nullptr},
     m_hamming{b.hamming()},
     m_manhattan{b.manhattan()}
 {}
@@ -24,39 +25,42 @@ GameTree::Node::Node(const Board& b, Node* prev_node):
     m_board{b},
     m_moves{prev_node->moves() + 1},
     m_prev_node{prev_node},
+    m_next_node{nullptr},
     m_hamming{b.hamming() + m_moves},
     m_manhattan{b.manhattan() + m_moves}
 {}
 
-void GameTree::Node::addChild(Node* child) {
+void GameTree::Node::setNextNode(Node* node) {
 
-    assert(child);
-    m_children.push_back(child);
+    assert(node);
+    m_next_node = node;
 }
 
 GameTree::GameTree():
-    m_root{nullptr}
+    m_root{nullptr},
+    m_last_node{nullptr}
 {}
 
 GameTree::GameTree(const Board& b):
-    m_root{nullptr}
+    m_root{nullptr},
+    m_last_node{nullptr}
 {
     m_root = new (std::nothrow) Node{b};
     if (!m_root) {
         std::cerr << "GameTree::GameTree: failed to allocate memory" << '\n';
     }
+
+    m_last_node = m_root;
 }
 
 GameTree::~GameTree() {
 
-    if (!m_root)
-        return;
-
-    deleteTree(m_root);
+    deleteTree();
 }
 
 GameTree::Node* GameTree::addNode(const Board& b, Node* prev_node) {
 
+    assert(m_root && m_last_node);
     assert(prev_node);
 
     Node* new_node = new (std::nothrow) Node{b, prev_node};
@@ -65,18 +69,21 @@ GameTree::Node* GameTree::addNode(const Board& b, Node* prev_node) {
         return nullptr;
     }
 
-    prev_node->addChild(new_node);
+    m_last_node->setNextNode(new_node);
+    m_last_node = new_node;
     return new_node;
 }
 
-void GameTree::deleteTree(Node* node) {
+void GameTree::deleteTree() {
 
-    assert(node);
+    Node* node = m_root;
+    while (node != nullptr) {
 
-    for (auto& c : node->childNodes()) {
-        deleteTree(c);
+        Node* next{node->nextNode()};
+        delete node;
+        node = next;
     }
 
-    delete node;
-    node = nullptr;
+    m_root      = nullptr;
+    m_last_node = nullptr;
 }
