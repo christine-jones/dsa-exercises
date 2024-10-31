@@ -38,4 +38,4 @@ There is no automated test infrastructure. Again, this deficiency would need to 
 
 - SliderPuzzle/
 
-  Program that solves a generalized n-by-n slider puzzle using an A* search algorithm.
+  Program that solves a generalized $`n`$-by-$`n`$ slider puzzle using an A* search algorithm.
