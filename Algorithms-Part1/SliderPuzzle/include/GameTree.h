@@ -159,13 +159,6 @@ public:
     Node* root() { return m_root; }
 
     /**
-     * Returns the number of nodes in the game tree.
-     * 
-     * \return Number of nodes.
-     */
-    int numNodes() { return m_num_nodes; }
-
-    /**
      * Insert a node into the game tree.
      * 
      * \param Board Game board to be stored in the new game tree node.
@@ -187,7 +180,6 @@ private:
     void deleteTree(Node* node);
 
     Node*    m_root{};
-    int      m_num_nodes{};
 
 };
 
