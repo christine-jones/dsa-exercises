@@ -30,8 +30,12 @@ There is no automated test infrastructure. Again, this deficiency would need to 
 
 - Queues/
   
-  Generic data types for deque and randomized queue using linked list and array, respecitively.
+  Generic data types for deque and randomized queue using linked list and array, respectively.
 
-- Collinear
+- Collinear/
   
   Program that recognizes line patterns in a given set of points.
+
+- SliderPuzzle/
+
+  Program that solves a generalized n-by-n slider puzzle using an A* search algorithm.
