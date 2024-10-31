@@ -16,7 +16,7 @@
 #include <queue>
 
 /**
- * Class that implements an A* search algorithm to solve a given n-by-n slider
+ * Class that implements the A* search algorithm to solve a given n-by-n slider
  * puzzle game board.
  * 
  * The initial puzzle board forms the root node of a game tree with an assigned
@@ -30,9 +30,10 @@
  * board (which forms the root of the game tree) is inserted into a priority 
  * queue. For each iteration of the algorithm, the game board with minimum
  * priority is removed from the priority queue (which is the initial game board
- * in the first round of the algorithm). All neighboring game boards are then
- * inserted into the priority queue. This procedure is repeated until the game
- * board removed from the priority queue is the solved game board.
+ * in the first round of the algorithm). All neighboring game boards, except
+ * the one that matches the previous board, are then inserted into the priority
+ * queue. This procedure is repeated until the game board removed from the
+ * priority queue is the solved game board.
  * 
  * The choice of priority function for determining the minimum priority game
  * board within the priority queue is crucial for the effectiveness of this
