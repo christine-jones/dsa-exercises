@@ -25,8 +25,9 @@ void printUsage() {
  * Client program.
  * 
  * Reads an n-by-n slider puzzle game board from a given input file. The game
- * board is solved using an A* search algorithm. The sequence of game board
- * steps to reach the solved game board is printed to standard output.
+ * board is solved using an A* search algorithm. If the puzzle is solvable, the
+ * sequence of game board steps to reach the solved game board is printed to
+ * standard output. 
  * 
  * The input file should contain the grid dimension, n, of the n-by-n game 
  * board on the first line, followed by the game board on subsequent lines.

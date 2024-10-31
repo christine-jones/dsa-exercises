@@ -1,7 +1,7 @@
 /**
  * \file    GameTree.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Class that stores possible solutions to a slider game board.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 

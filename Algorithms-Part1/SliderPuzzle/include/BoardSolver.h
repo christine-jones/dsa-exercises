@@ -20,34 +20,45 @@
  * puzzle game board.
  * 
  * The initial puzzle board forms the root node of a game tree with an assigned
- * number of moves set to 0. Neighboring boards become child nodes with number
- * of moves set to 1. The game tree continues to be constructed in a similar
- * manner with subsequent neighboring game boards becoming child nodes within
- * the game tree and a move count incremented by 1.
+ * number of moves set to 0. Neighboring boards (those that can be reached in
+ * one move, swapping the blank tile with an adjacent tile) become child nodes
+ * with number of moves set to 1. The game tree continues to be constructed in
+ * a similar manner with subsequent neighboring game boards becoming child
+ * nodes within the game tree and a move count incremented by 1.
  * 
  * To determine the shortest solution to the given game board, the initial 
  * board (which forms the root of the game tree) is inserted into a priority 
- * queue. The game board with minimum priority is removed from the priority
- * queue (which is the initial game board in the first round of the algorithm).
- * All neighboring game boards (those that can be reached in one move from the
- * dequeued board) are inserted into the priority queue. This procedure is
- * repeated until the game board removed from the priority queue is the solved
- * game board.
+ * queue. For each iteration of the algorithm, the game board with minimum
+ * priority is removed from the priority queue (which is the initial game board
+ * in the first round of the algorithm). All neighboring game boards are then
+ * inserted into the priority queue. This procedure is repeated until the game
+ * board removed from the priority queue is the solved game board.
  * 
  * The choice of priority function for determining the minimum priority game
  * board within the priority queue is crucial for the effectiveness of this
  * algorithm. Two priority functions are provided.
  * 
- *  * Hamming: The Hamming Distance of the game board plus the number of moves
- *             made thus far to get to the game board. The Hamming Distance
- *             of a game board is the number of tiles in the wrong position
- *             with respect to the solved board.
+ *  * Hamming:   The Hamming Distance of the game board plus the number of
+ *               moves made thus far to get to the game board. The Hamming
+ *               Distance of a game board is the number of tiles in the wrong
+ *               position with respect to the solved board.
  *
  *  * Manhattan: The Manhattan Distance of the game board plus the number of
  *               moves made thus far to get to the game board. The Manhattan
  *               Distance of a game board is the sum of the vertical and
  *               horizontal distances of each tile to their solved position. 
  * 
+ * Not all game boards are solvable. However, boards are divided into two 
+ * equivalence classes with respect to solvability. (1) Those that are
+ * solvable, and (2) those that can be solved if the board is modified by
+ * swapping any pair of tiles, not including the blank tile.
+ * 
+ * This fact is used to prevent the algorithm from boundlessly running to 
+ * determine a solution for an unsolvable game board. The A* algorithm
+ * described above is actually run on two game boards simultaneously, one with
+ * the initial game board and one with the initial game board modified by
+ * swapping a pair of tiles. The algorithm is run in lockstep with both
+ * boards. Exactly one of the two game boards leads to the solved board.
  */
 class BoardSolver {
 

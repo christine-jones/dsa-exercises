@@ -1,7 +1,7 @@
 /**
  * \file    GameTree.h
  * \author  Christine Jones 
- * \brief   Class that stores possible solutions to slider puzzle.
+ * \brief   Class that stores possible solutions to a slider game board.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -14,13 +14,31 @@
 #include <vector>
 
 /**
+ * Class that stores possible solutions to a slider puzzle board game within
+ * a tree structure.
  * 
+ * The initial game board forms the root of the game tree. Neighboring boards
+ * (those that can be reached in one move, swapping the blank tile with an
+ * adjacent tile) become child nodes. The game tree continues to be formed in
+ * a similar manner with subsequent neighboring game boards becoming child 
+ * nodes within the game tree. Eventually, if the game board is solvable, one
+ * of the leaf nodes is the solved board, and walking back up the path of the
+ * tree from leaf to root provides the sequence of game boards that forms the
+ * solution.
  */
 class GameTree {
 
 public:
 
     /**
+     * Class that forms a single node within the game tree.
+     * 
+     * A node contains a game board representing a single step in the 
+     * sequence towards the solved board. The Hamming and Manhattan priorities
+     * of the game node are calculated and cached at node creation in addition
+     * to the number of moves taken thus far to reach the node.
+     * 
+     * A link to the previous node in the game tree is maintained.
      * 
      */
     class Node {
