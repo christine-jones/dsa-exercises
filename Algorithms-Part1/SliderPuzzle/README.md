@@ -141,6 +141,11 @@ Minimum number of moves = 4
 
 # Solution
 
+The ```Board``` class represents a generalized $`n`$-by-$`n`$ slider puzzle game board. It is an $`n`$-by-$`n`$ grid with $`n^2 - 1`$ tiles labeled $`1`$ through $`n^2 - 1`$, plus a blank tile. A blank tile is represented by $`0`$. A ```Board``` is solved if the tiles are arranged in row-major order with the blank tile in the borrom right corner.
+
+The ```BoardSolver``` class implements an $`A*`$ search algorithm to solve a given $`n`$-by-$`n`$ slider game board.
+
+
 # Building/Running the Code
 
 - Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
