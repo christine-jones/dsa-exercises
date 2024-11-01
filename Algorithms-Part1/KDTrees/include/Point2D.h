@@ -21,12 +21,15 @@ class Point2D {
 public:
 
     /**
-     * Constructor. Instantiates a new point at the origin (0, 0).
+     * Constructor. Instantiates a point at the origin (0, 0).
      */
     Point2D();
 
     /**
-     * Constructor. Instantiates a new point at (x, y).
+     * Constructor. Instantiates a point at (x, y).
+     * 
+     * \param double x-coordinate
+     * \param double y-coordinate
      */
     Point2D(double x, double y);
 
