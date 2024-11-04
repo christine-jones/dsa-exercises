@@ -10,8 +10,9 @@
 
 #include "Rectangle.h"
 #include "Point2D.h"
+#include <algorithm>    // std::min
 #include <cassert>
-#include <cmath>        // std::pow, std::sqrt
+#include <cmath>        // std::pow, std::sqrt, std::abs
 #include <iostream>
 
 Rectangle::Rectangle():
@@ -27,8 +28,8 @@ Rectangle::Rectangle(double xmin, double ymin, double xmax, double ymax):
     m_xmax{xmax},
     m_ymax{ymax}
 {
-    assert(m_xmax < m_xmin);
-    assert(m_ymax < m_ymin);
+    assert(m_xmin < m_xmax);
+    assert(m_ymin < m_ymax);
 }
 
 bool Rectangle::contains(const Point2D& p) const {
@@ -52,7 +53,24 @@ double Rectangle::distanceTo(const Point2D& p) const {
 
 double Rectangle::distanceSquaredTo(const Point2D& p) const {
 
-    return 0;
+    // point inside rectangle
+    if (contains(p))
+        return 0;
+
+    // point in vertical corridor
+    if (p.x() >= m_xmin && p.x() <= m_xmax)
+        return std::min(std::pow(std::abs(m_ymax - p.y()), 2),
+                        std::pow(std::abs(m_ymin - p.y()), 2));
+
+    // point in horizontal corridor
+    if (p.y() >= m_ymin && p.y() <= m_ymax)
+        return std::min(std::pow(std::abs(m_xmax - p.x()), 2),
+                        std::pow(std::abs(m_xmin - p.x()), 2));
+
+    // point not in corridor, find distance to nearest corner
+    Point2D corner{(p.x() > m_xmax) ? m_xmax : m_xmin,
+                   (p.y() > m_ymax) ? m_ymax : m_ymin};
+    return corner.distanceSquaredTo(p);
 }
 
 void Rectangle::draw() const {
