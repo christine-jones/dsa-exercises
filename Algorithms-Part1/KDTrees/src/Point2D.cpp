@@ -32,6 +32,11 @@ double Point2D::distanceSquaredTo(const Point2D& p) const {
     return std::pow(p.m_x - m_x, 2) + std::pow(p.m_y - m_y, 2);
 }
 
+bool Point2D::validUnitSquarePoint(const Point2D& p) {
+
+    return (p.m_x >= 0 && p.m_x <= 1) && (p.m_y >= 0 && p.m_y <= 1);
+}
+
 bool operator==(const Point2D& p1, const Point2D& p2) {
 
     return (p1.m_x == p2.m_x) && (p1.m_y == p2.m_y);

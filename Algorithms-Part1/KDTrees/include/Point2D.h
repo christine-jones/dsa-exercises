@@ -56,6 +56,16 @@ public:
      */
     double distanceSquaredTo(const Point2D& p) const;
 
+    /**
+     * Determine if a given point is contained within the unit square, i.e., 
+     * x and y coordinate between 0 and 1, inclusive.
+     * 
+     * \param Point2D Point to evaluate.
+     * 
+     * \return True if point within unit square; false if not.
+     */
+    static bool validUnitSquarePoint(const Point2D& p);
+
     // comparison operators
     friend bool operator==(const Point2D& p1, const Point2D& p2);
     friend bool operator!=(const Point2D& p1, const Point2D& p2);

@@ -93,6 +93,16 @@ public:
      */
     double distanceSquaredTo(const Point2D& p) const;
 
+    /**
+     * Determine if a given rectangle is contained within the unit square,
+     * i.e., all x and y coordinates between 0 and 1, inclusive.
+     * 
+     * \param Rectangle Rectangle to evaluate.
+     * 
+     * \return True if rectangle within unit square; false if not.
+     */
+    static bool validUnitSquareRectangle(const Rectangle& r);
+
     // comparison operators
     friend bool operator==(const Rectangle& r1, const Rectangle& r2);
     friend bool operator!=(const Rectangle& r1, const Rectangle& r2);
