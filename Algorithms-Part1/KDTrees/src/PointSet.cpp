@@ -1,7 +1,8 @@
 /**
  * \file    PointSet.cpp
  * \author  Christine Jones 
- * \brief
+ * \brief   Class that represents a set of points in the unit square using a
+ *          red-black BST.
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 

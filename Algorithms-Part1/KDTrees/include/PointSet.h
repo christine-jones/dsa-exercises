@@ -40,7 +40,7 @@ public:
     int size() const { return static_cast<int>(m_pset.size()); }
 
     /**
-     * Inserts point into the set. Must be unique, no duplicate points allowed.
+     * Inserts a point into the set. Must be unique, no duplicates allowed.
      * 
      * \param Point2D Point to be inserted into the set.
      */
