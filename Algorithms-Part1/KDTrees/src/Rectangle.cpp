@@ -73,10 +73,6 @@ double Rectangle::distanceSquaredTo(const Point2D& p) const {
     return corner.distanceSquaredTo(p);
 }
 
-void Rectangle::draw() const {
-
-}
-
 bool operator==(const Rectangle& r1, const Rectangle& r2) {
 
     return (r1.m_xmin == r2.m_xmin) && (r1.m_xmax == r2.m_xmax) &&

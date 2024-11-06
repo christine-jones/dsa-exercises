@@ -56,11 +56,6 @@ public:
      */
     double distanceSquaredTo(const Point2D& p) const;
 
-    /**
-     * Plot this point.
-     */
-    void draw() const;
-
     // comparison operators
     friend bool operator==(const Point2D& p1, const Point2D& p2);
     friend bool operator!=(const Point2D& p1, const Point2D& p2);
