@@ -29,14 +29,14 @@ public:
      * 
      * \return True if the tree is empty; false if not.
      */
-    bool isEmpty() const { return true; }
+    bool isEmpty() const { return m_root == nullptr; }
 
     /**
      * Determines the number of points in the tree.
      * 
      * \returns Number of points in the tree.
      */
-    int size() const { return 0; }
+    int size() const { return m_num_nodes; }
 
     /**
      * Inserts a point into the tree. Must be unique, no duplicates allowed.
@@ -79,6 +79,23 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const KDTree& ps);
 
 private:
+
+    class KDNode {
+    public:
+
+        explicit KDNode(const Point2D& p);
+
+    private:
+
+        Point2D   m_point{};
+        Rectangle m_rectangle{};
+
+        KDNode* m_lb{}; // left/bottom subtree
+        KDNode* m_rb{}; // right/top subtree
+    };
+
+    KDNode* m_root{};
+    int     m_num_nodes{};
 
 };
 

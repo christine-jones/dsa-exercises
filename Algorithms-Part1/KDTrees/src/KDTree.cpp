@@ -15,10 +15,18 @@
 #include <iostream>
 #include <vector>
 
-KDTree::KDTree()
+KDTree::KDTree():
+    m_root{nullptr},
+    m_num_nodes{0}
 {}
 
 void KDTree::insert(const Point2D& p) {
+
+    if (isEmpty()) {
+
+        // create root node
+        return;
+    }
 
     // no duplicates allowed
     if (contains(p))
