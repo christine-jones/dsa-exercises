@@ -40,7 +40,10 @@ public:
     int size() const { return static_cast<int>(m_pset.size()); }
 
     /**
-     * Inserts a point into the set. Must be unique, no duplicates allowed.
+     * Inserts the given point into the set. Must be unique, no duplicates
+     * allowed. The point to be inserted must be within the unit square, i.e.,
+     * x and y coordinates between 0 and 1, inclusive; if it is not in the unit
+     * square, the point is not inserted into the set.
      * 
      * \param Point2D Point to be inserted into the set.
      */
@@ -58,7 +61,8 @@ public:
 
     /**
      * Determines the range of points contained within the given rectangle,
-     * including the boundary.
+     * including the boundary. The rectangle must be within the unit sqaure;
+     * if not an empty set is returned.
      * 
      * \param Rectangle Rectangle to query point set.
      * 
@@ -68,8 +72,9 @@ public:
     std::vector<Point2D> range(const Rectangle& r) const;
 
     /**
-     * Determines the nearest point in the set to the given point. Throws an
-     * exception if the point set is empty.
+     * Determines the nearest point in the set to the given point. The given
+     * point must be within the unit square; if not, an exception is thrown.
+     * An exception is thrown if the point set is empty.
      * 
      * \param Point2D Point to query the set.
      * 
