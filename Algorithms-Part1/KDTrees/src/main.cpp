@@ -7,44 +7,27 @@
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
  */ 
 
+#include "KDTree.h"
 #include "Point2D.h"
 #include "Rectangle.h"
 #include <iostream>
 
 int main() {
 
-    Rectangle r{0, 0, 4, 4};
-    std::cout << r << '\n';
+    KDTree tree{};
 
-    Point2D p1{2, 2};
-    std::cout << p1 << '\n';
-    std::cout << "Contains? " << (r.contains(p1) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p1) << '\n';
-
-    Point2D p2{2, -2};
-    std::cout << p2 << '\n';
-    std::cout << "Contains? " << (r.contains(p2) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p2) << '\n';
-
-    Point2D p3{2, 7};
-    std::cout << p3 << '\n';
-    std::cout << "Contains? " << (r.contains(p3) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p3) << '\n';
-
-    Point2D p4{-3, 2};
-    std::cout << p4 << '\n';
-    std::cout << "Contains? " << (r.contains(p4) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p4) << '\n';
-
-    Point2D p5{5, 2};
-    std::cout << p5 << '\n';
-    std::cout << "Contains? " << (r.contains(p5) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p5) << '\n';
-
-    Point2D p6{7, 9};
-    std::cout << p6 << '\n';
-    std::cout << "Contains? " << (r.contains(p6) ? "YES" : "NO") << " "
-              << "Distance = " << r.distanceTo(p6) << '\n';
+    tree.insert(Point2D{0.7, 0.2});
+    std::cout << tree << '\n';
+    tree.insert(Point2D{0.5, 0.4});
+    std::cout << tree << '\n';
+    // what happens if tie in x/y coordinate, must look at the other
+    //tree.insert(Point2D{0.2, 0.4});
+    tree.insert(Point2D{0.2, 0.3});
+    std::cout << tree << '\n';
+    tree.insert(Point2D{0.4, 0.7});
+    std::cout << tree << '\n';
+    tree.insert(Point2D{0.9, 0.6});
+    std::cout << tree << '\n';
 
     return 0;
 }

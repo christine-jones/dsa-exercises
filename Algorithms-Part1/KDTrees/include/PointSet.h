@@ -85,6 +85,12 @@ public:
     // output operator
     friend std::ostream& operator<<(std::ostream& out, const PointSET& ps);
 
+    // copying, assigning, moving a PointSET is not supported
+    PointSET(const PointSET& ps) = delete;
+    PointSET(PointSET& ps) = delete;
+    PointSET& operator=(const PointSET& ps) = delete;
+    PointSET& operator=(PointSET& ps) = delete;
+
 private:
 
     std::set<Point2D> m_pset{};

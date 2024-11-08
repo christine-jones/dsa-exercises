@@ -25,6 +25,11 @@ public:
     KDTree();
 
     /**
+     * Destructor. Releases all resources allocated to the tree.
+     */
+    ~KDTree();
+
+    /**
      * Determines if the tree is empty.
      * 
      * \return True if the tree is empty; false if not.
@@ -78,12 +83,36 @@ public:
     // output operator
     friend std::ostream& operator<<(std::ostream& out, const KDTree& ps);
 
+    // copying, assigning, moving a PointSET is not supported
+    KDTree(const KDTree& tree) = delete;
+    KDTree(KDTree& tree) = delete;
+    KDTree& operator=(const KDTree& tree) = delete;
+    KDTree& operator=(KDTree& tree) = delete;
+
 private:
+
+    void printTree(std::ostream& out) const;
 
     class KDNode {
     public:
 
         explicit KDNode(const Point2D& p);
+        ~KDNode();
+
+        const Point2D&   point() const     { return m_point; }
+        const Rectangle& rectangle() const { return m_rectangle; }
+
+        KDNode* lb() { return m_lb; }
+        KDNode* rt() { return m_rt; }
+
+        void set_lb(KDNode* node) { m_lb = node; }
+        void set_rt(KDNode* node) { m_rt = node; }
+
+        // copying, assigning, moving a KDNode is not supported
+        KDNode(const KDNode& node) = delete;
+        KDNode(KDNode& node) = delete;
+        KDNode& operator=(const KDNode& node) = delete;
+        KDNode& operator=(KDNode& node) = delete;
 
     private:
 
@@ -91,8 +120,11 @@ private:
         Rectangle m_rectangle{};
 
         KDNode* m_lb{}; // left/bottom subtree
-        KDNode* m_rb{}; // right/top subtree
+        KDNode* m_rt{}; // right/top subtree
     };
+
+    KDNode* createNewNode(const Point2D& p);
+    void    printNode(std::ostream& out, KDNode* node) const;
 
     KDNode* m_root{};
     int     m_num_nodes{};
