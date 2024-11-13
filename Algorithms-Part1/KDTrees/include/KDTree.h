@@ -96,7 +96,7 @@ private:
     class KDNode {
     public:
 
-        explicit KDNode(const Point2D& p);
+        KDNode(const Point2D& p, const Rectangle& r);
         ~KDNode();
 
         const Point2D&   point() const     { return m_point; }
@@ -123,7 +123,9 @@ private:
         KDNode* m_rt{}; // right/top subtree
     };
 
-    KDNode* createNewNode(const Point2D& p);
+    KDNode* createNewNode(
+                const Point2D& p,
+                const Rectangle& r = Rectangle::unitSquareRectangle());
     void    printNode(std::ostream& out, KDNode* node, int level) const;
 
     KDNode* m_root{};

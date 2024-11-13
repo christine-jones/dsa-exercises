@@ -16,13 +16,14 @@
 #include <iostream>
 #include <vector>
 
-KDTree::KDNode::KDNode(const Point2D& p):
+KDTree::KDNode::KDNode(const Point2D& p, const Rectangle& r):
     m_point{p},
-    m_rectangle{0, 0, 1, 1},
+    m_rectangle{r},
     m_lb{nullptr},
     m_rt{nullptr}
 {
     assert(Point2D::validUnitSquarePoint(p));
+    assert(Rectangle::validUnitSquareRectangle(r));
 }
 
 KDTree::KDNode::~KDNode() {
@@ -69,13 +70,20 @@ void KDTree::insert(const Point2D& p) {
 
     while (node != nullptr) {
 
-        int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
-                              Point2D::compareByX(p, node->point())};
+        bool ylevel{static_cast<bool>(level % 2)};
+        int cmp{ylevel ? Point2D::compareByY(p, node->point()) :
+                         Point2D::compareByX(p, node->point())};
 
         if (cmp < 0) {
 
             if (!node->lb()) {
-                node->set_lb(createNewNode(p));
+                node->set_lb(createNewNode(p,
+                              Rectangle{node->rectangle().xmin(),
+                                        node->rectangle().ymin(),
+                                        (ylevel ? node->rectangle().xmax() :
+                                                  node->point().x()),
+                                        (ylevel ? node->point().y() :
+                                                  node->rectangle().ymax())}));
                 break;
             }
             node = node->lb();
@@ -83,7 +91,13 @@ void KDTree::insert(const Point2D& p) {
         } else if (cmp > 0) {
 
             if (!node->rt()) {
-                node->set_rt(createNewNode(p));
+                node->set_rt(createNewNode(p,
+                              Rectangle((ylevel ? node->rectangle().xmin() :
+                                                  node->point().x()),
+                                        (ylevel ? node->point().y() :
+                                                  node->rectangle().ymin()),
+                                        node->rectangle().xmax(),
+                                        node->rectangle().ymax())));
                 break;
             }
             node = node->rt();
@@ -148,9 +162,9 @@ void KDTree::printTree(std::ostream& out) const {
     printNode(out, m_root, 0);
 }
 
-KDTree::KDNode* KDTree::createNewNode(const Point2D& p) {
+KDTree::KDNode* KDTree::createNewNode(const Point2D& p, const Rectangle& r) {
 
-    KDNode* new_node = new (std::nothrow) KDNode{p};
+    KDNode* new_node = new (std::nothrow) KDNode{p, r};
     if (!new_node) {
         std::cerr << "KDTree::createNewNode: " 
                   << "failed to allocate memory for new node" << '\n';
@@ -168,7 +182,7 @@ void KDTree::printNode(std::ostream& out,
         return;
     }
 
-    out << node->point() << '\n';
+    out << node->point() << ": " << node->rectangle() << '\n';
 
     for (int i{0}; i < level; ++i)
         out << '\t';

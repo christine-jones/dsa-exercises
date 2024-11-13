@@ -94,6 +94,13 @@ public:
     double distanceSquaredTo(const Point2D& p) const;
 
     /**
+     * Return a unit square; xmin = ymin = 0 and xmax = ymax = 1.
+     * 
+     * \return Rectangle with unit square coordinates.
+     */
+    static Rectangle unitSquareRectangle();
+
+    /**
      * Determine if a given rectangle is contained within the unit square,
      * i.e., all x and y coordinates between 0 and 1, inclusive.
      * 

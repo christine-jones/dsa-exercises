@@ -73,6 +73,11 @@ double Rectangle::distanceSquaredTo(const Point2D& p) const {
     return corner.distanceSquaredTo(p);
 }
 
+Rectangle Rectangle::unitSquareRectangle() {
+
+    return Rectangle{0, 0, 1, 1};
+}
+
 bool Rectangle::validUnitSquareRectangle(const Rectangle& r) {
 
     return r.m_xmin >= 0 && r.m_ymin >= 0 && r.m_xmax <=1 && r.m_ymax <=1;
