@@ -17,17 +17,23 @@ int main() {
     KDTree tree{};
 
     tree.insert(Point2D{0.7, 0.2});
-    std::cout << tree << '\n';
     tree.insert(Point2D{0.5, 0.4});
-    std::cout << tree << '\n';
-    // what happens if tie in x/y coordinate, must look at the other
-    //tree.insert(Point2D{0.2, 0.4});
+    tree.insert(Point2D{0.2, 0.4});
     tree.insert(Point2D{0.2, 0.3});
-    std::cout << tree << '\n';
     tree.insert(Point2D{0.4, 0.7});
-    std::cout << tree << '\n';
     tree.insert(Point2D{0.9, 0.6});
+
     std::cout << tree << '\n';
+
+    std::cout << "Contains " << Point2D{0.2, 0.3} << ": "
+              << (tree.contains(Point2D{0.2, 0.3}) ? "TRUE" : "FALSE")
+              << '\n';
+    std::cout << "Contains " << Point2D{0.2, 0.4} << ": "
+              << (tree.contains(Point2D{0.2, 0.4}) ? "TRUE" : "FALSE")
+              << '\n';
+    std::cout << "Contains " << Point2D{0.2, 0.5} << ": "
+              << (tree.contains(Point2D{0.2, 0.5}) ? "TRUE" : "FALSE")
+              << '\n';
 
     return 0;
 }
