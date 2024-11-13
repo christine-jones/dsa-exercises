@@ -91,8 +91,6 @@ public:
 
 private:
 
-    void printTree(std::ostream& out) const;
-
     class KDNode {
     public:
 
@@ -104,6 +102,8 @@ private:
 
         KDNode* lb() { return m_lb; }
         KDNode* rt() { return m_rt; }
+        const KDNode* lb() const { return m_lb; }
+        const KDNode* rt() const { return m_rt; }
 
         void set_lb(KDNode* node) { m_lb = node; }
         void set_rt(KDNode* node) { m_rt = node; }
@@ -123,10 +123,16 @@ private:
         KDNode* m_rt{}; // right/top subtree
     };
 
+    void rangeCheck(const KDTree::KDNode* node,
+                    const Rectangle& r,
+                    std::vector<Point2D>& points) const;
+
     KDNode* createNewNode(
                 const Point2D& p,
-                const Rectangle& r = Rectangle::unitSquareRectangle());
-    void    printNode(std::ostream& out, KDNode* node, int level) const;
+                const Rectangle& r = Rectangle::unitSquareRectangle()) const;
+
+    void printTree(std::ostream& out) const;
+    void printNode(std::ostream& out, KDNode* node, int level) const;
 
     KDNode* m_root{};
     int     m_num_nodes{};

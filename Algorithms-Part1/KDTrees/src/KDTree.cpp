@@ -142,9 +142,11 @@ bool KDTree::contains(const Point2D& p) const {
     return false;
 }
 
-std::vector<Point2D> KDTree::range([[maybe_unused]] const Rectangle& r) const {
+std::vector<Point2D> KDTree::range(const Rectangle& r) const {
 
-    return std::vector<Point2D>{};
+    std::vector<Point2D> prange{};
+    rangeCheck(m_root, r, prange);
+    return prange;
 }
 
 Point2D KDTree::nearest([[maybe_unused]] const Point2D& p) const {
@@ -157,12 +159,25 @@ Point2D KDTree::nearest([[maybe_unused]] const Point2D& p) const {
     return Point2D{};
 }
 
-void KDTree::printTree(std::ostream& out) const {
+void KDTree::rangeCheck(const KDNode* node,
+                        const Rectangle& r,
+                        std::vector<Point2D>& points) const {
 
-    printNode(out, m_root, 0);
+    if (!node)
+        return;
+
+    if (!r.intersects(node->rectangle()))
+        return;
+
+    if (r.contains(node->point()))
+        points.push_back(node->point());
+
+    rangeCheck(node->lb(), r, points);
+    rangeCheck(node->rt(), r, points);
 }
 
-KDTree::KDNode* KDTree::createNewNode(const Point2D& p, const Rectangle& r) {
+KDTree::KDNode*
+KDTree::createNewNode(const Point2D& p, const Rectangle& r) const {
 
     KDNode* new_node = new (std::nothrow) KDNode{p, r};
     if (!new_node) {
@@ -171,6 +186,11 @@ KDTree::KDNode* KDTree::createNewNode(const Point2D& p, const Rectangle& r) {
     }
 
     return new_node;
+}
+
+void KDTree::printTree(std::ostream& out) const {
+
+    printNode(out, m_root, 0);
 }
 
 void KDTree::printNode(std::ostream& out,
