@@ -27,8 +27,6 @@ KDTree::KDNode::KDNode(const Point2D& p):
 
 KDTree::KDNode::~KDNode() {
 
-    std::cout << "Deleteing " << m_point << '\n';
-
     if (m_lb) {
         delete m_lb;
         m_lb = nullptr;
@@ -55,8 +53,6 @@ KDTree::~KDTree()
 
 void KDTree::insert(const Point2D& p) {
 
-    std::cout << "Inserting " << p << '\n';
-
     if (!Point2D::validUnitSquarePoint(p)) {
         std::cerr << "KDTree::insert: point not in unit square" << '\n';
         return;
@@ -73,10 +69,10 @@ void KDTree::insert(const Point2D& p) {
 
     while (node != nullptr) {
 
-        double p_coord{(level % 2) ? p.y() : p.x()};
-        double n_coord{(level % 2) ? node->point().y() : node->point().x()};
+        int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
+                              Point2D::compareByX(p, node->point())};
 
-        if (p_coord < n_coord) {
+        if (cmp < 0) {
 
             if (!node->lb()) {
                 node->set_lb(createNewNode(p));
@@ -84,7 +80,7 @@ void KDTree::insert(const Point2D& p) {
             }
             node = node->lb();
 
-        } else if (p_coord > n_coord) {
+        } else if (cmp > 0) {
 
             if (!node->rt()) {
                 node->set_rt(createNewNode(p));
@@ -116,11 +112,11 @@ bool KDTree::contains(const Point2D& p) const {
 
     while (node != nullptr) {
 
-        double p_coord{(level % 2) ? p.y() : p.x()};
-        double n_coord{(level % 2) ? node->point().y() : node->point().x()};
+        int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
+                              Point2D::compareByX(p, node->point())};
 
-        if      (p_coord < n_coord) node = node->rt();
-        else if (p_coord > n_coord) node = node->lb();
+        if      (cmp < 0) node = node->lb();
+        else if (cmp > 0) node = node->rt();
         else {
             assert(p == node->point());
             return true;
@@ -149,7 +145,7 @@ Point2D KDTree::nearest([[maybe_unused]] const Point2D& p) const {
 
 void KDTree::printTree(std::ostream& out) const {
 
-    printNode(out, m_root);
+    printNode(out, m_root, 0);
 }
 
 KDTree::KDNode* KDTree::createNewNode(const Point2D& p) {
@@ -163,17 +159,26 @@ KDTree::KDNode* KDTree::createNewNode(const Point2D& p) {
     return new_node;
 }
 
-void KDTree::printNode(std::ostream& out, KDTree::KDNode* node) const {
+void KDTree::printNode(std::ostream& out,
+                       KDTree::KDNode* node,
+                       int level) const {
 
-    if (!node)
+    if (!node) {
+        out << '\n';
         return;
+    }
 
-    out << node->point();
-    out << " [";
-    printNode(out, node->lb());
-    out << ", ";
-    printNode(out, node->rt());
-    out << "] ";
+    out << node->point() << '\n';
+
+    for (int i{0}; i < level; ++i)
+        out << '\t';
+    out << "L" << level + 1 << ": ";
+    printNode(out, node->lb(), level + 1);
+
+    for (int i{0}; i < level; ++i)
+        out << '\t';
+    out << "R" << level + 1 << ": ";
+    printNode(out, node->rt(), level + 1);
 }
 
 std::ostream& operator<<(std::ostream& out, const KDTree& t) {

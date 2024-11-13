@@ -124,7 +124,7 @@ private:
     };
 
     KDNode* createNewNode(const Point2D& p);
-    void    printNode(std::ostream& out, KDNode* node) const;
+    void    printNode(std::ostream& out, KDNode* node, int level) const;
 
     KDNode* m_root{};
     int     m_num_nodes{};
