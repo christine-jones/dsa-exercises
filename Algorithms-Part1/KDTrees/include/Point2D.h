@@ -66,6 +66,20 @@ public:
      */
     static bool validUnitSquarePoint(const Point2D& p);
 
+    /**
+     * By default, points are compared by y coordinate first, followed by the
+     * x coordinate. These methods allow for the explicit use of either the 
+     * x or y coordinate to have priority in comparison
+     * 
+     * \param Point2D Point to be compared.
+     * \param Point2D Point to be compared.
+     * 
+     * \return 0 if points equal, less than 0 if p1 is less than p2, and
+     *         greater than 0 if p1 is greater than p2
+     */
+    static int compareByX(const Point2D& p1, const Point2D& p2);
+    static int compareByY(const Point2D& p1, const Point2D& p2);
+
     // comparison operators
     friend bool operator==(const Point2D& p1, const Point2D& p2);
     friend bool operator!=(const Point2D& p1, const Point2D& p2);
