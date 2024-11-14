@@ -184,10 +184,10 @@ void KDTree::nearest(const KDTree::KDNode* node,
     if (!node)
         return;
 
-    if (p.distanceTo(pnearest) < node->rectangle().distanceTo(p))
+    if (p.distanceSquaredTo(pnearest) < node->rectangle().distanceSquaredTo(p))
         return;
 
-    if (p.distanceTo(node->point()) < p.distanceTo(pnearest))
+    if (p.distanceSquaredTo(node->point()) < p.distanceSquaredTo(pnearest))
         pnearest = node->point();
 
     int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :

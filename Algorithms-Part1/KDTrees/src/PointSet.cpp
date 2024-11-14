@@ -71,14 +71,14 @@ Point2D PointSET::nearest(const Point2D& p) const {
 
     // record distance of nearest point to reduce recalculations
     std::set<Point2D>::const_iterator pnearest{m_pset.cbegin()};
-    double dnearest{(*pnearest).distanceTo(p)};
+    double dnearest{(*pnearest).distanceSquaredTo(p)};
 
     for (std::set<Point2D>::const_iterator iter{++m_pset.cbegin()};
          iter != m_pset.cend(); ++iter) {
 
-        if ((*iter).distanceTo(p) < dnearest) {
+        if ((*iter).distanceSquaredTo(p) < dnearest) {
             pnearest = iter;
-            dnearest = (*iter).distanceTo(p);
+            dnearest = (*iter).distanceSquaredTo(p);
         }
     }
 
