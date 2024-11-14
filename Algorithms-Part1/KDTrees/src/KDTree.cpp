@@ -65,53 +65,51 @@ void KDTree::insert(const Point2D& p) {
         return;
     }
 
-    KDNode* node{m_root};
-    int level{0};
+    insert(m_root, p, 0);
+}
 
-    while (node != nullptr) {
+void KDTree::insert(KDTree::KDNode* node, const Point2D& p, int level) {
 
-        bool ylevel{static_cast<bool>(level % 2)};
-        int cmp{ylevel ? Point2D::compareByY(p, node->point()) :
-                         Point2D::compareByX(p, node->point())};
+    assert(node);
 
-        if (cmp < 0) {
+    bool ylevel{static_cast<bool>(level % 2)};
+    int  cmp{ylevel ? Point2D::compareByY(p, node->point()) :
+                      Point2D::compareByX(p, node->point())};
 
-            if (!node->lb()) {
-                node->set_lb(createNewNode(p,
-                              Rectangle{node->rectangle().xmin(),
-                                        node->rectangle().ymin(),
-                                        (ylevel ? node->rectangle().xmax() :
-                                                  node->point().x()),
-                                        (ylevel ? node->point().y() :
-                                                  node->rectangle().ymax())}));
-                break;
-            }
-            node = node->lb();
+    if (cmp < 0) {
 
-        } else if (cmp > 0) {
-
-            if (!node->rt()) {
-                node->set_rt(createNewNode(p,
-                              Rectangle((ylevel ? node->rectangle().xmin() :
-                                                  node->point().x()),
-                                        (ylevel ? node->point().y() :
-                                                  node->rectangle().ymin()),
-                                        node->rectangle().xmax(),
-                                        node->rectangle().ymax())));
-                break;
-            }
-            node = node->rt();
+        if (!node->lb()) {
+            node->set_lb(
+                createNewNode(p, Rectangle{
+                                    node->rectangle().xmin(),
+                                    node->rectangle().ymin(),
+                                    (ylevel ? node->rectangle().xmax() :
+                                              node->point().x()),
+                                    (ylevel ? node->point().y() :
+                                              node->rectangle().ymax())}));
+                ++m_num_nodes;
         
-        } else {
-            assert(p == node->point());
-            std::cerr << "KDTree::insert: duplicate point" << '\n';
-            return;
-        }
+        } else insert(node->lb(), p, level + 1);
 
-        ++level;
+    } else if (cmp > 0) {
+
+        if (!node->rt()) {
+            node->set_rt(
+                createNewNode(p, Rectangle(
+                                    (ylevel ? node->rectangle().xmin() :
+                                              node->point().x()),
+                                    (ylevel ? node->point().y() :
+                                              node->rectangle().ymin()),
+                                    node->rectangle().xmax(),
+                                    node->rectangle().ymax())));
+                ++m_num_nodes;
+
+        } else insert(node->rt(), p, level + 1);
+        
+    } else {
+        assert(p == node->point());
+        std::cerr << "KDTree::insert: duplicate point" << '\n';
     }
-
-    ++m_num_nodes;
 }
 
 bool KDTree::contains(const Point2D& p) const {
@@ -121,25 +119,25 @@ bool KDTree::contains(const Point2D& p) const {
         return false;
     }
 
-    KDNode* node{m_root};
-    int level{0};
+    return contains(m_root, p, 0);
+}
 
-    while (node != nullptr) {
+bool KDTree::contains(KDTree::KDNode* node,
+                      const Point2D& p,
+                      int level) const {
 
-        int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
-                              Point2D::compareByX(p, node->point())};
+    if (!node)
+        return false;
 
-        if      (cmp < 0) node = node->lb();
-        else if (cmp > 0) node = node->rt();
-        else {
-            assert(p == node->point());
-            return true;
-        }
+    int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
+                          Point2D::compareByX(p, node->point())};
 
-        ++level;
+    if      (cmp < 0) return contains(node->lb(), p, level + 1);
+    else if (cmp > 0) return contains(node->rt(), p, level + 1);
+    else {
+        assert(p == node->point());
+        return true;
     }
-
-    return false;
 }
 
 std::vector<Point2D> KDTree::range(const Rectangle& r) const {

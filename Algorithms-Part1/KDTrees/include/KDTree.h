@@ -123,6 +123,9 @@ private:
         KDNode* m_rt{}; // right/top subtree
     };
 
+    void   insert(KDTree::KDNode* node, const Point2D& p, int level);
+    bool contains(KDTree::KDNode* node, const Point2D& p, int level) const;
+
     void   range(const KDTree::KDNode* node,
                  const Rectangle& r,
                  std::vector<Point2D>& points) const;
