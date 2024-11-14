@@ -123,9 +123,13 @@ private:
         KDNode* m_rt{}; // right/top subtree
     };
 
-    void rangeCheck(const KDTree::KDNode* node,
-                    const Rectangle& r,
-                    std::vector<Point2D>& points) const;
+    void   range(const KDTree::KDNode* node,
+                 const Rectangle& r,
+                 std::vector<Point2D>& points) const;
+    void nearest(const KDTree::KDNode* node,
+                 const Point2D& p,
+                 Point2D& pnearest,
+                 int level) const;
 
     KDNode* createNewNode(
                 const Point2D& p,

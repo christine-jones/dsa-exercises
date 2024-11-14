@@ -35,21 +35,29 @@ int main() {
     for(const auto& p : tree.range(Rectangle::unitSquareRectangle()))
         std::cout << p << " ";
     std::cout << '\n';
-
     std::cout << "Range " << Rectangle{0.3, 0.1, 0.4, 0.3} << ": ";
     for(const auto& p : tree.range(Rectangle{0.3, 0.1, 0.4, 0.3}))
         std::cout << p << " ";
     std::cout << '\n';
-
     std::cout << "Range " << Rectangle{0.3, 0.1, 0.8, 0.8} << ": ";
     for(const auto& p : tree.range(Rectangle{0.3, 0.1, 0.8, 0.8}))
         std::cout << p << " ";
     std::cout << '\n';
-
     std::cout << "Range " << Rectangle{0.1, 0.5, 0.6, 0.8} << ": ";
     for(const auto& p : tree.range(Rectangle{0.1, 0.5, 0.6, 0.8}))
         std::cout << p << " ";
     std::cout << '\n';
+
+    std::cout << "Nearest " << Point2D{0.1, 0.9} << ": "
+              << tree.nearest(Point2D{0.1, 0.9}) << '\n';
+    std::cout << "Nearest " << Point2D{0.9, 0.1} << ": "
+              << tree.nearest(Point2D{0.9, 0.1}) << '\n';
+    std::cout << "Nearest " << Point2D{0.9, 0.9} << ": "
+              << tree.nearest(Point2D{0.9, 0.9}) << '\n';
+    std::cout << "Nearest " << Point2D{0.1, 0.1} << ": "
+              << tree.nearest(Point2D{0.1, 0.1}) << '\n';
+    std::cout << "Nearest " << Point2D{0.5, 0.4} << ": "
+              << tree.nearest(Point2D{0.5, 0.4}) << '\n';
 
     return 0;
 }
