@@ -82,11 +82,11 @@ public class PointSET {
 
 # Solution
 
-I implemented Point2D and Rectangle classes that meet the API requirements as stated in the problem statement above.
+The ```Point2D``` and ```Rectangle``` classes meet the API requirements as stated in the problem statement above.
 
-The PointSET class implements the brute-force implementation requirements as detailed in the problem statement. A std::set from the C++ STL was used as the underlying data structure. Search, removal, and insertion operations of std::set have logarithmic complexity and are usually implemented as red-black trees.
+The ```PointSET``` class implements the brute-force implementation requirements as detailed in the problem statement. A std::set from the C++ STL was used as the underlying data structure. Search, removal, and insertion operations of std::set have logarithmic complexity and are usually implemented as red-black trees.
 
-The KDTree class implements a 2d-tree data structure with an API as detailed in the problem statement above. 
+The ```KDTree``` class implements a 2d-tree data structure with an API as detailed in the problem statement above. 
 
 # Building/Running the Code
 
