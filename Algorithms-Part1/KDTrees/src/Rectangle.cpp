@@ -28,8 +28,8 @@ Rectangle::Rectangle(double xmin, double ymin, double xmax, double ymax):
     m_xmax{xmax},
     m_ymax{ymax}
 {
-    assert(m_xmin < m_xmax);
-    assert(m_ymin < m_ymax);
+    assert(m_xmin <= m_xmax);
+    assert(m_ymin <= m_ymax);
 }
 
 bool Rectangle::contains(const Point2D& p) const {
