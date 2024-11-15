@@ -39,3 +39,7 @@ There is no automated test infrastructure. Again, this deficiency would need to 
 - SliderPuzzle/
 
   Program that solves a generalized $`n`$-by-$`n`$ slider puzzle using an A* search algorithm.
+
+- KDTree/
+
+  Program that stores points in a unit square using a 2d-tree to support efficient range and nearest neighbor searches.
