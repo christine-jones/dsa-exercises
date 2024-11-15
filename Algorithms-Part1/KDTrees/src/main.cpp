@@ -1,7 +1,7 @@
 /**
  * \file    main.cpp
  * \author  Christine Jones 
- * \brief            
+ * \brief   Client that stores 2-dimensional point data in a KDTree.           
  *
  * \copyright 2024
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
@@ -9,8 +9,6 @@
 
 #include "KDTree.h"
 #include "Point2D.h"
-#include "PointSet.h"
-#include "Rectangle.h"
 #include "StopWatch.h"
 #include <fstream>
 #include <iostream>
@@ -25,6 +23,30 @@ void printUsage() {
 
 /**
  * Client program.
+ * 
+ * Reads in 2-dimensional coordinate point data from a file. The points must
+ * be within the unit square, i.e., x and y coordinates between 0 and 1,
+ * inclusive. The points are stored in a KDTree. A test query for nearest
+ * point is given, elapse time reported.
+ * 
+ * The input file is expected to be in the following format:
+ * 
+ *  1> x y
+ *  2> x y
+ *     .
+ *     .
+ *     .
+ *  n> x y
+ * 
+ * For example:
+ *
+ * 1> 0.372 0.497
+ * 2> 0.564 0.413
+ * 3> 0.226 0.577
+ *      .
+ *      .
+ *      .
+ * n> 0.499 0.208
  * 
  * Usage: <program name> <input_file>
  *      input_file = file that contains a list of points
