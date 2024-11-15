@@ -16,6 +16,13 @@
 #include <set>
 #include <vector>
 
+/**
+ * Class that represents a set of points in the unit square.
+ * 
+ * A std::set from the C++ STL is used as the underlying data structure.
+ * Search, removal, and insertion operations of std::set have logarithmic
+ * complexity and are usually implemented as red-black trees.
+ */
 class PointSET {
 
 public:

@@ -15,6 +15,12 @@
 #include "Rectangle.h"
 #include <vector>
 
+/**
+ * Class that represents a set of points in the unit square using a 2d-tree
+ * implementation that supports efficient range (find all of the points
+ * contained in a query rectangle) and nearest-neighbor (find a closest point
+ * to a query point) searches.
+ */
 class KDTree {
 
 public:
