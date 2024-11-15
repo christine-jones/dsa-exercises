@@ -38,6 +38,14 @@ public:
     double y() const { return m_y; }
 
     /**
+     * Determine if the point is contained within the unit square, i.e., 
+     * x and y coordinate between 0 and 1, inclusive.
+     * 
+     * \return True if point within unit square; false if not.
+     */
+    bool unitSquare() const;
+
+    /**
      * Calculates the Euclidean distance between this and the given point.
      * 
      * \param Point2D Point from which to calculate distance.
@@ -55,16 +63,6 @@ public:
      * \return Square of Euclidean distance between points.
      */
     double distanceSquaredTo(const Point2D& p) const;
-
-    /**
-     * Determine if a given point is contained within the unit square, i.e., 
-     * x and y coordinate between 0 and 1, inclusive.
-     * 
-     * \param Point2D Point to evaluate.
-     * 
-     * \return True if point within unit square; false if not.
-     */
-    static bool validUnitSquarePoint(const Point2D& p);
 
     /**
      * By default, points are compared by y coordinate first, followed by the

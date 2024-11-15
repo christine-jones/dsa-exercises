@@ -22,8 +22,8 @@ KDTree::KDNode::KDNode(const Point2D& p, const Rectangle& r):
     m_lb{nullptr},
     m_rt{nullptr}
 {
-    assert(Point2D::validUnitSquarePoint(p));
-    assert(Rectangle::validUnitSquareRectangle(r));
+    assert(p.unitSquare());
+    assert(r.unitSquare());
 }
 
 KDTree::KDNode::~KDNode() {
@@ -54,7 +54,7 @@ KDTree::~KDTree()
 
 void KDTree::insert(const Point2D& p) {
 
-    if (!Point2D::validUnitSquarePoint(p)) {
+    if (!p.unitSquare()) {
         std::cerr << "KDTree::insert: point not in unit square" << '\n';
         return;
     }
@@ -114,7 +114,7 @@ void KDTree::insert(KDTree::KDNode* node, const Point2D& p, int level) {
 
 bool KDTree::contains(const Point2D& p) const {
 
-    if (!Point2D::validUnitSquarePoint(p)) {
+    if (!p.unitSquare()) {
         std::cerr << "KDTree::contains: point not in unit square" << '\n';
         return false;
     }

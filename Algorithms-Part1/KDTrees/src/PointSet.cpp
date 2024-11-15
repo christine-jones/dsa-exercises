@@ -22,7 +22,7 @@ PointSET::PointSET():
 
 void PointSET::insert(const Point2D& p) {
 
-    if (!Point2D::validUnitSquarePoint(p)) {
+    if (!p.unitSquare()) {
         std::cerr << "PointSET::insert: point not in unit square" << '\n';
         return;
     }
@@ -42,11 +42,6 @@ bool PointSET::contains(const Point2D& p) const {
 
 std::vector<Point2D> PointSET::range(const Rectangle& r) const {
 
-    if (!Rectangle::validUnitSquareRectangle(r)) {
-        std::cerr << "PointSET::range: rectangle not in unit square" << '\n';
-        return std::vector<Point2D>{};
-    }
-
     std::vector<Point2D> prange{};
 
     for (const auto& p : m_pset) {
@@ -58,11 +53,6 @@ std::vector<Point2D> PointSET::range(const Rectangle& r) const {
 }
 
 Point2D PointSET::nearest(const Point2D& p) const {
-
-    if (!Point2D::validUnitSquarePoint(p)) {
-        std::cerr << "PointSET::nearest: point not in unit square" << '\n';
-        throw std::out_of_range("point not in unit square");
-    } 
 
     if (isEmpty()) {
         std::cerr << "PointSET::nearest: set is empty" << '\n';

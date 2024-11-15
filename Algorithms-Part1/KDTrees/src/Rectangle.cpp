@@ -78,9 +78,9 @@ Rectangle Rectangle::unitSquareRectangle() {
     return Rectangle{0, 0, 1, 1};
 }
 
-bool Rectangle::validUnitSquareRectangle(const Rectangle& r) {
+bool Rectangle::unitSquare() const {
 
-    return r.m_xmin >= 0 && r.m_ymin >= 0 && r.m_xmax <=1 && r.m_ymax <=1;
+    return m_xmin >= 0 && m_ymin >= 0 && m_xmax <=1 && m_ymax <=1;
 }
 
 bool operator==(const Rectangle& r1, const Rectangle& r2) {
