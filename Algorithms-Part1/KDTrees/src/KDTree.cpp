@@ -154,6 +154,8 @@ void KDTree::range(const KDNode* node,
     if (!node)
         return;
 
+    // query rectangle does not intersect node rectangle, no need to further
+    // search node or subtree
     if (!r.intersects(node->rectangle()))
         return;
 
@@ -184,12 +186,16 @@ void KDTree::nearest(const KDTree::KDNode* node,
     if (!node)
         return;
 
+    // current nearest point is closer than the node rectangle, no need to
+    // further search node or subtree
     if (p.distanceSquaredTo(pnearest) < node->rectangle().distanceSquaredTo(p))
         return;
 
     if (p.distanceSquaredTo(node->point()) < p.distanceSquaredTo(pnearest))
         pnearest = node->point();
 
+    // first search the subtree that is on the same side of the splitting line
+    // as the query point; may enable greater pruning
     int cmp{(level % 2) ? Point2D::compareByY(p, node->point()) :
                           Point2D::compareByX(p, node->point())};
 

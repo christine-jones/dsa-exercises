@@ -26,7 +26,7 @@ public:
     Point2D();
 
     /**
-     * Constructor. Instantiates a point at (x, y).
+     * Constructor. Instantiates a point at the given (x, y).
      * 
      * \param double x-coordinate
      * \param double y-coordinate

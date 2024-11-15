@@ -1,5 +1,5 @@
 /**
- * \file    Point2D.h
+ * \file    Rectangle.cpp
  * \author  Christine Jones 
  * \brief   Clas that represents a two-dimensional axis-aligned rectangle with
  *          real-value coordinates.

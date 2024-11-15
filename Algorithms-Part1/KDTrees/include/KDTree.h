@@ -45,6 +45,9 @@ public:
 
     /**
      * Inserts a point into the tree. Must be unique, no duplicates allowed.
+     * The point to be inserted must be within the unit square, i.e., x and y
+     * coordinates between 0 and 1, inclusive; if it is not in the unit square,
+     * the point is not inserted into the set.
      * 
      * \param Point2D Point to be inserted into the tree.
      */
@@ -91,6 +94,7 @@ public:
 
 private:
 
+    // represents a single node within the KDTree
     class KDNode {
     public:
 
