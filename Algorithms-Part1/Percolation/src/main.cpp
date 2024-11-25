@@ -10,7 +10,6 @@
 
 #include "Percolation.h"
 #include "StopWatch.h"
-#include "Test.h"
 #include "UnionFind.h"
 #include <iostream>
 #include <sstream>
