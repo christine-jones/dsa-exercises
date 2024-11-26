@@ -37,13 +37,13 @@ void ASSERT(bool condition, std::string_view message) {
 
     if (condition) {
 
-        std::cout << std::setw(3) << ++test_case << ": "
+        std::cout << std::setw(4) << ++test_case << ": "
                   << message << ": PASSED" << '\n';
         ++num_passed_tests;
 
     } else {
 
-        std::cout << std::setw(3) << ++test_case << ": "
+        std::cout << std::setw(4) << ++test_case << ": "
                   << message << ": FAILED" << '\n';
         ++num_failed_tests;
     }
