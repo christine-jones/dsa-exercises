@@ -11,6 +11,7 @@
 #define UNION_FIND_H
 
 #include <cassert>
+#include <numeric>  // std::iota
 #include <vector>
 
 /**
@@ -19,6 +20,16 @@
 class UnionFind {
 
 public:
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
+     */
+    explicit UnionFind(int n):
+        m_object_ids{std::vector<int>(static_cast<std::size_t>(n))}
+    {
+        assert(n > 0);
+    }
 
     /**
      * Constructor.
@@ -26,7 +37,7 @@ public:
      * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    explicit UnionFind(int n, int initial_value = 0):
+    UnionFind(int n, int initial_value):
         m_object_ids{
             std::vector<int>(static_cast<std::size_t>(n), initial_value)}
     {
@@ -98,6 +109,16 @@ protected:
 class QuickUF : public UnionFind {
 
 public:
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
+     */
+    explicit QuickUF(int n):
+        UnionFind(n)
+    {
+        std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
+    }
 
     /**
      * Constructor.
@@ -105,7 +126,7 @@ public:
      * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    explicit QuickUF(int n, int initial_value = 0):
+    QuickUF(int n, int initial_value):
         UnionFind(n, initial_value)
     {}
 
@@ -150,9 +171,22 @@ public:
      * Constructor.
      * 
      * \param int Number of connectivity objects; must be greater than zero.
+     */
+    explicit WeightedUF(int n):
+        UnionFind{n},
+        m_tree_sizes{
+            std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
+    {
+        std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
+    }
+
+    /**
+     * Constructor.
+     * 
+     * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    explicit WeightedUF(int n, int initial_value = 0):
+    WeightedUF(int n, int initial_value):
         UnionFind{n, initial_value},
         m_tree_sizes{
             std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
