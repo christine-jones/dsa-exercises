@@ -36,6 +36,9 @@ void testQuickUF() {
     uf.join(7, 2);
     uf.join(6, 1);
 
+    std::string validUF{"1 1 1 8 8 1 1 1 8 8 "};
+    Test::ASSERT((uf.toStr() == validUF), "QuickUF: string compare"); // #6
+
     Test::runReport();
     std::cout << "****************************" << '\n' << '\n';
 }
@@ -80,6 +83,9 @@ void testOpenQuickUF() {
     uf.open(7);
     uf.join(7, 2);
     uf.join(6, 1);
+
+    std::string validUF{"1 1 1 8 8 1 1 1 8 8 "};
+    Test::ASSERT((uf.toStr() == validUF), "OpenQuickUF: string compare"); // #9
 
     Test::runReport();
     std::cout << "*********************************" << '\n' << '\n';

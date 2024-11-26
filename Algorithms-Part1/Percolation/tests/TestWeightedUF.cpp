@@ -20,7 +20,6 @@ void testWeightedUF() {
 
     uf.join(4, 3);
     uf.join(3, 8);
-    uf.print();
     uf.join(8, 3); // repeat/reverse
     uf.join(6, 5);
     uf.join(9, 4);
@@ -38,6 +37,10 @@ void testWeightedUF() {
     uf.join(7, 2);
     uf.join(6, 1);
     uf.join(7, 3);
+
+    std::string validUF{"6(1) 2(1) 6(3) 4(1) 6(4) 6(1) 6(10) 6(1) 4(1) 4(1) "};
+    Test::ASSERT((uf.toStr() == validUF),
+                  "WeightedUF: string compare"); // #6
 
     Test::runReport();
     std::cout << "*******************************" << '\n' << '\n';
@@ -84,6 +87,10 @@ void testOpenWeightedUF() {
     uf.join(7, 2);
     uf.join(6, 1);
     uf.join(7, 3);
+
+    std::string validUF{"6(1) 2(1) 6(3) 4(1) 6(4) 6(1) 6(10) 6(1) 4(1) 4(1) "};
+    Test::ASSERT((uf.toStr() == validUF),
+                  "OpenWeightedUF: string compare"); // #9
 
     Test::runReport();
     std::cout << "************************************" << '\n' << '\n';
