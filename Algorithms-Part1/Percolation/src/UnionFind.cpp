@@ -10,6 +10,8 @@
 #include "UnionFind.h"
 #include <iostream>
 #include <numeric>
+#include <sstream>
+#include <string>
 
 int UnionFind::getID(int p) const {
 
@@ -17,11 +19,13 @@ int UnionFind::getID(int p) const {
     return m_object_ids[static_cast<std::size_t>(p)];
 }
 
-void UnionFind::print() const {
+std::string UnionFind::toStr() const {
 
+    std::stringstream ss;
     for (int id : m_object_ids)
-        std::cout << id << ' ';
-    std::cout << '\n';
+        ss << id << ' ';
+
+    return ss.str();
 }
 
 bool UnionFind::isValidIndex(int i) const {
@@ -88,15 +92,17 @@ void WeightedUF::join(int p, int q) {
     }
 }
 
-void WeightedUF::print() const {
+std::string WeightedUF::toStr() const {
 
     assert(m_object_ids.size() == m_tree_sizes.size());
 
+    std::stringstream ss;
     for (std::size_t i{0}; i < m_object_ids.size(); ++i) {
-        std::cout << m_object_ids[i] << '('
-                  << m_tree_sizes[i] << ") ";
+        ss << m_object_ids[i] << '('
+           << m_tree_sizes[i] << ") ";
     }
-    std::cout << '\n';
+
+    return ss.str();
 }
 
 int WeightedUF::root(int i) {

@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <numeric>  // std::iota
+#include <string>
 #include <vector>
 
 /**
@@ -82,9 +83,9 @@ public:
     int getID(int p) const;
 
     /**
-     * Print object identifier vector to stdout for testing purposes.
+     * Convert object to string format for testing purposes.
      */
-    virtual void print() const;
+    virtual std::string toStr() const;
 
 protected:
 
@@ -220,10 +221,9 @@ public:
     void join(int p, int q) override;
 
     /**
-     * Print object identifier vector and other class internals to stdout for
-     * testing purposes.
+     * Convert object to string format for testing purposes.
      */
-    void print() const override;
+    std::string toStr() const override;
 
 private:
 
