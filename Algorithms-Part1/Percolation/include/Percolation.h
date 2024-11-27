@@ -17,6 +17,8 @@
 #include <iomanip>
 #include <iostream>
 #include <random>
+#include <sstream>
+#include <string>
 
 /**
  * Class that models a percolation system.
@@ -130,22 +132,25 @@ public:
      * Print n-by-n grid and additional class data to stdout for testing
      * purposes.
      */
-    void print() const {
+    std::string toStr() const {
 
-        std::cout << "   TOP: " << m_openUF.getID(0) << '\n'
-                  << "BOTTOM: "
-                  << m_openUF.getID((m_grid_size * m_grid_size) + 1) << '\n'
-                  << "Number of Open Sites: " << m_num_open_sites << '\n';
+        std::stringstream ss;
+        ss << "   TOP: " << m_openUF.getID(0) << '\n'
+           << "BOTTOM: "
+           << m_openUF.getID((m_grid_size * m_grid_size) + 1) << '\n'
+           << "Number of Open Sites: " << m_num_open_sites << '\n';
 
         for (int i{1}; i <= m_grid_size; ++i) {
             for (int j{1}; j <= m_grid_size; ++j) {
 
-                std::cout << std::setw(5)
-                          << m_openUF.getID(indexIntoUF(i, j));
+                ss << std::setw(5)
+                   << m_openUF.getID(indexIntoUF(i, j));
             }
 
-            std::cout << '\n';
+            ss << '\n';
         }
+
+        return ss.str();
     }
 
 private:
