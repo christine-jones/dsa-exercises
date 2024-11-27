@@ -10,6 +10,7 @@
 #include "Percolation.h"
 #include "Test.h"
 #include <iostream>
+#include <string>
 
 void testPercolation() {
 
@@ -52,6 +53,23 @@ void testPercolation() {
     p.open(3, 6);
     Test::ASSERT(p.isFull(3, 6), "Percolation: full"); // #10
     Test::ASSERT(p.percolates(), "Percolation: percolates"); // #11 
+
+    std::string validP{"\
+   TOP: 36\n\
+BOTTOM: 36\n\
+Number of Open Sites: 16\n\
+   -1   -1   -1   -1    0   -1   -1   -1   -1   -1\n\
+   -1   -1   -1   -1    0    0   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   41   -1   -1   -1   36   36   36   -1   -1   50\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   -1   36   -1   -1   -1   -1\n\
+   -1   -1   -1   -1   36   36   -1   -1   -1   -1\n\
+"};
+    Test::ASSERT((p.toStr() == validP), "Percolation: string compare"); // #12
 
     Test::runReport();
     std::cout << "***********************" << '\n' << '\n';
