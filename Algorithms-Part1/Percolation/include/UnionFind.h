@@ -26,11 +26,7 @@ public:
      * 
      * \param int Number of connectivity objects; must be greater than zero.
      */
-    explicit UnionFind(int n):
-        m_object_ids{std::vector<int>(static_cast<std::size_t>(n))}
-    {
-        assert(n > 0);
-    }
+    explicit UnionFind(int n);
 
     /**
      * Constructor.
@@ -38,13 +34,8 @@ public:
      * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    UnionFind(int n, int initial_value):
-        m_object_ids{
-            std::vector<int>(static_cast<std::size_t>(n), initial_value)}
-    {
-        assert(n > 0);
-    }
-
+    UnionFind(int n, int initial_value);
+    
     /**
      *  Destructor.
      */
@@ -115,11 +106,7 @@ public:
      * 
      * \param int Number of connectivity objects; must be greater than zero.
      */
-    explicit QuickUF(int n):
-        UnionFind(n)
-    {
-        std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
-    }
+    explicit QuickUF(int n);
 
     /**
      * Constructor.
@@ -127,9 +114,7 @@ public:
      * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    QuickUF(int n, int initial_value):
-        UnionFind(n, initial_value)
-    {}
+    QuickUF(int n, int initial_value);
 
     /**
      * Destructor.
@@ -173,13 +158,7 @@ public:
      * 
      * \param int Number of connectivity objects; must be greater than zero.
      */
-    explicit WeightedUF(int n):
-        UnionFind{n},
-        m_tree_sizes{
-            std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
-    {
-        std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
-    }
+    explicit WeightedUF(int n);
 
     /**
      * Constructor.
@@ -187,11 +166,7 @@ public:
      * \param int Number of connectivity objects; must be greater than zero.
      * \param int Value used to initialize object IDs; defaults to zero. 
      */
-    WeightedUF(int n, int initial_value):
-        UnionFind{n, initial_value},
-        m_tree_sizes{
-            std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
-    {}
+    WeightedUF(int n, int initial_value);
 
     /**
      * Destructor.
@@ -258,9 +233,7 @@ public:
      * 
      * \param int Number of connectivity objects; must be greater than zero. 
      */
-    explicit OpenUF(int n):
-        T{n, blocked}
-    {}
+    explicit OpenUF(int n);
 
     /**
      * Determines if given object is open for join.
@@ -270,13 +243,7 @@ public:
      * 
      * \return bool True if given object open for join; False otherwise.
      */
-    bool isOpen(int p) const {
-
-        assert(T::isValidIndex(p));
-
-        // object is open for join if not blocked
-        return T::m_object_ids[static_cast<std::size_t>(p)] != blocked;
-    }
+    bool isOpen(int p) const;
 
     /**
      * Opens given object for join.
@@ -284,14 +251,7 @@ public:
      * \param int Object index; must be greater or equal to zero and less than
      *            total number of objects.
      */
-    void open(int p) {
-
-        if (isOpen(p))
-            return;
-
-        // open for join by setting object ID to itself
-        T::m_object_ids[static_cast<std::size_t>(p)] = p;
-    }
+    void open(int p);
 
     /**
      * Determines if two given objects are connected.
@@ -303,13 +263,7 @@ public:
      * 
      * \return bool True if given objects are connected; false otherwise.
      */
-    bool connected(int p, int q) override {
-    
-        if (!isOpen(p) || !isOpen(q))
-            return false;
-
-        return T::connected(p, q);
-    }
+    bool connected(int p, int q) override;
 
     /**
      * Join two given objects (i.e., union).
@@ -319,13 +273,7 @@ public:
      * \param int Ojbect index; must be greater or equal to zero and less than
      *            total number of objects.
      */
-    void join(int p, int q) override {
-    
-        if (!isOpen(p) || !isOpen(q))
-            return;
-
-        return T::join(p, q);
-    }
+    void join(int p, int q) override;
     
 private:
 
@@ -333,5 +281,47 @@ private:
     static constexpr int blocked{-1};
 
 };
+
+template <class T>
+OpenUF<T>::OpenUF(int n):
+    T{n, blocked}
+{}
+
+template <class T>
+bool OpenUF<T>::isOpen(int p) const {
+
+    assert(T::isValidIndex(p));
+
+    // object is open for join if not blocked
+    return T::m_object_ids[static_cast<std::size_t>(p)] != blocked;
+}
+
+template <class T>
+void OpenUF<T>::open(int p) {
+
+    if (isOpen(p))
+        return;
+
+    // open for join by setting object ID to itself
+    T::m_object_ids[static_cast<std::size_t>(p)] = p;
+}
+
+template <class T>
+bool OpenUF<T>::connected(int p, int q) {
+    
+    if (!isOpen(p) || !isOpen(q))
+        return false;
+
+    return T::connected(p, q);
+}
+
+template <class T>
+void OpenUF<T>::join(int p, int q) {
+    
+    if (!isOpen(p) || !isOpen(q))
+        return;
+
+    return T::join(p, q);
+}
 
 #endif // UNION_FIND_H

@@ -13,6 +13,18 @@
 #include <sstream>
 #include <string>
 
+UnionFind::UnionFind(int n):
+    m_object_ids{std::vector<int>(static_cast<std::size_t>(n))}
+{
+    assert(n > 0);
+}
+
+UnionFind::UnionFind(int n, int initial_value):
+    m_object_ids{std::vector<int>(static_cast<std::size_t>(n), initial_value)}
+{
+    assert(n > 0);
+}
+
 int UnionFind::getID(int p) const {
 
     assert(isValidIndex(p));
@@ -32,6 +44,16 @@ bool UnionFind::isValidIndex(int i) const {
 
     return i >= 0 && static_cast<std::size_t>(i) < m_object_ids.size();
 }
+
+QuickUF::QuickUF(int n):
+    UnionFind(n)
+{
+    std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
+}
+
+QuickUF::QuickUF(int n, int initial_value):
+    UnionFind(n, initial_value)
+{}
 
 bool QuickUF::connected(int p, int q) {
 
@@ -55,6 +77,20 @@ void QuickUF::join(int p, int q) {
             m_object_ids[i] = qid;
     }
 }
+
+WeightedUF::WeightedUF(int n):
+    UnionFind{n},
+    m_tree_sizes{
+        std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
+{
+    std::iota(m_object_ids.begin(), m_object_ids.end(), 0);
+}
+
+WeightedUF::WeightedUF(int n, int initial_value):
+    UnionFind{n, initial_value},
+    m_tree_sizes{
+        std::vector<int>(static_cast<std::size_t>(n), initial_tree_size)}
+{}
 
 bool WeightedUF::connected(int p, int q) {
 
