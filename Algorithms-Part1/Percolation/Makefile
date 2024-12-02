@@ -1,5 +1,5 @@
 TARGET_EXE := percolate
-TEST_EXE   := ptest
+TEST_EXE   := percolate-test
 
 SRC_DIR   := ./src
 INC_DIRS  := ./include
