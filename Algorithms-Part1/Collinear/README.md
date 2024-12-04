@@ -83,6 +83,6 @@ The client program runs input data through both the ```BruteCollinearPoints``` a
 - Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./collinear input-file```
   ```
-  Usage: ./collinear <input_file>
+  Usage: collinear <input_file>
         input_file = file that contains input data
   ```
