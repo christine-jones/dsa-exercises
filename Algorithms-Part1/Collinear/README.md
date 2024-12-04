@@ -79,7 +79,8 @@ The client program runs input data through both the ```BruteCollinearPoints``` a
 
 - Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
 - Move to the directory ```dsa-exercises/Algorithms-Part1/Collinear``` and issue the command ```make```. If you wish to use a different compiler, then edit the given ```Makefile``` or import the source files into your favorite IDE.
-- Issue the command ```make clean``` to remove all generated build files and the client executable.
+- Issue the command ```make tests``` to build the test executable, ```collinear-test```.
+- Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./collinear input-file```
   ```
   Usage: <program name> <input_file>
