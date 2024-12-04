@@ -169,7 +169,7 @@ This fact is used to prevent the algorithm from boundlessly running to determine
 - Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./solver input-file```
   ```
-  Usage: <program name> <input_file>
+  Usage: solver <input_file>
         input_file = file that contains n-by-n slider puzzle
   ```
 
