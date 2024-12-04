@@ -1,6 +1,6 @@
 # Algorithms-Part1
 
-C++ implementation of the data structures and algorithms taught in [Princeton University's Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course found on [coursera](https://www.coursera.org/).
+C++ implementation of data structures and algorithms taught in the [Princeton University's Algorithms, Part 1](https://www.coursera.org/learn/algorithms-part1) course found on [coursera](https://www.coursera.org/).
 
 ## Why C++?
 
@@ -14,15 +14,11 @@ In the event that I decide to really learn and strengthen my Java coding skills,
 
 The priority, for me, of these programming exercises is personal education and improvement with respect to the DSA content specifically. Therefore, this code lacks features and robustness that deployed software would certainly include.
 
-Errors are largely handled via assertion. At this time, I am the sole creator and user of this code, and in addition, the code is small in scale and not too complex. Assertions allow me to quickly identify and fix issues. More robust error and exception handling and some form of logging would be necessary if this code widens in scope and developers/users.
+Errors are largely handled via assertion. At this time, I am the sole creator and user of this code, and in addition, the code is small in scale and not too complex. Assertions allow me to quickly identify and fix issues. More robust error and exception handling and some form of logging would be necessary if this code ever widens in scope and developers/users.
 
-There is no automated test infrastructure. Again, this deficiency would need to be addressed if the scope of this code expands beyond my personal usage. 
+There is a very simple test framework. Again, this deficiency would need to be addressed if the scope of this code ever expanded beyond my personal usage. 
 
 ## Content
-
-- HelloWorld/
-  
-  Just making sure we got the basics covered!
 
 - Percolation/
   
