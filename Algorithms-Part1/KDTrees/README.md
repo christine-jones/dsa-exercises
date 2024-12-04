@@ -92,8 +92,9 @@ The ```KDTree``` class implements a 2d-tree data structure with an API as detail
 
 - Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
 - Move to the directory ```dsa-exercises/Algorithms-Part1/KDTrees``` and issue the command ```make```. If you wish to use a different compiler, then edit the given ```Makefile``` or import the source files into your favorite IDE.
-- Issue the command ```make clean``` to remove all generated build files and the client executable.
-- To run the client program: ```./permutation k```
+- Issue the command ```make tests``` to build the test executable, ```kdtree-test```.
+- Issue the command ```make clean``` to remove all generated build files and the client/test executables.
+- To run the client program: ```./kdtree <input-file>```
   ```
   Usage: ./kdtree <input-file>
        input_file = file that contains list of points
