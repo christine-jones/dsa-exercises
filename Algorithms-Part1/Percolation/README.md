@@ -52,7 +52,7 @@ The above algorithm is repeated a given number of times to produce a final set o
 - Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./percolate <n> <T>```
   ```
-   Usage: ./percolate <n> <T>
+   Usage: percolate <n> <T>
        n = grid size, n-by-n grid
        T = # independent computational experiments
   ```
