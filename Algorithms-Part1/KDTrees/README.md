@@ -96,6 +96,6 @@ The ```KDTree``` class implements a 2d-tree data structure with an API as detail
 - Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./kdtree <input-file>```
   ```
-  Usage: ./kdtree <input-file>
+  Usage: kdtree <input-file>
        input_file = file that contains list of points
   ```
