@@ -123,7 +123,7 @@ The number of strings, $n$, to be input is unkown ahead of time. However, a `Ran
 - Issue the command ```make clean``` to remove all generated build files and the client/test executables.
 - To run the client program: ```./permutation k```
   ```
-  Usage: ./permutation <k>
+  Usage: permutation <k>
        k = number of strings to print to standard output, where 0 <= k <= n,
            and n is the number of strings read from standard input
   ```
