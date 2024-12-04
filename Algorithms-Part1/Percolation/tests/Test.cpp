@@ -1,5 +1,5 @@
 /**
- * \file    TestMain.cpp
+ * \file    Test.cpp
  * \author  Christine Jones 
  * \brief   Test namespace; utilities to facilitate unit testing.
  * 
