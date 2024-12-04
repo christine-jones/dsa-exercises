@@ -44,7 +44,18 @@ The `PercolationStats` class performs the following Monte Carlo simulation to es
 
 The above algorithm is repeated a given number of times to produce a final set of statistics (mean, standard deviation, and 95% confidence interval) for the *percolation threshold*.
 
-# Running the code
+# Building/Running the Code
+
+- Clone the repository with ```git clone https://github.com/christine-jones/dsa-excercises.git```.
+- Move to the directory ```dsa-exercises/Algorithms-Part1/Percolation``` and issue the command ```make```. If you wish to use a different compiler, then edit the given ```Makefile``` or import the source files into your favorite IDE.
+- Issue the command ```make tests``` to build the test executable, ```percolate-test```.
+- Issue the command ```make clean``` to remove all generated build files and the client/test executables.
+- To run the client program: ```./percolate <n> <T>```
+  ```
+   Usage: ./percolate <n> <T>
+       n = grid size, n-by-n grid
+       T = # independent computational experiments
+  ```
 
 # TBD: Future Work
 
