@@ -7,7 +7,7 @@
  * \license   GNU GENERAL PUBLIC LICENSE version 3 
  */
 
-#include "Board.H"
+#include "Board.h"
 #include <algorithm>    // std::swap
 #include <cassert>
 #include <cmath>        // std::log10, std::abs
